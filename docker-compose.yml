@@ -18,6 +18,13 @@ services:
     networks:
       - frontend
     restart: always
+  
+  backend:
+    build: ./backend
+    container_name: backend
+    networks:
+      - frontend
+    restart: always
 
 networks:
   frontend:
