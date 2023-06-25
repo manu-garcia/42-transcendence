@@ -24,8 +24,25 @@ services:
     container_name: backend
     networks:
       - frontend
+      - backend
+    restart: always
+
+  db:
+    build: ./db
+    container_name: db
+    env_file:
+      - ./env/.env
+    volumes:
+      - "postgres-data:/var/lib/postgresql/data"
+    networks:
+      - backend
     restart: always
 
 networks:
   frontend:
     driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  postgres-data:

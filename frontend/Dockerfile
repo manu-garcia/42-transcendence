@@ -1,5 +1,5 @@
 # Disposable image only to build the Angular application
-FROM node:18-alpine AS image-build
+FROM node:16-alpine AS image-build
 
 # Copy the code excluding file and folders in .dockerignore (node_modules, dist)
 COPY . /usr/src

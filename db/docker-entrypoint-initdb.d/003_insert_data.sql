@@ -1,0 +1,4 @@
+-- 
+-- 003_insert_data.sql
+-- 
+-- This script should insert data 

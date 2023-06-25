@@ -65,6 +65,8 @@ npm install -g @angular/cli
 
 ## Install NestJS CLI
 
+https://docs.nestjs.com/
+
 ```sh
 npm install -g @nestjs/cli
 ```

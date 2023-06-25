@@ -1,0 +1,4 @@
+-- 
+-- 001_setup.sql
+-- 
+-- This script should run all queries before any table gets created or data inserted

@@ -1,0 +1,4 @@
+-- 
+-- 002_create_schema.sql
+-- 
+-- This script should create all necesary schema elements before any data gets inserted
