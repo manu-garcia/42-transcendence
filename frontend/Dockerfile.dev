@@ -1,0 +1,18 @@
+# Image for development purposes to run angular ng serve and listen to code changes.
+FROM node:16-alpine
+
+# The image is expecting a volume mounted with the angular code here
+WORKDIR /usr/src/app
+
+COPY app/package.json ./
+
+# Install npm packages
+RUN npm install
+
+EXPOSE 4200
+
+# Run angular ng serve that will listen for code changes
+# By using the double hyphen --, you explicitly indicate the end of the 
+# options for npm and the beginning of the arguments for ng serve.
+# CMD npm install && npm run ng serve -- --host 0.0.0.0
+CMD npm run ng serve -- --host 0.0.0.0

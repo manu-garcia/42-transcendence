@@ -5,6 +5,11 @@ up:
 down:
 	@docker-compose --env-file ./env/.env -f ./docker-compose.yml down
 
+updev:
+	@docker-compose --env-file ./env/.env -f ./docker-compose.yml -f docker-compose.development.yml up -d
+downdev:
+	@docker-compose --env-file ./env/.env -f ./docker-compose.yml -f docker-compose.development.yml down
+
 clean: down
 
 re: clean all

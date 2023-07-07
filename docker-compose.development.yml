@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 4200:4200
+    volumes:
+      # Bidireccional volume between host and container.
+      - ./frontend/app:/usr/src/app
+      # Binds the directory from the container to an anonymous volume. No map into the host.
+      - /usr/src/app/node_modules
