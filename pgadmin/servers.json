@@ -1,0 +1,16 @@
+{
+    "Servers": {
+      "1": {
+        "Name": "Transcendence PostgreSQL Server",
+        "Group": "Servers",
+        "Host": "db",
+        "Port": 5432,
+        "MaintenanceDB": "POSTGRES_DB",
+        "Username": "POSTGRES_USER",
+        "Password": "POSTGRES_PASSWORD",
+        "WaitForServerStartup": true,
+        "SavePassword": true
+      }
+    }
+  }
+  
