@@ -12,3 +12,14 @@ services:
       - ./frontend/app:/usr/src/app
       # Binds the directory from the container to an anonymous volume. No map into the host.
       - /usr/src/app/node_modules
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      # Bidireccional volume between host and container.
+      - ./backend/app:/usr/src/app
+      # Binds the directory from the container to an anonymous volume. No map into the host.
+      - /usr/src/app/node_modules
