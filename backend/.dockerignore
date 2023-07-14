@@ -1,3 +1,8 @@
 Dockerfile
 app/node_modules
 app/dist
+
+# During the build of the Dockerfile.dev, an .env file is created, but 
+# Docker compose will remove it when mounting the app folder from host
+# Adding this .env file to the dockerignore seems to prevent that
+app/.env

@@ -71,3 +71,53 @@ https://docs.nestjs.com/
 npm install -g @nestjs/cli
 ```
 
+
+# Developing the application
+
+Run the make task to build up the application in development mode.
+
+```sh
+make updev
+```
+
+## Developing the backend
+
+# Working with prisma
+
+Prisma developer advocate tutorial:
+https://www.youtube.com/watch?v=LMjj1_EK4y8
+
+1. SH/BASH into your 'backend' container to run npm commands
+
+```sh
+docker run --rm -it --entrypoint sh container-id
+```
+
+2. Prisma CLI should be already installed. Test it with:
+
+```sh
+npx prisma
+```
+
+3. Add a model/entity with prisma. Edit the prima schema at:
+
+backend/app/prisma/schema.prisma
+
+by adding a user for instance:
+
+```Typescript
+model User {
+    id      Int @id @default(autoincrement())
+    name    String
+}
+```
+
+4. Create a migration so that prisma creates the table in the DB. Migrations will be created in the backend/app/prisma/migrations/ folder.
+
+```sh
+npx prisma migrate dev --name "Adds User entity"
+```
+
+At this point a new table User should have been created in the database.
+
+5. Seeding the database

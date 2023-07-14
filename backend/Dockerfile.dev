@@ -15,6 +15,15 @@ WORKDIR /usr/src/app
 COPY app/package.json ./
 
 # Sets up database connection string in the environment
+# 
+# During the build of the Dockerfile.dev, an .env file is created, but 
+# Docker compose will remove it when mounting the app folder from host.
+# Adding this .env file to the dockerignore seems to prevent that
+# 
+# Make sure to add this line to the .dockerignore file:
+# 
+# app/.env
+# 
 COPY ./app/.env.template /usr/src/app/.env
 
 RUN sed -i "s|POSTGRES_USER|$POSTGRES_USER|g" ./.env

@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # Generate secure random passwords
-POSTGRES_PASSWORD=$(openssl rand -base64 20)
-PGADMIN_DEFAULT_PASSWORD=$(openssl rand -base64 20)
+POSTGRES_PASSWORD=$(openssl rand -hex 20)
+PGADMIN_DEFAULT_PASSWORD=$(openssl rand -hex 20)
 
 # Duplicate the template file
 cp .env.template .env
