@@ -3,18 +3,18 @@ all: up
 up:
 	@docker-compose --env-file ./env/.env -f ./docker-compose.yml up -d
 down:
-	@docker-compose --env-file ./env/.env -f ./docker-compose.yml down
+	@docker-compose --env-file ./env/.env -f ./docker-compose.yml down --remove-orphans
 
 updev:
 	@docker-compose --env-file ./env/.env -f ./docker-compose.yml -f docker-compose.development.yml up -d
 downdev:
-	@docker-compose --env-file ./env/.env -f ./docker-compose.yml -f docker-compose.development.yml down
+	@docker-compose --env-file ./env/.env -f ./docker-compose.yml -f docker-compose.development.yml down --remove-orphans
 
-clean: down
+clean: down downdev
 
 re: clean all
 
-fclean: down
+fclean: down downdev
 	if [ -n "$$(docker ps -qa)" ]; then docker stop $$(docker ps -qa); fi
 	if [ -n "$$(docker ps -qa)" ]; then docker rm $$(docker ps -qa) -f; fi
 	if [ -n "$$(docker images -q)" ]; then docker rmi $$(docker images -q) -f; fi

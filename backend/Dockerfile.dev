@@ -33,11 +33,10 @@ RUN sed -i "s|POSTGRES_DB|$POSTGRES_DB|g" ./.env
 # Install npm packages
 RUN npm install
 
-# Initializes Prisma ORM
-# RUN npm run prisma generate
-
 # run server
 EXPOSE 3000
 
-# Debug is also watching for changes
-CMD export PORT=3000 && npm run start:debug
+# Prisma schema and data changes will get applied before running the
+# server in debug mode. Debug mode will be watching for code changes.
+CMD chmod +x ./run-dev-server.sh && ./run-dev-server.sh
+
