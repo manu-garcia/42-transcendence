@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:16-alpine
 
 ARG POSTGRES_USER
 ARG POSTGRES_PASSWORD
@@ -31,6 +31,8 @@ RUN sed -i "s|POSTGRES_PASSWORD|$POSTGRES_PASSWORD|g" ./.env
 RUN sed -i "s|POSTGRES_DB|$POSTGRES_DB|g" ./.env
 
 # Install npm packages
+# Adding node_modules to the .dockerignore file prevents docker-compose deleting this folder when
+# mounting /app from host
 RUN npm install
 
 # run server

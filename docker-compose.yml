@@ -14,8 +14,12 @@ services:
     restart: always
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend/
+      dockerfile: ./Dockerfile
     container_name: frontend
+    depends_on:
+      - backend
     networks:
       - frontend
     restart: always

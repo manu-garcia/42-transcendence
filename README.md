@@ -175,3 +175,68 @@ npx prisma db seed
 ```
 
 At this moment there should be a record for 'User test 1' in the User table.
+
+6. Add a NestJS module for user related endpoints
+
+To create a new module in NestJS related to user endpoints and retrieve a list of users using the existing Prisma client, you can follow these steps:
+
+You can find nest CLI info by running:
+
+   ```
+   $ npx nest
+   ```
+
+6.1. Generate a new module using the NestJS CLI:
+   ```
+   $ npx nest generate module users
+   ```
+
+   A module is a logic unit of grouped functionality around users, in this case. All related code to user should be here.
+
+6.2. Inside the generated `users` module folder, create a new controller using the NestJS CLI:
+   ```
+   $ npx nest generate controller users
+   ```
+
+   A controller is grouping a set of related enpoints. All endpoints related to users should be here.
+
+6.3. In the generated `users.controller.ts` file, import the necessary dependencies:
+   ```typescript
+   import { Controller, Get } from '@nestjs/common';
+   import { PrismaClient } from '@prisma/client';
+   ```
+
+6.4. Inject the `PrismaClient` into the controller's constructor:
+   ```typescript
+   constructor(private readonly prismaClient: PrismaClient) {}
+   ```
+
+6.5. Define a GET endpoint for retrieving a list of users:
+   ```typescript
+   @Get()
+   async getUsers() {
+     return this.prismaClient.user.findMany();
+   }
+   ```
+
+6.6. Change the endpoint URL the controller will handle. In this case '/api/users'
+   ```typescript
+    @Controller('api/users')
+   ```
+
+6.7. Update the module's `providers` array in the `users.module.ts` file to include the `PrismaClient`:
+   ```typescript
+   import { Module } from '@nestjs/common';
+
+   import { PrismaClient } from '@prisma/client';
+
+   import { UsersController } from './users.controller';
+
+   @Module({
+     controllers: [UsersController],
+     providers: [PrismaClient], // Add the PrismaClient to the providers
+   })
+   export class UsersModule {}
+   ```
+
+6.8 Test it in development browsing this URL http://localhost:3000/api/users

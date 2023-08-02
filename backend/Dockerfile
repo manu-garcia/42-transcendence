@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:16-alpine
 
 ARG POSTGRES_USER
 ARG POSTGRES_PASSWORD
@@ -24,8 +24,8 @@ RUN sed -i "s|POSTGRES_DB|$POSTGRES_DB|g" ./.env
 # Install npm packages
 RUN npm install
 
-# Initializes Prisma ORM
-# RUN npm run prisma generate
+# Runs all the Prisma migration scripts
+# RUN npm run prisma migrate deploy
 
 # Build the application
 RUN npm run build

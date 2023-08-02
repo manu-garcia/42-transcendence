@@ -6,6 +6,8 @@ WORKDIR /usr/src/app
 
 COPY app/package.json ./
 
+# VOLUME /user/src/app/node_modules
+
 # Install npm packages
 RUN npm install
 
