@@ -1,0 +1,6 @@
+# Django Framework
+Django==4.2
+# PostgreSQL connector
+psycopg2-binary==2.9.3
+# Running Django in production
+gunicorn==20.1.0
