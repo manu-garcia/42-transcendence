@@ -25,11 +25,6 @@ services:
     volumes:
       # Bidireccional volume between host and container.
       - ./backend/app:/usr/src/app
-      # Binds the directory from the container to an anonymous volume. No map into the host.
-      - /usr/src/app/node_modules
-      # - backend-node-modules:/usr/src/app/node_modules
-      # Share the generated Prisma type defienitions with the frontend container
-      # - prisma-client:/usr/src/app/node_modules/.prisma/client
   pgadmin:
     build:
       context: ./pgadmin
