@@ -4,3 +4,5 @@ Django==4.2
 psycopg2-binary==2.9.3
 # Running Django in production
 gunicorn==20.1.0
+# CORS to allow cross domain requests
+django-cors-headers==4.3.1
