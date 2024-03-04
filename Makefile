@@ -14,7 +14,7 @@ clean: down downprod
 
 re: clean all
 
-fclean: down downprod
+fclean-all: down downprod
 	if [ -n "$$(docker ps -qa)" ]; then docker stop $$(docker ps -qa); fi
 	if [ -n "$$(docker ps -qa)" ]; then docker rm $$(docker ps -qa) -f; fi
 	if [ -n "$$(docker images -q)" ]; then docker rmi $$(docker images -q) -f; fi
@@ -24,6 +24,13 @@ fclean: down downprod
 	docker volume prune --force
 
 	@echo "fclean successfull"
+
+fclean: down downprod
+	@docker compose down --rmi all --volumes --remove-orphans
+	@docker images | grep -E '42-transcendence-nginx|42-transcendence-frontend|42-transcendence-backend|42-transcendence-db|42-transcendence-pgadmin' | awk '{print $$3}' | xargs -r docker rmi -f
+	@docker volume ls -q | grep -E 'transcendence_postgres-data|transcendence_pgadmin' | xargs -r docker volume rm
+
+	@echo "fclean successful"
 
 sh_frontend:
 	@docker exec -it frontend sh
@@ -43,4 +50,4 @@ logs:
 	@docker logs frontend
 	@echo ""
 
-.PHONY: all up down clean re fclean sh_frontend logs
+.PHONY: all up down clean re fclean fclean-all sh_frontend logs
