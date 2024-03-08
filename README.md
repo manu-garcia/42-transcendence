@@ -172,3 +172,50 @@ Remember to replace `'user'` and `'User'` with the actual names of your Django a
 9. Please note that it's generally a good practice to separate schema migrations (which change the database structure, like creating a table) and data migrations (which change the database content, like adding rows to a table). This makes your migrations more flexible and easier to manage. For example, you can roll back a data migration without affecting the database schema.
 
 10. Test it in development browsing this URL http://localhost:3000/api/users
+
+### Modules choosen
+
+Módulos (7 Major en total. 2 Minor == 1 Major):
+Major module: Use a Framework as backend (Django).
+Minor module: Use a front-end framework or toolkit. (Bootstrap toolkit).
+Minor module: Use a database for the backend (PostgreSQL).
+Major module: Remote players.
+Major module: Multiple players (more than 2 in the same game).
+Minor module: Game Customization Options.
+Major module: Live chat.
+Major module: Introduce an AI Opponent.
+Minor module: Multiple language supports.
+
+Andoni's modules:
+Major module: Remote players
+Major module: Multiple players (more than 2 in the same game).
+Minor module: Game Customization Options.
+Major module: Introduce an AI Opponent.
+
+Diego's modules:
+Major module: Live chat.
+Minor module: Multiple language supports.
+
+Requisitos sistema:
+Frontend in pure vanilla Javascript OR FRONTEND MODULE.
+Single-page application.
+Botones back and forward del navegador.
+Compatible with latest version Chrome.
+Launched with a single Docker command.
+Docker in ROOTLESS MODE.
+7 MAJOR MODULES (2 MINOR = 1 MAJOR)
+
+Requisitos juego:
+Juego con un mismo teclado
+Torneo. Mostrar claramente quién juega contra quién y el orden de jugadores.
+Sistema de registro.
+Matchmaking system.
+Desarrollado en concordancia con el Frontend module, o Graphics module.
+Parecido al pong original.
+
+Requisitos seguridad:
+Pass hashed. (Strong pass hashing algorithm).
+Website protected against SQL injections/XSS.
+HTTPS connection for all aspects (utilize wss instead of ws...)
+Validation for forms and user input.
+Credentials, API keys, env variables etc... must be saved locally in a .env file and ignored by git. (COMO LO GUARDAMOS?)
