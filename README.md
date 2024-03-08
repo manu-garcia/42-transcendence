@@ -9,6 +9,9 @@ Edit /etc/hosts and add:
 127.0.0.1 www.transcendence.42.fr
 ```
 
+In production you can navigate to: https://transcendence.42.fr/
+In development you can navigate to: http://localhost:4200/
+
 ### Generate the environment file
 
 ```sh
