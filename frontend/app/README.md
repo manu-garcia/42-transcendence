@@ -2,6 +2,14 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.6.
 
+## Documentation:
+
+PrimeNG: https://primeng.org/
+
+Bootstrap: https://getbootstrap.com/docs/4.6/getting-started/introduction/
+
+Angular: https://angular.io/docs
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

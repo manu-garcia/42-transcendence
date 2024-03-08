@@ -1,5 +1,5 @@
 # Image for development purposes to run angular ng serve and listen to code changes.
-FROM node:16-alpine
+FROM node:18-alpine
 
 # The image is expecting a volume mounted with the angular code here
 WORKDIR /usr/src/app

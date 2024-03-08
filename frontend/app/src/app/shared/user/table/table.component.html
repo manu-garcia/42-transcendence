@@ -1,15 +1,18 @@
-<h2>User List</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users">
-      <td>{{ user.name }}</td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+<p-panel
+  header="User List"
+>
+  <p-table [value]="users">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+        <tr>
+            <td>{{ user.name }}</td>
+            <td></td>
+        </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
