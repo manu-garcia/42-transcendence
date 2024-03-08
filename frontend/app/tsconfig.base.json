@@ -16,7 +16,8 @@
     "paths": {
       "core/*": ["src/app/core/*"],
       "feature/*": ["src/app/feature/*"],
-      "shared/*": ["src/app/shared/*"]
+      "shared/*": ["src/app/shared/*"],
+      "env/*": ["src/environments/*"],
     }
   }
 }

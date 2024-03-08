@@ -9,6 +9,15 @@ Edit /etc/hosts and add:
 127.0.0.1 www.transcendence.42.fr
 ```
 
+### Generate the environment file
+
+```sh
+cd ./env
+./generate_env.sh
+```
+
+This should have created the env file './env/.env'. This file contains your passwords for the entire application.
+
 ### Build the application
 
 ```sh

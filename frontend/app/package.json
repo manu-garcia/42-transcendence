@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build-dev": "ng build --configuration development --base-href http://localhost:4200/",
+    "build-prod": "ng build --configuration production --base-href https://transcendence.42.fr/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

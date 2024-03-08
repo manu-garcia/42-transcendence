@@ -10,7 +10,7 @@ WORKDIR /usr/src/app
 RUN npm install
 
 # Build the application
-RUN npm run build
+RUN npm run build-prod
 
 
 # Image to serve the application

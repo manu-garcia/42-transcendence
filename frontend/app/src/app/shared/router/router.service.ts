@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { environment } from 'env/environment';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,8 +15,7 @@ export class RouterService {
   }
 
   private getApiBaseUrl() {
-    // TODO: should get this from the environment configuration (local, dev or prod)
-    return 'http://localhost:3000/';
+    return environment.baseApiUrl;
   }
 
   private trimStartingSlash(url: string): string {

@@ -35,5 +35,5 @@ RUN pip install -r requirements.txt
 EXPOSE 3000
 
 # Run server in production
-CMD python manage.py migrate && gunicorn myproject.wsgi:application --bind 0.0.0.0:3000
+CMD python manage.py migrate && gunicorn transcendence.wsgi:application --bind 0.0.0.0:3000
 
