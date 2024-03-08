@@ -9,7 +9,7 @@ Edit /etc/hosts and add:
 127.0.0.1 www.transcendence.42.fr
 ```
 
-In production you can navigate to: https://transcendence.42.fr/
+In production you can navigate to: https://transcendence.42.fr/  
 In development you can navigate to: http://localhost:4200/
 
 ### Generate the environment file
@@ -61,10 +61,10 @@ make
 
 To setup vscode:
 
-1. We need to install the following extensions:
-   1.1 Python extension: ms-python.python
-   1.2 Python code formatter: ms-python.black-formatter
-   1.3 Javascrip formatter: esbenp.prettier-vscode
+1. We need to install the following extensions:  
+   1.1 Python extension: ms-python.python  
+   1.2 Python code formatter: ms-python.black-formatter  
+   1.3 Javascrip formatter: esbenp.prettier-vscode  
    1.4 ms-vscode-remote.remote-containers
 2. Please set `"files.autoSave": "onFocusChange"` in your global settings. In Code -> Preferences -> Settings. Property "Files: Auto Save" should be set to "onFocusChange".
 
@@ -93,7 +93,7 @@ make
 
 # Working with Django
 
-1. SH/BASH into your 'backend' container to run npm commands
+1. SH/BASH into your 'backend' container to run commands
 
 ```sh
 docker run --rm -it --entrypoint sh container-id
@@ -187,47 +187,47 @@ Remember to replace `'user'` and `'User'` with the actual names of your Django a
 
 ### Modules choosen
 
-Módulos (7 Major en total. 2 Minor == 1 Major):
-Major module: Use a Framework as backend (Django).
-Minor module: Use a front-end framework or toolkit. (Bootstrap toolkit).
-Minor module: Use a database for the backend (PostgreSQL).
-Major module: Remote players.
-Major module: Multiple players (more than 2 in the same game).
-Minor module: Game Customization Options.
-Major module: Live chat.
-Major module: Introduce an AI Opponent.
+Módulos (7 Major en total. 2 Minor == 1 Major):  
+Major module: Use a Framework as backend (Django).  
+Minor module: Use a front-end framework or toolkit. (Bootstrap toolkit).  
+Minor module: Use a database for the backend (PostgreSQL).  
+Major module: Remote players.  
+Major module: Multiple players (more than 2 in the same game).  
+Minor module: Game Customization Options.  
+Major module: Live chat.  
+Major module: Introduce an AI Opponent.  
 Minor module: Multiple language supports.
 
-Andoni's modules:
-Major module: Remote players
-Major module: Multiple players (more than 2 in the same game).
-Minor module: Game Customization Options.
+Andoni's modules:  
+Major module: Remote players  
+Major module: Multiple players (more than 2 in the same game).  
+Minor module: Game Customization Options.  
 Major module: Introduce an AI Opponent.
 
-Diego's modules:
-Major module: Live chat.
+Diego's modules:  
+Major module: Live chat.  
 Minor module: Multiple language supports.
 
-Requisitos sistema:
-Frontend in pure vanilla Javascript OR FRONTEND MODULE.
-Single-page application.
-Botones back and forward del navegador.
-Compatible with latest version Chrome.
-Launched with a single Docker command.
-Docker in ROOTLESS MODE.
+Requisitos sistema:  
+Frontend in pure vanilla Javascript OR FRONTEND MODULE.  
+Single-page application.  
+Botones back and forward del navegador.  
+Compatible with latest version Chrome.  
+Launched with a single Docker command.  
+Docker in ROOTLESS MODE.  
 7 MAJOR MODULES (2 MINOR = 1 MAJOR)
 
-Requisitos juego:
-Juego con un mismo teclado
-Torneo. Mostrar claramente quién juega contra quién y el orden de jugadores.
-Sistema de registro.
-Matchmaking system.
-Desarrollado en concordancia con el Frontend module, o Graphics module.
+Requisitos juego:  
+Juego con un mismo teclado  
+Torneo. Mostrar claramente quién juega contra quién y el orden de jugadores.  
+Sistema de registro.  
+Matchmaking system.  
+Desarrollado en concordancia con el Frontend module, o Graphics module.  
 Parecido al pong original.
 
-Requisitos seguridad:
-Pass hashed. (Strong pass hashing algorithm).
-Website protected against SQL injections/XSS.
-HTTPS connection for all aspects (utilize wss instead of ws...)
-Validation for forms and user input.
+Requisitos seguridad:  
+Pass hashed. (Strong pass hashing algorithm).  
+Website protected against SQL injections/XSS.  
+HTTPS connection for all aspects (utilize wss instead of ws...)  
+Validation for forms and user input.  
 Credentials, API keys, env variables etc... must be saved locally in a .env file and ignored by git. (COMO LO GUARDAMOS?)
