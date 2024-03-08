@@ -13,8 +13,6 @@ import { UserListScreenComponent } from './list.component';
     // Own modules
     UserTableModule,
   ],
-  declarations: [
-    UserListScreenComponent,
-  ],
+  declarations: [UserListScreenComponent],
 })
-export class UserListScreenModule { }
+export class UserListScreenModule {}

@@ -6,14 +6,12 @@ import { Observable } from 'rxjs';
 import { IUser } from './user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   private apiUrl = '/api/users';
 
-  constructor(
-    private http: HttpClient,
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(this.apiUrl);

@@ -15,4 +15,4 @@ import { UserListScreenModule } from './list/list.module';
     UserListScreenModule,
   ],
 })
-export class UserScreenModule { }
+export class UserScreenModule {}

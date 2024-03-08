@@ -5,14 +5,8 @@ import { LibModule } from 'shared/lib/lib.module';
 import { UserTableComponent } from './table.component';
 
 @NgModule({
-  imports: [
-    LibModule,
-  ],
-  declarations: [
-    UserTableComponent,
-  ],
-  exports: [
-    UserTableComponent,
-  ],
+  imports: [LibModule],
+  declarations: [UserTableComponent],
+  exports: [UserTableComponent],
 })
-export class UserTableModule { }
+export class UserTableModule {}

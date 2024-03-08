@@ -1,6 +1,7 @@
 # 42-transcendence
 
 ### Create the hosts entries
+
 Edit /etc/hosts and add:
 
 ```sh
@@ -36,7 +37,37 @@ make fclean
 
 https://transcendence.42.fr/
 
-### Considerations developing locally 
+### Considerations developing locally
+
+# Project Setup Instructions
+
+Before anything else, run the make task to build up the application in development mode.
+
+```sh
+make
+```
+
+To setup vscode:
+
+1. We need to install the following extensions:
+   1.1 Python extension: ms-python.python
+   1.2 Python code formatter: ms-python.black-formatter
+   1.3 Javascrip formatter: esbenp.prettier-vscode
+   1.4 ms-vscode-remote.remote-containers
+2. Please set `"files.autoSave": "onFocusChange"` in your global settings. In Code -> Preferences -> Settings. Property "Files: Auto Save" should be set to "onFocusChange".
+
+# VSCode + Docker contaniners
+
+Because dependencies are installed inside Docker containers, opening the Transcendence project will show missing dependencies.
+
+For better dev experience use the Docker Dev Containers for both frontend and backend.
+
+Click on the bottom-left blue icon "><", select "Attach to Running Container...", select the frontend or backend container.
+
+First time you have to:
+
+- Open the folder /usr/src/app/
+- Install the extensions also inside de Dev Container. Search each extension and click on "Install in container"
 
 # Developing the application
 
@@ -136,9 +167,8 @@ python manage.py migrate user
 
 This will run the `create_users` function and add Alice and Bob to the `User` table in your database.
 
-Remember to replace `'user'` and `'User'` with the actual names of your Django app and model. This is just an example based on the information you provided. 
+Remember to replace `'user'` and `'User'` with the actual names of your Django app and model. This is just an example based on the information you provided.
 
-9. Please note that it's generally a good practice to separate schema migrations (which change the database structure, like creating a table) and data migrations (which change the database content, like adding rows to a table). This makes your migrations more flexible and easier to manage. For example, you can roll back a data migration without affecting the database schema. 
-
+9. Please note that it's generally a good practice to separate schema migrations (which change the database structure, like creating a table) and data migrations (which change the database content, like adding rows to a table). This makes your migrations more flexible and easier to manage. For example, you can roll back a data migration without affecting the database schema.
 
 10. Test it in development browsing this URL http://localhost:3000/api/users

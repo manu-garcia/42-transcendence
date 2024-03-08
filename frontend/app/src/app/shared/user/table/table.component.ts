@@ -6,8 +6,6 @@ import { IUser } from 'shared/user/user';
   selector: 'app-user-table',
   templateUrl: './table.component.html',
 })
-export class UserTableComponent{
-
+export class UserTableComponent {
   @Input() users: IUser[];
-
 }

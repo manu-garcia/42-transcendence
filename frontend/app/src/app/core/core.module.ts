@@ -4,18 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LibModule } from 'shared/lib/lib.module';
 
-const modules = [
-  BrowserModule,
-  BrowserAnimationsModule,
-
-  LibModule,
-];
+const modules = [BrowserModule, BrowserAnimationsModule, LibModule];
 
 @NgModule({
   imports: modules,
-  exports: [
-    LibModule,
-  ],
+  exports: [LibModule],
   providers: [],
 })
-export class CoreModule { }
+export class CoreModule {}

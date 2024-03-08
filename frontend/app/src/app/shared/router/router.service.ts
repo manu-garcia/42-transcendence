@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RouterService {
-
   public getApiUrl(url: string): string {
     if (!url || !url.length) {
       return url;
@@ -25,5 +24,4 @@ export class RouterService {
 
     return url.startsWith('/') ? url.substring(1) : url;
   }
-
 }

@@ -12,27 +12,32 @@ import { DividerModule } from 'primeng/divider';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
+
+import { MessageService } from 'primeng/api';
 
 const modules = [
-    // Angular
-    CommonModule,
-    HttpClientModule,
+  // Angular
+  CommonModule,
+  HttpClientModule,
 
-    // PrimeNG
-    TableModule,
-    CheckboxModule,
-    DropdownModule,
-    ButtonModule,
-    PanelModule,
-    CardModule,
-    DividerModule,
-    ConfirmDialogModule,
-    TabMenuModule,
-    ProgressSpinnerModule,
+  // PrimeNG
+  TableModule,
+  CheckboxModule,
+  DropdownModule,
+  ButtonModule,
+  PanelModule,
+  CardModule,
+  DividerModule,
+  ConfirmDialogModule,
+  TabMenuModule,
+  ProgressSpinnerModule,
+  ToastModule,
 ];
 
 @NgModule({
   imports: modules,
   exports: modules,
+  providers: [MessageService],
 })
-export class LibModule { }
+export class LibModule {}

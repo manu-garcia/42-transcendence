@@ -10,15 +10,11 @@ import { UserService } from 'shared/user/user.service';
   templateUrl: './list.component.html',
 })
 export class UserListScreenComponent implements OnInit {
-
   public users$: Observable<IUser[]>;
 
-  constructor(
-    private userService: UserService,
-  ) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.users$ = this.userService.getUsers();
   }
-
 }
