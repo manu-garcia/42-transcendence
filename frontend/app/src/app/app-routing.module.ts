@@ -3,6 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'tournament',
+    loadChildren: () => import('./feature/tournament/tournament.module').then((m) => m.TournamentScreenModule),
+  },
+  {
     path: 'user',
     loadChildren: () => import('./feature/user/user.module').then((m) => m.UserScreenModule),
   },

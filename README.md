@@ -220,13 +220,13 @@ Docker in ROOTLESS MODE.
 Requisitos juego:  
 Juego con un mismo teclado  
 Torneo. Mostrar claramente quién juega contra quién y el orden de jugadores.  
-Sistema de registro.  
+Sistema de registro en el torneo (No en la web como usuario, esto es parte del modulo Standard user management).  
 Matchmaking system.  
 Desarrollado en concordancia con el Frontend module, o Graphics module.  
 Parecido al pong original.
 
 Requisitos seguridad:  
-Pass hashed. (Strong pass hashing algorithm).  
+Pass hashed. (Strong pass hashing algorithm). Esto parece parte del modulo "Standard user management", donde los usuarios se pueden registrar en la web. Creo que no hace falta.
 Website protected against SQL injections/XSS.  
 HTTPS connection for all aspects (utilize wss instead of ws...)  
 Validation for forms and user input.  

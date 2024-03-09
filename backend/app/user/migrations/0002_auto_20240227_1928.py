@@ -4,10 +4,11 @@ from django.db import migrations
 
 def create_users(apps, schema_editor):
     User = apps.get_model("user", "User")
-    User.objects.create(name="Andoni")
-    User.objects.create(name="Carlos")
-    User.objects.create(name="Diego")
-    User.objects.create(name="Manu")
+    User.objects.create(name="Ichika")
+    User.objects.create(name="Nino")
+    User.objects.create(name="Miku")
+    User.objects.create(name="Yotsuba")
+    User.objects.create(name="Itsuki")
 
 
 class Migration(migrations.Migration):

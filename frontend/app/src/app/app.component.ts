@@ -19,14 +19,14 @@ export class AppComponent implements OnInit {
         routerLink: ['user'],
       },
       {
-        label: 'The Game',
+        label: 'Quick Game',
         icon: 'pi pi-fw pi-discord',
         routerLink: ['game'],
       },
       {
-        label: 'Ranking',
-        icon: 'pi pi-fw pi-chart-bar',
-        routerLink: ['ranking'],
+        label: 'Tournament',
+        icon: 'pi pi-fw pi-users',
+        routerLink: ['tournament'],
       },
       {
         label: 'Chat',
