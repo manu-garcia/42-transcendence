@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { TableModule } from 'primeng/table';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -13,13 +14,16 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
 
 import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 const modules = [
   // Angular
   CommonModule,
   HttpClientModule,
+  ReactiveFormsModule,
 
   // PrimeNG
   TableModule,
@@ -33,11 +37,12 @@ const modules = [
   TabMenuModule,
   ProgressSpinnerModule,
   ToastModule,
+  InputTextModule,
 ];
 
 @NgModule({
   imports: modules,
   exports: modules,
-  providers: [MessageService],
+  providers: [MessageService, DialogService],
 })
 export class LibModule {}

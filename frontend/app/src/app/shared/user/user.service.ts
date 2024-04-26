@@ -9,7 +9,7 @@ import { IUser } from './user';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = '/api/users';
+  private apiUrl = '/api/users/';
 
   constructor(private http: HttpClient) {}
 
