@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { CoreModule } from 'core/core.module';
@@ -8,12 +8,27 @@ import { ErrorHandlerService } from 'core/error-handler/error-handler.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { TranslateService } from '@ngx-translate/core';
+import { SessionService } from './services/session.service';
+import { CookieService } from './services/cookie.service';
+import { from } from 'rxjs';
+
 const modules = [CoreModule, AppRoutingModule];
+
+export function appInitializerFactory(translateService: TranslateService, sessionService: SessionService, cookieService: CookieService) {
+  return () => {
+    translateService.setDefaultLang('en');
+    const selectedLanguage = cookieService.getCookie();
+    // const selectedLanguage = sessionService.getLanguage();
+    return from(translateService.use(selectedLanguage));
+  };
+}
 
 @NgModule({
   declarations: [AppComponent],
   imports: modules,
   providers: [
+    SessionService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiUrlInterceptor,
@@ -23,7 +38,13 @@ const modules = [CoreModule, AppRoutingModule];
       provide: ErrorHandler,
       useClass: ErrorHandlerService,
     },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [TranslateService, SessionService, CookieService],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

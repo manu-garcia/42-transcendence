@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 import { TableModule } from 'primeng/table';
@@ -15,6 +15,13 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 
 import { MessageService } from 'primeng/api';
+
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 const modules = [
   // Angular
@@ -33,11 +40,20 @@ const modules = [
   TabMenuModule,
   ProgressSpinnerModule,
   ToastModule,
+
+  //Translations
+  TranslateModule.forRoot({
+    loader: {
+      provide: TranslateLoader,
+      useFactory: HttpLoaderFactory,
+      deps: [HttpClient],
+    }
+  }),
 ];
 
 @NgModule({
   imports: modules,
-  exports: modules,
+  exports: [modules],
   providers: [MessageService],
 })
 export class LibModule {}
