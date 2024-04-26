@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
       {
         label: 'Quick Game',
         icon: 'pi pi-fw pi-discord',
-        routerLink: ['game'],
+        routerLink: ['quick-game'],
       },
       {
         label: 'Tournament',
