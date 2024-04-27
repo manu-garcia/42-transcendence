@@ -1,0 +1,9 @@
+<ng-container *ngIf="form">
+  <form [formGroup]="form">
+    <input pInputText [maxLength]="200" formControlName="name" placeholder="Tournament Name" />
+  </form>
+
+  <div class="d-flex justify-content-end mt-3">
+    <p-button label="Save" [disabled]="!form.valid" (onClick)="save()"></p-button>
+  </div>
+</ng-container>

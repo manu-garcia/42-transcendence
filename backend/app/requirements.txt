@@ -1,5 +1,7 @@
 # Django Framework
 Django==4.2
+# REST apis in Django
+djangorestframework=3.14.0
 # PostgreSQL connector
 psycopg2-binary==2.9.3
 # Running Django in production
