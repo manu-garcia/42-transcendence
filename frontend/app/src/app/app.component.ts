@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+import { SessionService } from './services/session.service';
+import { CookieService } from './services/cookie.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +14,26 @@ export class AppComponent implements OnInit {
   public items: MenuItem[] | undefined;
   public activeItem: MenuItem | undefined;
 
+  currentLanguage: string;
+
+  constructor(
+    private translateService: TranslateService,
+    private sessionService: SessionService,
+    private cookieService: CookieService
+  ) { };
+
+  changeLanguage(language: string) {
+    this.translateService.use(language);
+    this.cookieService.setCookie(language);
+    // this.sessionService.setLanguage(language);
+  }
+
   ngOnInit() {
+    this.translateService.setDefaultLang('en');
+    this.currentLanguage = this.cookieService.getCookie();
+    // const selectedLanguage = this.sessionService.getLanguage();
+    this.translateService.use(this.currentLanguage);
+
     this.items = [
       {
         label: 'Home',
@@ -19,7 +41,7 @@ export class AppComponent implements OnInit {
         routerLink: ['user'],
       },
       {
-        label: 'Quick Game',
+        label: this.translateService.instant('general.quickgame'),
         icon: 'pi pi-fw pi-discord',
         routerLink: ['quick-game'],
       },

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -18,6 +18,13 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 const modules = [
   // Angular
@@ -38,11 +45,19 @@ const modules = [
   ProgressSpinnerModule,
   ToastModule,
   InputTextModule,
+  //Translations
+  TranslateModule.forRoot({
+    loader: {
+      provide: TranslateLoader,
+      useFactory: HttpLoaderFactory,
+      deps: [HttpClient],
+    }
+  }),
 ];
 
 @NgModule({
   imports: modules,
-  exports: modules,
+  exports: [modules],
   providers: [MessageService, DialogService],
 })
-export class LibModule {}
+export class LibModule { }
