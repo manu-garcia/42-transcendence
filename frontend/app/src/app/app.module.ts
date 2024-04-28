@@ -9,16 +9,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { TranslateService } from '@ngx-translate/core';
-import { SessionService } from './services/session.service';
-import { CookieService } from './services/cookie.service';
+import { CookieService } from 'src/app/services/cookie.service';
 import { from } from 'rxjs';
 
 const modules = [CoreModule, AppRoutingModule];
 
-export function appInitializerFactory(translateService: TranslateService, sessionService: SessionService, cookieService: CookieService) {
+export function appInitializerFactory(translateService: TranslateService, cookieService: CookieService) {
   return () => {
     translateService.setDefaultLang('en');
-    const selectedLanguage = cookieService.getCookie();
+    const selectedLanguage = cookieService.getCookie("app_language");
     // const selectedLanguage = sessionService.getLanguage();
     return from(translateService.use(selectedLanguage));
   };
@@ -28,7 +27,6 @@ export function appInitializerFactory(translateService: TranslateService, sessio
   declarations: [AppComponent],
   imports: modules,
   providers: [
-    SessionService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiUrlInterceptor,
@@ -41,7 +39,7 @@ export function appInitializerFactory(translateService: TranslateService, sessio
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,
-      deps: [TranslateService, SessionService, CookieService],
+      deps: [TranslateService, CookieService],
       multi: true
     }
   ],

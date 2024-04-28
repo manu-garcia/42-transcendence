@@ -1,19 +1,19 @@
-<p-panel header="Tournament List">
+<p-panel [header]="'general.tournament.list' | translate">
   <ng-template pTemplate="icons">
-    <p-button label="Create Tournament" icon="pi pi-plus" (onClick)="createTournament()"></p-button>
+    <p-button [label]="'general.tournament.list.create' | translate" icon="pi pi-plus" (onClick)="createTournament()"></p-button>
   </ng-template>
   <p-table [value]="tournaments$ | async">
     <ng-template pTemplate="header">
       <tr>
-        <th>Name</th>
-        <th>Actions</th>
+        <th>{{ 'general.tournament.list.name' | translate }}</th>
+        <th>{{ 'general.tournament.list.actions' | translate }}</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-tournament>
       <tr>
         <td>{{ tournament.name }}</td>
         <td>
-          <p-button label="Edit" icon="pi pi-pencil" (onClick)="editTournament(tournament)"></p-button>
+          <p-button [label]="'general.tournament.list.actions.edit' | translate" icon="pi pi-pencil" (onClick)="editTournament(tournament)"></p-button>
         </td>
       </tr>
     </ng-template>

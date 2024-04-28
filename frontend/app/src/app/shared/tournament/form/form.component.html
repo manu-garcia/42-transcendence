@@ -1,6 +1,6 @@
 <ng-container *ngIf="form">
   <form [formGroup]="form">
-    <input pInputText [maxLength]="200" formControlName="name" placeholder="Tournament Name" />
+    <input pInputText [maxLength]="200" formControlName="name" [placeholder]="'general.tournament.list.create.name' | translate" />
   </form>
 
   <div class="d-flex justify-content-end mt-3">

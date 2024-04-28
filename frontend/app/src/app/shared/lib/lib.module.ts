@@ -19,8 +19,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageService } from 'src/app/services/language.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -58,6 +59,6 @@ const modules = [
 @NgModule({
   imports: modules,
   exports: [modules],
-  providers: [MessageService, DialogService],
+  providers: [MessageService, DialogService, TranslateService, LanguageService],
 })
 export class LibModule { }

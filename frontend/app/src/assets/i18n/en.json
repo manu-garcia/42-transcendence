@@ -1,5 +1,19 @@
 {
+	"general.chat": "Chat",
+	"general.home": "Home",
 	"general.language": "Language",
-	"general.users.list": "Users List",
-	"general.quickgame": "Quick Game"
+	"general.quickgame": "Quick Game",
+	"general.tournament": "Tournament",
+
+	"general.user.list": "Users List",
+	"general.user.list.actions": "Actions",
+	"general.user.list.name": "Name",
+
+	"general.tournament.list": "Tournament List",
+	"general.tournament.list.actions": "Actions",
+	"general.tournament.list.actions.edit": "Edit",
+	"general.tournament.list.create": "Create Tournament",
+	"general.tournament.list.create.name": "Tournament Name",
+	"general.tournament.list.create.tournament": "Tournament",
+	"general.tournament.list.name": "Name"
 }

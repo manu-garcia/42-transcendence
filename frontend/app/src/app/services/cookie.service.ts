@@ -8,17 +8,17 @@ export class CookieService {
 
   constructor() { }
 
-  setCookie(value: string) {
+  setCookie(name: string, value: string) {
     const expires = new Date();
     expires.setFullYear(expires.getFullYear() + 1); // Ejemplo: la cookie expira en un año
-    document.cookie = `${this.languageKey}=${value}; expires=${expires.toUTCString()}; path=/`;
+    document.cookie = `${name}=${value}; expires=${expires.toUTCString()}; path=/`;
   }
 
-  getCookie(): string {
+  getCookie(name: string): string {
     const cookies = document.cookie.split(';');
     for (let cookie of cookies) {
       const [cookieName, cookieValue] = cookie.split('=');
-      if (cookieName.trim() === this.languageKey) {
+      if (cookieName.trim() === name) {
         return cookieValue;
       }
     }

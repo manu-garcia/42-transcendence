@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { SessionService } from './services/session.service';
-import { CookieService } from './services/cookie.service';
+import { CookieService } from 'src/app/services/cookie.service';
 
 @Component({
   selector: 'app-root',
@@ -18,25 +17,23 @@ export class AppComponent implements OnInit {
 
   constructor(
     private translateService: TranslateService,
-    private sessionService: SessionService,
     private cookieService: CookieService
   ) { };
 
   changeLanguage(language: string) {
     this.translateService.use(language);
-    this.cookieService.setCookie(language);
-    // this.sessionService.setLanguage(language);
+    this.cookieService.setCookie("app_language", language);
+    window.location.reload();
   }
 
   ngOnInit() {
     this.translateService.setDefaultLang('en');
-    this.currentLanguage = this.cookieService.getCookie();
-    // const selectedLanguage = this.sessionService.getLanguage();
+    this.currentLanguage = this.cookieService.getCookie("app_language");
     this.translateService.use(this.currentLanguage);
 
     this.items = [
       {
-        label: 'Home',
+        label: this.translateService.instant('general.home'),
         icon: 'pi pi-fw pi-home',
         routerLink: ['user'],
       },
@@ -46,12 +43,12 @@ export class AppComponent implements OnInit {
         routerLink: ['quick-game'],
       },
       {
-        label: 'Tournament',
+        label: this.translateService.instant('general.tournament'),
         icon: 'pi pi-fw pi-users',
         routerLink: ['tournament'],
       },
       {
-        label: 'Chat',
+        label: this.translateService.instant('general.chat'),
         icon: 'pi pi-fw pi-comments',
         routerLink: ['chat'],
       },
