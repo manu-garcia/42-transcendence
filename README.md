@@ -68,7 +68,7 @@ To setup vscode:
    1.4 ms-vscode-remote.remote-containers
 2. Please set `"files.autoSave": "onFocusChange"` in your global settings. In Code -> Preferences -> Settings. Property "Files: Auto Save" should be set to "onFocusChange".
 
-# VSCode + Docker contaniners
+# VSCode + Docker contaniners:
 
 Because dependencies are installed inside Docker containers, opening the Transcendence project will show missing dependencies.
 
