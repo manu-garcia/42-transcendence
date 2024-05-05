@@ -18,8 +18,7 @@ const modules = [CoreModule, AppRoutingModule];
 export function appInitializerFactory(translateService: TranslateService, cookieService: CookieService) {
   return () => {
     translateService.setDefaultLang('en');
-    const selectedLanguage = cookieService.getCookie("app_language");
-    // const selectedLanguage = sessionService.getLanguage();
+    const selectedLanguage = cookieService.getCookie('app_language');
     return from(translateService.use(selectedLanguage));
   };
 }
@@ -33,7 +32,7 @@ export function appInitializerFactory(translateService: TranslateService, cookie
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
-      }
+      },
     }),
   ],
   providers: [
@@ -50,9 +49,9 @@ export function appInitializerFactory(translateService: TranslateService, cookie
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,
       deps: [TranslateService, CookieService],
-      multi: true
-    }
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
