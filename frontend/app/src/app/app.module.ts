@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { CoreModule } from 'core/core.module';
 import { ApiUrlInterceptor } from 'core/http/apiurl.interceptor';
@@ -8,9 +8,10 @@ import { ErrorHandlerService } from 'core/error-handler/error-handler.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'core/services/cookie.service';
 import { from } from 'rxjs';
+import { HttpLoaderFactory } from 'shared/lib/lib.module';
 
 const modules = [CoreModule, AppRoutingModule];
 
@@ -25,7 +26,16 @@ export function appInitializerFactory(translateService: TranslateService, cookie
 
 @NgModule({
   declarations: [AppComponent],
-  imports: modules,
+  imports: [
+    modules,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      }
+    }),
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
