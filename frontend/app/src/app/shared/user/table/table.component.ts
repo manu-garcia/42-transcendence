@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LanguageService } from 'src/app/services/language.service';
+import { LanguageService } from 'core/services/language.service';
 
 import { IUser } from 'shared/user/user';
 

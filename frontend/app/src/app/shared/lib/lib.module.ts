@@ -21,7 +21,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LanguageService } from 'src/app/services/language.service';
+import { LanguageService } from 'core/services/language.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);

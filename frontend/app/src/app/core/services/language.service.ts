@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { CookieService } from 'src/app/services/cookie.service'; // Reemplaza 'tu-libreria-de-cookies' con la librería real que estés utilizando
+import { CookieService } from 'core/services/cookie.service'; // Reemplaza 'tu-libreria-de-cookies' con la librería real que estés utilizando
 
 @Injectable({
   providedIn: 'root'

@@ -8,7 +8,7 @@ import { ITournament } from 'shared/tournament/tournament';
 import { TournamentService } from 'shared/tournament/tournament.service';
 import { TournamentFormComponent } from 'shared/tournament/form/form.component';
 
-import { LanguageService } from 'src/app/services/language.service';
+import { LanguageService } from 'core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

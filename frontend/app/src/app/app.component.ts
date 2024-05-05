@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { CookieService } from 'src/app/services/cookie.service';
+import { CookieService } from 'core/services/cookie.service';
 
 @Component({
   selector: 'app-root',
