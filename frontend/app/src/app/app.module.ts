@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { TranslateService } from '@ngx-translate/core';
-import { CookieService } from 'src/app/services/cookie.service';
+import { CookieService } from 'core/services/cookie.service';
 import { from } from 'rxjs';
 
 const modules = [CoreModule, AppRoutingModule];
