@@ -188,13 +188,26 @@ Remember to replace `'user'` and `'User'` with the actual names of your Django a
 ### Modules choosen
 
 Módulos (7 Major en total. 2 Minor == 1 Major):
-Major module: Use a Framework as backend (Django).
-Minor module: Use a front-end framework or toolkit. (Bootstrap toolkit).
-Minor module: Use a database for the backend (PostgreSQL).
-Major module: Standard user management, authentication, users across tournaments.
-Major module: Multiple players (more than 2 in the same game).
-Minor module: Game Customization Options.
-Minor module: User and Game Stats Dashboards.
-Minor module: Expanding Browser Compatibility.
-Major module: Introduce an AI Opponent.
-Minor module: Multiple language supports.
+
+- Módulos (7 Major en total. 2 Minor == 1 Major):
+
+- Major module: Use a Framework as backend (Django).
+
+- Minor module: Use a front-end framework or toolkit. (Bootstrap toolkit).
+
+- Minor module: Use a database for the backend (PostgreSQL).
+
+- Major module: Standard user management, authentication, users across tournaments.
+
+- Major module: Multiple players (more than 2 in the same game).
+
+- Minor module: Game Customization Options.
+
+- Minor module: User and Game Stats Dashboards.
+
+- Minor module: Expanding Browser Compatibility.
+
+- Major module: Introduce an AI Opponent.
+
+- Minor module: Multiple language supports.
+
