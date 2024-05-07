@@ -7,7 +7,7 @@ COPY . /usr/src
 WORKDIR /usr/src/app
 
 # Install npm packages
-RUN npm install
+RUN yarn install
 
 # Build the application
 RUN npm run build-prod
