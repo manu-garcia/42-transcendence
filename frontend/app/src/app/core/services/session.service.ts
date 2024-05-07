@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root',
 })
 export class SessionService {
-	private languageKey = 'app_language';
+  private languageKey = 'app_language';
 
-	constructor() { }
+  constructor() {}
 
-	getLanguage(): string {
-		return sessionStorage.getItem(this.languageKey) || 'en';
-	}
+  getLanguage(): string {
+    return sessionStorage.getItem(this.languageKey) || 'en';
+  }
 
-	setLanguage(language: string): void {
-		sessionStorage.setItem(this.languageKey, language);
-	}
+  setLanguage(language: string): void {
+    sessionStorage.setItem(this.languageKey, language);
+  }
 }

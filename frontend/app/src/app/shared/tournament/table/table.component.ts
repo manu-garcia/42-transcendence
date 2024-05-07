@@ -8,7 +8,6 @@ import { ITournament } from 'shared/tournament/tournament';
 import { TournamentService } from 'shared/tournament/tournament.service';
 import { TournamentFormComponent } from 'shared/tournament/form/form.component';
 
-import { LanguageService } from 'core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -19,11 +18,10 @@ export class TournamentTableComponent implements OnInit, OnDestroy {
   public tournaments$: Observable<ITournament[]>;
   public tournamentFormComponentRef: DynamicDialogRef | undefined;
 
-  constructor(private tournamentService: TournamentService, private dialogService: DialogService, private languageService: LanguageService, private translateService: TranslateService) { }
+  constructor(private tournamentService: TournamentService, private dialogService: DialogService, private translateService: TranslateService) { }
 
   ngOnInit() {
     this.tournaments$ = this.tournamentService.getTournaments();
-    this.languageService.initializeLanguage();
   }
 
   ngOnDestroy() {

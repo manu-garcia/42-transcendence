@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LanguageService } from 'core/services/language.service';
 
 import { IUser } from 'shared/user/user';
 
@@ -10,11 +9,7 @@ import { IUser } from 'shared/user/user';
 export class UserTableComponent implements OnInit {
   @Input() users: IUser[];
 
-  constructor(
-    private languageService: LanguageService,
-  ) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.languageService.initializeLanguage();
-  }
+  ngOnInit() { }
 }
