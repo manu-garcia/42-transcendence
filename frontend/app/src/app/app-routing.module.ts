@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./feature/quick-game/quick-game.module').then((m) => m.QuickGameScreenModule),
   },
   {
+    path: 'friends',
+    loadChildren: () => import('./feature/friends/friends.module').then((m) => m.FriendsScreenModule),
+  },
+  {
     path: '',
     redirectTo: 'user',
     pathMatch: 'full',
