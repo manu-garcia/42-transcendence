@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { CookieService } from 'core/services/cookie.service';
+import { LanguageService } from 'core/services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -15,21 +15,14 @@ export class AppComponent implements OnInit {
 
   currentLanguage: string;
 
-  constructor(
-    private translateService: TranslateService,
-    private cookieService: CookieService
-  ) { };
+  constructor(private translateService: TranslateService, private languageService: LanguageService) {}
 
   changeLanguage(language: string) {
-    this.translateService.use(language);
-    this.cookieService.setCookie("app_language", language);
-    window.location.reload();
+    this.languageService.changeLanguage(language);
   }
 
   ngOnInit() {
-    this.translateService.setDefaultLang('en');
-    this.currentLanguage = this.cookieService.getCookie("app_language");
-    this.translateService.use(this.currentLanguage);
+    this.currentLanguage = this.languageService.initializeLanguage();
 
     this.items = [
       {
@@ -47,7 +40,6 @@ export class AppComponent implements OnInit {
         icon: 'pi pi-fw pi-users',
         routerLink: ['tournament'],
       },
-
     ];
 
     this.activeItem = this.items[0];
