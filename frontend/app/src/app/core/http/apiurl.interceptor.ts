@@ -5,6 +5,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs';
 
 import { RouterService } from 'shared/router/router.service';
+import { LoggedInUser } from 'shared/user/user';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,12 @@ export class ApiUrlInterceptor implements HttpInterceptor {
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.url.includes('/api/')) {
-      const apiReq = req.clone({ url: this.routerService.getApiUrl(req.url) });
+      const user: LoggedInUser = JSON.parse(localStorage.getItem('user') || '{}');
+
+      // Only include the Authorization header if the user token is available
+      const headers = user?.token ? { Authorization: `Token ${user.token}` } : {};
+
+      const apiReq = req.clone({ url: this.routerService.getApiUrl(req.url), setHeaders: headers });
       return next.handle(apiReq);
     }
 

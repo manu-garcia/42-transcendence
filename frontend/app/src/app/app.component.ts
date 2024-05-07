@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { UserService } from 'shared/user/user.service';
 import { LanguageService } from 'core/services/language.service';
+import { CookieService } from 'src/app/services/cookie.service';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +19,23 @@ export class AppComponent implements OnInit {
 
   currentLanguage: string;
 
-  constructor(private translateService: TranslateService, private languageService: LanguageService) {}
+  constructor(
+    private translateService: TranslateService,
+    private cookieService: CookieService,
+    private userService: UserService,
+    private router: Router,
+    private languageService: LanguageService
+  ) {}
 
   changeLanguage(language: string) {
     this.languageService.changeLanguage(language);
+    window.location.reload();
   }
 
   ngOnInit() {
-    this.currentLanguage = this.languageService.initializeLanguage();
+    this.translateService.setDefaultLang('en');
+    this.currentLanguage = this.cookieService.getCookie('app_language');
+    this.translateService.use(this.currentLanguage);
 
     this.items = [
       {
@@ -47,5 +60,11 @@ export class AppComponent implements OnInit {
 
   public onActiveItemChange(event: MenuItem) {
     this.activeItem = event;
+  }
+
+  public signout() {
+    this.userService.signout().subscribe(() => {
+      this.router.navigateByUrl('/signin');
+    });
   }
 }

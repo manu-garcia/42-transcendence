@@ -20,6 +20,8 @@
         <option [value]="'es'" [selected]="currentLanguage === 'es'">ES</option>
       </select>
     </div>
+
+    <p-button [label]="'shared.user.signin.signout' | translate" (onClick)="signout()"></p-button>
   </nav>
 
   <div class="p-3">
