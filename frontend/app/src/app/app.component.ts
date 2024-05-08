@@ -40,6 +40,11 @@ export class AppComponent implements OnInit {
         icon: 'pi pi-fw pi-users',
         routerLink: ['tournament'],
       },
+      {
+        label: this.translateService.instant('general.friends'),
+        icon: 'pi pi-fw pi-home',
+        routerLink: ['friends'],
+      },
     ];
 
     this.activeItem = this.items[0];
