@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'core/services/language.service';
+<<<<<<< Updated upstream
+=======
+import { CookieService } from 'core/services/cookie.service';
+>>>>>>> Stashed changes
 
 @Component({
   selector: 'app-root',
@@ -28,17 +32,17 @@ export class AppComponent implements OnInit {
       {
         label: this.translateService.instant('general.home'),
         icon: 'pi pi-fw pi-home',
-        routerLink: ['user'],
+        routerLink: ['signedin/user'],
       },
       {
         label: this.translateService.instant('general.quickgame'),
         icon: 'pi pi-fw pi-discord',
-        routerLink: ['quick-game'],
+        routerLink: ['signedin/quick-game'],
       },
       {
         label: this.translateService.instant('general.tournament'),
         icon: 'pi pi-fw pi-users',
-        routerLink: ['tournament'],
+        routerLink: ['signedin/tournament'],
       },
       {
         label: this.translateService.instant('general.friends'),
