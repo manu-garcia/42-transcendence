@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { LibModule } from 'shared/lib/lib.module';
+import { LibModuleShared } from 'shared/lib/lib.module';
 import { UserTableModule } from 'shared/user/table/table.module';
 
 import { UserListScreenComponent } from './list.component';
@@ -8,7 +8,7 @@ import { UserListScreenComponent } from './list.component';
 @NgModule({
   imports: [
     // Third-party modules
-    LibModule,
+    LibModuleShared,
 
     // Own modules
     UserTableModule,

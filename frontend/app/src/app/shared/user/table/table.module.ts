@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import { LibModule } from 'shared/lib/lib.module';
+import { LibModuleShared } from 'shared/lib/lib.module';
 
 import { UserTableComponent } from './table.component';
 
 @NgModule({
-  imports: [LibModule],
+  imports: [LibModuleShared],
   declarations: [UserTableComponent],
   exports: [UserTableComponent],
 })
