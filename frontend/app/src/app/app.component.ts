@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+
 import { UserService } from 'shared/user/user.service';
 import { LanguageService } from 'core/services/language.service';
-import { CookieService } from 'src/app/services/cookie.service';
+import { CookieService } from 'core/services/cookie.service';
 
 @Component({
   selector: 'app-root',
@@ -41,32 +42,32 @@ export class AppComponent implements OnInit {
       {
         label: this.translateService.instant('general.home'),
         icon: 'pi pi-fw pi-home',
-        routerLink: ['user'],
+        routerLink: ['signedin/user'],
       },
       {
         label: this.translateService.instant('general.quickgame'),
         icon: 'pi pi-fw pi-discord',
-        routerLink: ['quick-game'],
+        routerLink: ['signedin/quick-game'],
       },
       {
         label: this.translateService.instant('general.tournament'),
         icon: 'pi pi-fw pi-users',
-        routerLink: ['tournament'],
+        routerLink: ['signedin/tournament'],
       },
       {
         label: this.translateService.instant('general.options'),
         icon: 'pi pi-fw pi-cog',
-        routerLink: ['options'],
+        routerLink: ['signedin/options'],
       },
       {
         label: this.translateService.instant('general.friends'),
         icon: 'pi pi-fw pi-home',
-        routerLink: ['friends'],
+        routerLink: ['signedin/friends'],
       },
       {
         label: this.translateService.instant('general.stats'),
         icon: 'pi pi-fw pi-home',
-        routerLink: ['stats'],
+        routerLink: ['signedin/stats'],
       },
     ];
 

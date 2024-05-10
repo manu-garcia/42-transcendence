@@ -12,7 +12,7 @@ export class RedirectorGuard implements CanActivate {
   canActivate(): boolean {
     // Not authenticated, let user access sigin screen
     if (this.userService.isAuthenticated()) {
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/signedin');
       return false;
     }
 
