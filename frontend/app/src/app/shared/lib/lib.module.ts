@@ -55,4 +55,4 @@ const modules = [
   exports: [modules],
   providers: [MessageService, DialogService],
 })
-export class LibModule { }
+export class LibModuleShared { }

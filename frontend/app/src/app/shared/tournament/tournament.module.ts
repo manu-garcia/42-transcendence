@@ -7,4 +7,4 @@ import { TournamentFormModule } from './form/form.module';
   imports: [TournamentTableModule, TournamentFormModule],
   exports: [TournamentTableModule, TournamentFormModule],
 })
-export class TournamentModule {}
+export class TournamentModuleShared {}

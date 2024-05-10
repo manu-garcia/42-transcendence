@@ -1,20 +1,21 @@
 {
-	"general.home": "Inicio",
-	"general.language": "Idioma",
-	"general.quickgame": "Partida rápida",
-	"general.tournament": "Torneo",
-	"general.friends": "Amigos",
-	"general.stats": "Estadísticas",	
+  "general.home": "Inicio",
+  "general.language": "Idioma",
+  "general.quickgame": "Partida rápida",
+  "general.tournament": "Torneo",
+  "general.options": "Opciones",
+  "general.friends": "Amigos",
+  "general.stats": "Estadísticas",	
 
-	"general.user.list": "Lista de usuarios",
-	"general.user.list.actions": "Acciones",
-	"general.user.list.name": "Nombre",
+  "general.user.list": "Lista de usuarios",
+  "general.user.list.actions": "Acciones",
+  "general.user.list.name": "Nombre",
 
-	"general.tournament.list": "Lista de torneos",
-	"general.tournament.list.actions": "Acciones",
-	"general.tournament.list.actions.edit": "Editar",
-	"general.tournament.list.create": "Crear torneo",
-	"general.tournament.list.create.name": "Nombre del Torneo",
-	"general.tournament.list.create.tournament": "Torneo",
-	"general.tournament.list.name": "Nombre"
+  "general.tournament.list": "Lista de torneos",
+  "general.tournament.list.actions": "Acciones",
+  "general.tournament.list.actions.edit": "Editar",
+  "general.tournament.list.create": "Crear torneo",
+  "general.tournament.list.create.name": "Nombre del Torneo",
+  "general.tournament.list.create.tournament": "Torneo",
+  "general.tournament.list.name": "Nombre"
 }

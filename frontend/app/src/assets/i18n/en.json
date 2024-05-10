@@ -1,20 +1,21 @@
 {
-	"general.home": "Home",
-	"general.language": "Language",
-	"general.quickgame": "Quick Game",
-	"general.tournament": "Tournament",
-	"general.friends": "Friends",
-	"general.stats": "Stats",
+  "general.home": "Home",
+  "general.language": "Language",
+  "general.quickgame": "Quick Game",
+  "general.tournament": "Tournament",
+  "general.options": "Options",
+  "general.friends": "Friends",
+  "general.stats": "Stats",
 
-	"general.user.list": "Users List",
-	"general.user.list.actions": "Actions",
-	"general.user.list.name": "Name",
+  "general.user.list": "Users List",
+  "general.user.list.actions": "Actions",
+  "general.user.list.name": "Name",
 
-	"general.tournament.list": "Tournament List",
-	"general.tournament.list.actions": "Actions",
-	"general.tournament.list.actions.edit": "Edit",
-	"general.tournament.list.create": "Create Tournament",
-	"general.tournament.list.create.name": "Tournament Name",
-	"general.tournament.list.create.tournament": "Tournament",
-	"general.tournament.list.name": "Name"
+  "general.tournament.list": "Tournament List",
+  "general.tournament.list.actions": "Actions",
+  "general.tournament.list.actions.edit": "Edit",
+  "general.tournament.list.create": "Create Tournament",
+  "general.tournament.list.create.name": "Tournament Name",
+  "general.tournament.list.create.tournament": "Tournament",
+  "general.tournament.list.name": "Name"
 }

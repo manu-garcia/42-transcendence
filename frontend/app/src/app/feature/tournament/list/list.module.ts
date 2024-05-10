@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 
-import { LibModule } from 'shared/lib/lib.module';
-import { TournamentModule } from 'shared/tournament/tournament.module';
+import { LibModuleShared } from 'shared/lib/lib.module';
+import { TournamentModuleShared } from 'shared/tournament/tournament.module';
 
 import { TournamentListScreenComponent } from './list.component';
 
 @NgModule({
   imports: [
     // Third-party modules
-    LibModule,
+    LibModuleShared,
 
     // Own modules
-    TournamentModule,
+    TournamentModuleShared,
   ],
   declarations: [TournamentListScreenComponent],
 })
