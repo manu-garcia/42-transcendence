@@ -3,9 +3,11 @@
   "general.language": "Idioma",
   "general.quickgame": "Partida rápida",
   "general.tournament": "Torneo",
+  "general.chat": "Chat",
+  "general.error": "Error",
   "general.options": "Opciones",
   "general.friends": "Amigos",
-  "general.stats": "Estadísticas",	
+  "general.stats": "Estadísticas",
 
   "general.user.list": "Lista de usuarios",
   "general.user.list.actions": "Acciones",
@@ -17,5 +19,14 @@
   "general.tournament.list.create": "Crear torneo",
   "general.tournament.list.create.name": "Nombre del Torneo",
   "general.tournament.list.create.tournament": "Torneo",
-  "general.tournament.list.name": "Nombre"
+  "general.tournament.list.name": "Nombre",
+
+  "shared.user.signin.username": "Usuario",
+  "shared.user.signin.password": "Contraseña",
+  "shared.user.signin.password_repeat": "Repite contraseña",
+  "shared.user.signin.signin": "Inicia sesión",
+  "shared.user.signin.signup": "Registrate",
+  "shared.user.signin.signout": "Cierra session",
+  "shared.user.signin.error_singin": "Usuario/contraseña incorrectas",
+  "shared.user.signin.error_match": "Contraseñas no coinciden"
 }
