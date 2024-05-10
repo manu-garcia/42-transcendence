@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import { LibModule } from 'shared/lib/lib.module';
+import { LibModuleShared } from 'shared/lib/lib.module';
 
 import { GameComponent } from './game.component';
 
 @NgModule({
-  imports: [LibModule],
+  imports: [LibModuleShared],
   declarations: [GameComponent],
   exports: [GameComponent],
 })
