@@ -9,4 +9,4 @@ import { GameComponent } from './game.component';
   declarations: [GameComponent],
   exports: [GameComponent],
 })
-export class GameModule {}
+export class GameModuleShared {}

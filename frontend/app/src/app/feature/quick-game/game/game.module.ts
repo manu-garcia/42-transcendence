@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { LibModule } from 'shared/lib/lib.module';
-import { GameModule } from 'shared/game/game/game.module';
+import { GameModuleShared } from 'shared/game/game/game.module';
 
 import { GameScreenComponent } from './game.component';
 
@@ -10,7 +10,7 @@ import { GameScreenComponent } from './game.component';
     // Third-party modules
     LibModule,
 
-    GameModule,
+    GameModuleShared,
   ],
   declarations: [GameScreenComponent],
 })
