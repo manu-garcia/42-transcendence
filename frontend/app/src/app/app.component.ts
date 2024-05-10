@@ -45,6 +45,11 @@ export class AppComponent implements OnInit {
         icon: 'pi pi-fw pi-home',
         routerLink: ['friends'],
       },
+      {
+        label: this.translateService.instant('general.stats'),
+        icon: 'pi pi-fw pi-home',
+        routerLink: ['stats'],
+      },
     ];
 
     this.activeItem = this.items[0];
