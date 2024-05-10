@@ -1,16 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { SigninGuard } from 'core/guard/signin.guard';
 import { RedirectorGuard } from 'core/guard/redirector.guard';
 import { SignoutGuard } from 'core/guard/signout.guard';
-
-import { SigninComponent } from 'feature/user/signin/signin.component';
-import { SignupComponent } from 'feature/user/signup/signup.component';
-
 import { SignedinGuard } from 'core/guard/signedin.guard';
-import { SignedoutGuard } from 'core/guard/signedout.guard';
-import { RedirectorGuard } from 'core/guard/redirector.guard';
 
 import { SigninComponent } from 'feature/user/signin/signin.component';
 import { SignupComponent } from 'feature/user/signup/signup.component';

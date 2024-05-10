@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { LibModule } from 'shared/lib/lib.module';
+import { LibModuleShared } from 'shared/lib/lib.module';
 import { OptionsRoutingModule } from './options-routing.module';
 import { ParametersScreenModule } from './parameters/parameters.module';
 
 @NgModule({
   imports: [
     // Third-party modules
-    LibModule,
+    LibModuleShared,
 
     // Own modules
     OptionsRoutingModule,

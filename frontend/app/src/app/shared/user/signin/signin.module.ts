@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import { LibModule } from 'shared/lib/lib.module';
+import { LibModuleShared } from 'shared/lib/lib.module';
 
 import { SigninComponent } from './signin.component';
 
 @NgModule({
-  imports: [LibModule],
+  imports: [LibModuleShared],
   declarations: [SigninComponent],
   exports: [SigninComponent],
 })
