@@ -19,9 +19,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LanguageService } from 'core/services/language.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -46,19 +45,14 @@ const modules = [
   ProgressSpinnerModule,
   ToastModule,
   InputTextModule,
+
   //Translations
-  TranslateModule.forRoot({
-    loader: {
-      provide: TranslateLoader,
-      useFactory: HttpLoaderFactory,
-      deps: [HttpClient],
-    }
-  }),
+  TranslateModule.forChild()
 ];
 
 @NgModule({
   imports: modules,
   exports: [modules],
-  providers: [MessageService, DialogService, TranslateService, LanguageService],
+  providers: [MessageService, DialogService],
 })
 export class LibModule { }

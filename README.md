@@ -68,7 +68,7 @@ To setup vscode:
    1.4 ms-vscode-remote.remote-containers
 2. Please set `"files.autoSave": "onFocusChange"` in your global settings. In Code -> Preferences -> Settings. Property "Files: Auto Save" should be set to "onFocusChange".
 
-# VSCode + Docker contaniners
+# VSCode + Docker contaniners:
 
 Because dependencies are installed inside Docker containers, opening the Transcendence project will show missing dependencies.
 
@@ -187,47 +187,27 @@ Remember to replace `'user'` and `'User'` with the actual names of your Django a
 
 ### Modules choosen
 
-Módulos (7 Major en total. 2 Minor == 1 Major):  
-Major module: Use a Framework as backend (Django).  
-Minor module: Use a front-end framework or toolkit. (Bootstrap toolkit).  
-Minor module: Use a database for the backend (PostgreSQL).  
-Major module: Remote players.  
-Major module: Multiple players (more than 2 in the same game).  
-Minor module: Game Customization Options.  
-Major module: Live chat.  
-Major module: Introduce an AI Opponent.  
-Minor module: Multiple language supports.
+Módulos (7 Major en total. 2 Minor == 1 Major):
 
-Andoni's modules:  
-Major module: Remote players  
-Major module: Multiple players (more than 2 in the same game).  
-Minor module: Game Customization Options.  
-Major module: Introduce an AI Opponent.
+- Módulos (7 Major en total. 2 Minor == 1 Major):
 
-Diego's modules:  
-Major module: Live chat.  
-Minor module: Multiple language supports.
+- Major module: Use a Framework as backend (Django).
 
-Requisitos sistema:  
-Frontend in pure vanilla Javascript OR FRONTEND MODULE.  
-Single-page application.  
-Botones back and forward del navegador.  
-Compatible with latest version Chrome.  
-Launched with a single Docker command.  
-Docker in ROOTLESS MODE.  
-7 MAJOR MODULES (2 MINOR = 1 MAJOR)
+- Minor module: Use a front-end framework or toolkit. (Bootstrap toolkit).
 
-Requisitos juego:  
-Juego con un mismo teclado  
-Torneo. Mostrar claramente quién juega contra quién y el orden de jugadores.  
-Sistema de registro en el torneo (No en la web como usuario, esto es parte del modulo Standard user management).  
-Matchmaking system.  
-Desarrollado en concordancia con el Frontend module, o Graphics module.  
-Parecido al pong original.
+- Minor module: Use a database for the backend (PostgreSQL).
 
-Requisitos seguridad:  
-Pass hashed. (Strong pass hashing algorithm). Esto parece parte del modulo "Standard user management", donde los usuarios se pueden registrar en la web. Creo que no hace falta.
-Website protected against SQL injections/XSS.  
-HTTPS connection for all aspects (utilize wss instead of ws...)  
-Validation for forms and user input.  
-Credentials, API keys, env variables etc... must be saved locally in a .env file and ignored by git. (COMO LO GUARDAMOS?)
+- Major module: Standard user management, authentication, users across tournaments.
+
+- Major module: Multiple players (more than 2 in the same game).
+
+- Minor module: Game Customization Options.
+
+- Minor module: User and Game Stats Dashboards.
+
+- Minor module: Expanding Browser Compatibility.
+
+- Major module: Introduce an AI Opponent.
+
+- Minor module: Multiple language supports.
+

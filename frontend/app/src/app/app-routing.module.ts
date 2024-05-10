@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./feature/options/options.module').then((m) => m.OptionsScreenModule),
   },
   {
+    path: 'friends',
+    loadChildren: () => import('./feature/friends/friends.module').then((m) => m.FriendsScreenModule),
+  },
+  {
     path: '',
     redirectTo: 'user',
     pathMatch: 'full',
