@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { LibModuleShared } from 'shared/lib/lib.module';
-import { TournamentModule } from 'shared/tournament/tournament.module';
+import { TournamentModuleShared } from 'shared/tournament/tournament.module';
 
 import { TournamentListScreenComponent } from './list.component';
 
@@ -11,7 +11,7 @@ import { TournamentListScreenComponent } from './list.component';
     LibModuleShared,
 
     // Own modules
-    TournamentModule,
+    TournamentModuleShared,
   ],
   declarations: [TournamentListScreenComponent],
 })
