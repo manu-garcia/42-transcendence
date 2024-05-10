@@ -10,4 +10,4 @@ const modules = [UserTableModule, SigninModule, SignupModule];
   imports: modules,
   exports: modules,
 })
-export class UserModule {}
+export class UserModuleShared {}

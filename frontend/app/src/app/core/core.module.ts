@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { LibModule } from 'shared/lib/lib.module';
+import { LibModuleShared } from 'shared/lib/lib.module';
 
-const modules = [BrowserModule, BrowserAnimationsModule, LibModule];
+const modules = [BrowserModule, BrowserAnimationsModule, LibModuleShared];
 
 @NgModule({
   imports: modules,
-  exports: [LibModule],
+  exports: [LibModuleShared],
   providers: [],
 })
 export class CoreModule {}

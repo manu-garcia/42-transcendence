@@ -25,7 +25,19 @@ const routes: Routes = [
     loadChildren: () => import('./feature/quick-game/quick-game.module').then((m) => m.QuickGameScreenModule),
   },
   {
-    path: 'home',
+    path: 'options',
+    loadChildren: () => import('./feature/options/options.module').then((m) => m.OptionsScreenModule),
+  },
+  {
+    path: 'friends',
+    loadChildren: () => import('./feature/friends/friends.module').then((m) => m.FriendsScreenModule),
+  },
+  {
+    path: 'stats',
+    loadChildren: () => import('./feature/stats/stats.module').then((m) => m.StatsScreenModule),
+  },
+  {
+    path: '',
     redirectTo: 'user',
     pathMatch: 'full',
   },

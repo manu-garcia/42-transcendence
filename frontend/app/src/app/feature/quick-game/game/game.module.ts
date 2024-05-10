@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 
-import { LibModule } from 'shared/lib/lib.module';
-import { GameModule } from 'shared/game/game/game.module';
+import { LibModuleShared } from 'shared/lib/lib.module';
+import { GameModuleShared } from 'shared/game/game/game.module';
 
 import { GameScreenComponent } from './game.component';
 
 @NgModule({
   imports: [
     // Third-party modules
-    LibModule,
+    LibModuleShared,
 
-    GameModule,
+    GameModuleShared,
   ],
   declarations: [GameScreenComponent],
 })

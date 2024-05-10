@@ -5,6 +5,9 @@
   "general.tournament": "Torneo",
   "general.chat": "Chat",
   "general.error": "Error",
+  "general.options": "Opciones",
+  "general.friends": "Amigos",
+  "general.stats": "Estadísticas",
 
   "general.user.list": "Lista de usuarios",
   "general.user.list.actions": "Acciones",
