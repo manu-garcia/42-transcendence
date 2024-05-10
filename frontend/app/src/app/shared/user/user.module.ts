@@ -6,4 +6,4 @@ import { UserTableModule } from './table/table.module';
   imports: [UserTableModule],
   exports: [UserTableModule],
 })
-export class UserModule {}
+export class UserModuleShared {}
