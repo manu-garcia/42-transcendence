@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { LibModule } from 'shared/lib/lib.module';
+import { LibModuleShared } from 'shared/lib/lib.module';
 
 import { FriendsRoutingModule } from './friends-routing.module';
 import { FriendsScreenModule as FriendsListModule } from './list/friends.module';
@@ -8,7 +8,7 @@ import { FriendsScreenModule as FriendsListModule } from './list/friends.module'
 @NgModule({
   imports: [
     // Third-party modules
-    LibModule,
+    LibModuleShared,
 
     // Own modules
     FriendsRoutingModule,

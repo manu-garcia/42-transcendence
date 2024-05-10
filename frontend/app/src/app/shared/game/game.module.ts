@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 
-import { GameModule } from './game/game.module';
+import { GameModuleShared } from './game/game.module';
 
 @NgModule({
-  imports: [GameModule],
-  exports: [GameModule],
+  imports: [GameModuleShared],
+  exports: [GameModuleShared],
 })
-export class GameModule {}
+export class GameModuleShared {}
