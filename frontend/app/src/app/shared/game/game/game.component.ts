@@ -221,6 +221,9 @@ class Keyboard {
 
   // Method to register the key pressed
   keyPressed(evento) {
+    if (evento.key === 'ArrowUp' || evento.key === 'ArrowDown') {
+      evento.preventDefault();
+    }
     this.pressedKeys[evento.key] = true;
   }
 
