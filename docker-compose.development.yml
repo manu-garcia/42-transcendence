@@ -13,7 +13,7 @@ services:
       # Bidireccional volume between host and container.
       - ./frontend/app:/usr/src/app
       # Binds the directory from the container to an anonymous volume. No map into the host.
-      - /usr/src/app/node_modules
+      - node_modules:/usr/src/app/node_modules
   backend:
     build:
       context: ./backend
@@ -51,3 +51,4 @@ services:
 
 volumes:
   pgadmin:
+  node_modules:
