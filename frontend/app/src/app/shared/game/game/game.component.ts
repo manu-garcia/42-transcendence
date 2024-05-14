@@ -221,6 +221,9 @@ class Keyboard {
 
   // Method to register the key pressed
   keyPressed(evento) {
+    if (evento.key === 'ArrowUp' || evento.key === 'ArrowDown') {
+      evento.preventDefault();
+    }
     this.pressedKeys[evento.key] = true;
   }
 
@@ -323,10 +326,10 @@ var deltaTime;
 function InitGame() {
   scenarioElem = document.querySelector('.scenario');
   styles = ['tecno', 'florido', 'neon', 'loco'];
-  boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
+  keyboard = new Keyboard();
+  boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight); 
   dir = RandDir();
   ball = new Ball(boardEdges, document.querySelector('.ball'), 300, Math.cos(dir), Math.sin(dir), 0.1);
-  keyboard = new Keyboard();
   paddle1 = new paddle(boardEdges, document.querySelector('.paddle1'), 400, 1.15, keyboard, 'w', 's');
   paddle2 = new paddle(boardEdges, document.querySelector('.paddle2'), 400, 1.15, keyboard, 'ArrowUp', 'ArrowDown');
   scoreboard1 = new Scoreboard(document.querySelector('.scoreboard1'));
@@ -344,8 +347,38 @@ function InitGame() {
     }
   });
 
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    console.log('Resized window');
+    // Initialize moving objects again
+    const { updatedBoardEdges, updatedDir, updatedBall, updatedPaddle1, updatedPaddle2 } = UpdateMovingObjects();
+    boardEdges = updatedBoardEdges;
+    dir = updatedDir;
+    ball = updatedBall;
+    paddle1 = updatedPaddle1;
+    paddle2 = updatedPaddle2;
+    ResetGame();
+  });
+
   // Call to the loop function
   Loop();
+}
+
+// Function to create new moving objects after window resize
+function UpdateMovingObjects(): {
+  updatedBoardEdges: edges;
+  updatedDir: number;
+  updatedBall: Ball;
+  updatedPaddle1: paddle;
+  updatedPaddle2: paddle;
+} {
+  const updatedBoardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
+  const updatedDir = RandDir();
+  const updatedBall = new Ball(updatedBoardEdges, document.querySelector('.ball'), 300, Math.cos(updatedDir), Math.sin(updatedDir), 0.1);
+  const updatedPaddle1 = new paddle(updatedBoardEdges, document.querySelector('.paddle1'), 400, 1.15, keyboard, 'w', 's');
+  const updatedPaddle2 = new paddle(updatedBoardEdges, document.querySelector('.paddle2'), 400, 1.15, keyboard, 'ArrowUp', 'ArrowDown');
+
+  return { updatedBoardEdges, updatedDir, updatedBall, updatedPaddle1, updatedPaddle2 };
 }
 
 // Function to calculate the deltaTime and call Update in each frame
