@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 
 import { LibModuleShared } from './lib/lib.module';
 import { UserModuleShared } from './user/user.module';
-import { TournamentModuleShared } from './tournament/tournament.module';
+import { EventModuleShared } from './event/event.module';
 
 const modules = [
   // Third Party modules
   LibModuleShared,
   // Own modules
   UserModuleShared,
-  TournamentModuleShared,
+  EventModuleShared,
 ];
 
 @NgModule({

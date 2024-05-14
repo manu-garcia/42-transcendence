@@ -1,0 +1,21 @@
+<p-panel [header]="'general.event.list' | translate">
+  <ng-template pTemplate="icons">
+    <p-button [label]="'general.event.list.create' | translate" icon="pi pi-plus" (onClick)="createEvent()"></p-button>
+  </ng-template>
+  <p-table [value]="events$ | async">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>{{ 'general.event.list.name' | translate }}</th>
+        <th>{{ 'general.event.list.actions' | translate }}</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-event>
+      <tr>
+        <td>{{ event.name }}</td>
+        <td>
+          <p-button [label]="'general.event.list.actions.edit' | translate" icon="pi pi-pencil" (onClick)="editEvent(event)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>

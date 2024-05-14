@@ -1,4 +1,4 @@
-export interface ITournament {
+export interface IEvent {
   id: number;
   name: string;
 }
