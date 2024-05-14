@@ -50,7 +50,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.saveSubscription$ = this.userService.signin(this.form.value).subscribe(
       (user: LoggedInUser) => {
-        this.userService.setLoggedInUser(user);
+        this.userService.storedLoggedInUser = user;
         this.router.navigateByUrl('/signedin');
       },
       (error) => {

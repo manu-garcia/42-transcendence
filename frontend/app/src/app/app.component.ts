@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 
-import { UserService } from 'shared/user/user.service';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
 import { LanguageService } from 'core/services/language.service';
 import { CookieService } from 'core/services/cookie.service';
+
+import { UserService } from 'shared/user/user.service';
+import { IUser } from 'shared/user/user';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +22,7 @@ export class AppComponent implements OnInit {
   public title: string = 'Transcendence';
   public items: MenuItem[] | undefined;
   public activeItem: MenuItem | undefined;
+  public user$: Observable<IUser>;
 
   currentLanguage: string;
 
@@ -72,6 +78,10 @@ export class AppComponent implements OnInit {
     ];
 
     this.activeItem = this.items[0];
+
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+      this.user$ = this.userService.getUser();
+    });
   }
 
   public onActiveItemChange(event: MenuItem) {
@@ -80,6 +90,7 @@ export class AppComponent implements OnInit {
 
   public signout() {
     this.userService.signout().subscribe(() => {
+      this.user$ = null;
       this.router.navigateByUrl('/signin');
     });
   }
