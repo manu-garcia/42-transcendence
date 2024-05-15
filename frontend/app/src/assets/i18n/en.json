@@ -13,12 +13,12 @@
   "general.user.list.actions": "Actions",
   "general.user.list.name": "Name",
 
-  "general.tournament.list": "Tournament List",
-  "general.tournament.list.actions": "Actions",
-  "general.tournament.list.actions.edit": "Edit",
-  "general.tournament.list.create": "Create Tournament",
-  "general.tournament.list.create.name": "Tournament Name",
-  "general.tournament.list.create.tournament": "Tournament",
+  "general.event.list": "Event List",
+  "general.event.list.actions": "Actions",
+  "general.event.list.actions.edit": "Edit",
+  "general.event.list.create": "Create Event",
+  "general.event.list.create.name": "Event Name",
+  "general.event.list.create.event": "Event",
 
   "shared.user.signin.username": "Username",
   "shared.user.signin.password": "Password",
@@ -28,5 +28,5 @@
   "shared.user.signin.signout": "Sign out",
   "shared.user.signin.error_singin": "Invalid user/password",
   "shared.user.signin.error_match": "Passwords do not match",
-  "general.tournament.list.name": "Name"
+  "general.event.list.name": "Name"
 }
