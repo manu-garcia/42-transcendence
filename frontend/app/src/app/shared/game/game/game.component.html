@@ -11,3 +11,9 @@
     <div class="ball"></div>
   </div>
 </div>
+
+<!-- Botón para mostrar/ocultar opciones -->
+<button (click)="toggleOptions()">Opciones</button>
+
+<!-- Componente de opciones, visible según la propiedad showOptions -->
+<app-game-options *ngIf="showOptions"></app-game-options>
