@@ -5,6 +5,8 @@ import { Observable, of, tap } from 'rxjs';
 
 import { IUser, IUserCredentials, LoggedInUser } from './user';
 
+const LOCAL_STORAGE_USER_KEY = 'user';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,7 +39,7 @@ export class UserService {
   public signout(): Observable<void> {
     return this.http.get<void>(`/api/api-user-signout/`).pipe(
       tap(() => {
-        localStorage.removeItem('user');
+        localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
       })
     );
   }
@@ -52,7 +54,7 @@ export class UserService {
   }
 
   public get storedLoggedInUser(): LoggedInUser {
-    const loggedInUser: LoggedInUser = JSON.parse(localStorage.getItem('user') || '{}');
+    const loggedInUser: LoggedInUser = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY) || '{}');
     if (!loggedInUser) {
       return null;
     }
@@ -60,8 +62,10 @@ export class UserService {
   }
 
   public set storedLoggedInUser(user: LoggedInUser) {
-    if (localStorage.getItem('user') !== JSON.stringify(user)) {
-      localStorage.setItem('user', JSON.stringify(user));
+    if (user === null) {
+      localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
+    } else if (localStorage.getItem(LOCAL_STORAGE_USER_KEY) !== JSON.stringify(user)) {
+      localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(user));
     }
   }
 }
