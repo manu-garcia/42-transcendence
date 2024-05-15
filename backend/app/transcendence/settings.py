@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "user.apps.UserConfig",
-    "tournament.apps.TournamentConfig",
+    "event.apps.EventConfig",
 ]
 
 MIDDLEWARE = [

@@ -9,7 +9,7 @@ import { IEvent } from './event';
   providedIn: 'root',
 })
 export class EventService {
-  private apiUrl = '/api/tournaments/'; // Cambiar cuando se tenga Endpoint de eventos
+  private apiUrl = '/api/events/';
 
   constructor(private http: HttpClient) {}
 

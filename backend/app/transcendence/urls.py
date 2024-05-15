@@ -26,6 +26,6 @@ urlpatterns = [
     path("api/api-user-signup/", UserSignUp.as_view()),
     path("api/api-user-signout/", UserSignOut.as_view()),
     path("api/users/", include("user.urls")),
-    path("api/tournaments/", include("tournament.urls")),
+    path("api/events/", include("event.urls")),
     path("admin/", admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
