@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import User
+from django.utils.translation import gettext_lazy as _
 
 class EventGroup(models.Model):
     id = models.AutoField(primary_key=True)
@@ -12,10 +13,19 @@ class EventGroup(models.Model):
         return f"EventGroup {self.id} - Event: {self.event_id} - Max Users: {self.max_users}"
 
 class Event(models.Model):
+    class EventType(models.TextChoices):
+        QUICK_GAME = 'quick-game', _('Quick Game')
+        TOURNAMENT = 'tournament', _('Tournament')
+
+    EVENT_TYPE_CHOICES = [
+        (EventType.QUICK_GAME, _('Quick Game')),
+        (EventType.TOURNAMENT, _('Tournament')),
+    ]
+
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     played = models.BooleanField(default=False)
-    type = models.IntegerField()
+    type = models.CharField(max_length=10, choices=EVENT_TYPE_CHOICES, default=EventType.QUICK_GAME)
     winner_event_group = models.ForeignKey(EventGroup, on_delete=models.CASCADE, default=1, related_name='winner_event_group')
 
     class Meta:
