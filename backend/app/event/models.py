@@ -13,7 +13,7 @@ class EventGroup(models.Model):
 
 class Event(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200)
     played = models.BooleanField(default=False)
     type = models.IntegerField()
     winner_event_group = models.ForeignKey(EventGroup, on_delete=models.CASCADE, default=1, related_name='winner_event_group')
