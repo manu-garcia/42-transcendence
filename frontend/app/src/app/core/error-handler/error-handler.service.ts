@@ -1,17 +1,34 @@
 import { ErrorHandler, Injectable, NgZone } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
+
+import { UserService } from 'shared/user/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ErrorHandlerService implements ErrorHandler {
-  constructor(private messageService: MessageService, private ngZone: NgZone) {}
+  constructor(
+    private messageService: MessageService,
+    private ngZone: NgZone,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   public handleError(error: any) {
     this.ngZone.run(() => {
       if (error instanceof HttpErrorResponse) {
+        switch (error.status) {
+          // Forbidden 403
+          case 403:
+            this.userService.storedLoggedInUser = null;
+            this.router.navigateByUrl('/');
+          default:
+            break;
+        }
+
         this.showError(`ErrorHandlerService: HttpErrorResponse error with status: ${error.status}`);
       } else {
         this.showError(`ErrorHandlerService: error caught: ${error}`);
