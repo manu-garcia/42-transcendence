@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IEventMatch } from 'shared/event/event';
 
 import { IUser } from 'shared/user/user';
 
@@ -9,10 +10,11 @@ import { IUser } from 'shared/user/user';
 })
 export class GameComponent implements OnInit {
   @Input() users: IUser[];
+  @Input() match: IEventMatch;
 
   ngOnInit(): void {
     // Start game
-    InitGame();
+    InitGame(this.match);
   }
 }
 
@@ -323,7 +325,14 @@ var time;
 var deltaTime;
 
 // Function that inits game variables
-function InitGame() {
+function InitGame( match: IEventMatch ) {
+  // Check if we have a match and print it
+  if (match) {
+    console.log('Match:', match);
+  } else {
+    // Handle error if match is null or undefined
+    console.error('No match data available.');
+  }
   scenarioElem = document.querySelector('.scenario');
   styles = ['tecno', 'florido', 'neon', 'loco'];
   keyboard = new Keyboard();
