@@ -5,15 +5,25 @@
   <p-table [value]="events$ | async">
     <ng-template pTemplate="header">
       <tr>
-        <th>{{ 'general.event.list.name' | translate }}</th>
-        <th>{{ 'general.event.list.actions' | translate }}</th>
+        <th>{{ "general.event.list.name" | translate }}</th>
+        <th>{{ "general.event.list.actions" | translate }}</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-event>
       <tr>
         <td>{{ event.name }}</td>
         <td>
-          <p-button [label]="'general.event.list.actions.edit' | translate" icon="pi pi-pencil" (onClick)="editEvent(event)"></p-button>
+          <p-button
+            [label]="'general.event.list.actions.edit' | translate"
+            icon="pi pi-pencil"
+            (onClick)="editEvent(event)"
+          ></p-button>
+          <p-button
+            class="m-2"
+            [label]="'general.event.list.actions.detail' | translate"
+            icon="pi pi-play"
+            (onClick)="goToEventDetail(event)"
+          ></p-button>
         </td>
       </tr>
     </ng-template>

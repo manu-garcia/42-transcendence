@@ -1,7 +1,7 @@
 {
   "general.home": "Home",
   "general.language": "Language",
-  "general.quickgame": "Quick Game",
+  "general.quickgame": "Play",
   "general.tournament": "Tournament",
   "general.chat": "Chat",
   "general.error": "Error",
@@ -16,6 +16,7 @@
   "general.event.list": "Event List",
   "general.event.list.actions": "Actions",
   "general.event.list.actions.edit": "Edit",
+  "general.event.list.actions.detail": "View",
   "general.event.list.create": "Create Event",
   "general.event.list.create.name": "Event Name",
   "general.event.list.create.event": "Event",

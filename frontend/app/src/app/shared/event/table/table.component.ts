@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -21,7 +22,9 @@ export class EventTableComponent implements OnInit, OnDestroy {
   constructor(
     private eventService: EventService,
     private dialogService: DialogService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -40,6 +43,10 @@ export class EventTableComponent implements OnInit, OnDestroy {
 
   public editEvent(event: IEvent): void {
     this.openEventFormDialog(event);
+  }
+
+  public goToEventDetail(event: IEvent) {
+    this.router.navigate(['./', event.id], { relativeTo: this.route });
   }
 
   private openEventFormDialog(event: IEvent = null): void {
