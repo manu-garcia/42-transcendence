@@ -13,6 +13,8 @@ class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     profile_pic = models.ImageField(blank=True)
 
+    class Meta:
+        db_table = "user"
     def __str__(self):
         return self.username
 
