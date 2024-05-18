@@ -327,7 +327,7 @@ var time;
 var deltaTime;
 
 // Function that inits game variables
-function InitGame( match: IEventMatch ) {
+function InitGame(match: IEventMatch) {
   // Check if we have a match and print it
   if (match) {
     console.log('Match:', match);
@@ -338,11 +338,12 @@ function InitGame( match: IEventMatch ) {
   scenarioElem = document.querySelector('.scenario');
   styles = ['tecno', 'florido', 'neon', 'loco'];
   keyboard = new Keyboard();
-  boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight); 
+  boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
   dir = RandDir();
   ball = new Ball(boardEdges, document.querySelector('.ball'), 300, Math.cos(dir), Math.sin(dir), 0.1);
   paddle1 = new paddle(boardEdges, document.querySelector('.paddle1'), 400, 1.15, keyboard, 'w', 's');
   paddle2 = new paddle(boardEdges, document.querySelector('.paddle2'), 400, 1.15, keyboard, 'ArrowUp', 'ArrowDown');
+  updatePlayerInfo(match);
   scoreboard1 = new Scoreboard(document.querySelector('.scoreboard1'));
   scoreboard2 = new Scoreboard(document.querySelector('.scoreboard2'));
   time = Date.now();
@@ -385,11 +386,63 @@ function UpdateMovingObjects(): {
 } {
   const updatedBoardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
   const updatedDir = RandDir();
-  const updatedBall = new Ball(updatedBoardEdges, document.querySelector('.ball'), 300, Math.cos(updatedDir), Math.sin(updatedDir), 0.1);
-  const updatedPaddle1 = new paddle(updatedBoardEdges, document.querySelector('.paddle1'), 400, 1.15, keyboard, 'w', 's');
-  const updatedPaddle2 = new paddle(updatedBoardEdges, document.querySelector('.paddle2'), 400, 1.15, keyboard, 'ArrowUp', 'ArrowDown');
+  const updatedBall = new Ball(
+    updatedBoardEdges,
+    document.querySelector('.ball'),
+    300,
+    Math.cos(updatedDir),
+    Math.sin(updatedDir),
+    0.1
+  );
+  const updatedPaddle1 = new paddle(
+    updatedBoardEdges,
+    document.querySelector('.paddle1'),
+    400,
+    1.15,
+    keyboard,
+    'w',
+    's'
+  );
+  const updatedPaddle2 = new paddle(
+    updatedBoardEdges,
+    document.querySelector('.paddle2'),
+    400,
+    1.15,
+    keyboard,
+    'ArrowUp',
+    'ArrowDown'
+  );
 
   return { updatedBoardEdges, updatedDir, updatedBall, updatedPaddle1, updatedPaddle2 };
+}
+
+// Function to update player information display
+function updatePlayerInfo(match: IEventMatch) {
+  // This function updates the player information displayed in the HTML
+  const playerInfoGroup1 = document.querySelector('.player-info-group1');
+  const playerInfoGroup2 = document.querySelector('.player-info-group2');
+
+  if (playerInfoGroup1 && playerInfoGroup2) {
+    if (match.group1.users.length == 1 && match.group2.users.length == 1) {
+      playerInfoGroup1.innerHTML = `
+      <p>${match.group1.users[0].username} (${paddle1.keyCodeUp}/${paddle1.keyCodeDown})</p>
+      `;
+      playerInfoGroup2.innerHTML = `
+      <p>${match.group2.users[1].username} (${paddle2.keyCodeUp}/${paddle2.keyCodeDown})</p>
+      `;
+    } else {
+      playerInfoGroup1.innerHTML = `
+      <p>${match.group1.users[0].username} (${paddle1.keyCodeUp}/${paddle1.keyCodeDown})</p>
+      <p>${match.group1.users[1].username} (Key/Key)</p>
+      `;
+      playerInfoGroup2.innerHTML = `
+      <p>${match.group2.users[0].username} (Key/Key)</p>
+      <p>${match.group2.users[1].username} (${paddle2.keyCodeUp}/${paddle2.keyCodeDown})</p>
+      `;
+    }
+  } else {
+    console.error('Player info elements not found');
+  }
 }
 
 // Function to calculate the deltaTime and call Update in each frame
