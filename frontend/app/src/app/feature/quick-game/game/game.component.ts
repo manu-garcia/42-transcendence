@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
-
 import { IUser } from 'shared/user/user';
-import { UserService } from 'shared/user/user.service';
 
 import { IEventMatch, IEvent, IEventGroup, EEventType } from 'shared/event/event';
 
@@ -12,13 +9,11 @@ import { IEventMatch, IEvent, IEventGroup, EEventType } from 'shared/event/event
   templateUrl: './game.component.html',
 })
 export class GameScreenComponent implements OnInit {
-  public users$: Observable<IUser[]>;
   public eventMatch: IEventMatch;
 
-  constructor(private userService: UserService) {}
+  constructor() {}
 
   ngOnInit() {
-    this.users$ = this.userService.getUsers();
     this.initializeEventMatch();
   }
 
