@@ -4,7 +4,7 @@ import { LibModuleShared } from 'shared/lib/lib.module';
 
 import { TournamentRoutingModule } from './tournament-routing.module';
 import { TournamentListScreenModule } from './list/list.module';
-import { TournamentDeatilScreenModule } from './detail/detail.module';
+import { TournamentDetailScreenModule } from './detail/detail.module';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { TournamentDeatilScreenModule } from './detail/detail.module';
     // Own modules
     TournamentRoutingModule,
     TournamentListScreenModule,
-    TournamentDeatilScreenModule,
+    TournamentDetailScreenModule,
   ],
 })
 export class TournamentScreenModule {}

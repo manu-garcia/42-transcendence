@@ -15,4 +15,4 @@ import { TournamentDetailScreenComponent } from './detail.component';
   ],
   declarations: [TournamentDetailScreenComponent],
 })
-export class TournamentDeatilScreenModule {}
+export class TournamentDetailScreenModule {}
