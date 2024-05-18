@@ -1,0 +1,42 @@
+<div class="options-container">
+  <div class="option-group">
+    <label for="power-ups">Power-ups</label>
+    <select id="power-ups" (change)="togglePowerUpOptions($event)">
+      <option value="no">No</option>
+      <option value="yes">Sí</option>
+    </select>
+  </div>
+
+  <div *ngIf="powerUpsEnabled" class="power-up-options">
+    <div class="option-group">
+      <label for="velocity-boost">
+        <input type="checkbox" id="velocity-boost">
+        Velocity Boost
+      </label>
+    </div>
+    <div class="option-group">
+      <label for="freeze">
+        <input type="checkbox" id="freeze">
+        Freeze
+      </label>
+    </div>
+    <div class="option-group">
+      <label for="double-ball">
+        <input type="checkbox" id="double-ball">
+        Double Ball
+      </label>
+    </div>
+  </div>
+
+  <div class="option-group">
+    <label for="appearance">Apariencia</label>
+    <select id="appearance">
+      <option value="appearance1">Default</option>
+      <option value="appearance2">Neon</option>
+      <option value="appearance3">Tecno</option>
+      <option value="appearance4">Loco</option>
+      <option value="appearance5">Florido</option>
+    </select>
+  </div>
+</div>
+

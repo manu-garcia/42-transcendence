@@ -14,6 +14,11 @@ export class GameComponent implements OnInit {
     // Start game
     InitGame();
   }
+  showOptions: boolean = false;
+
+  toggleOptions() {
+    this.showOptions = !this.showOptions;
+  }
 }
 
 // Class for the objects of the board
