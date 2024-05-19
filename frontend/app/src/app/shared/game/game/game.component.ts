@@ -325,6 +325,7 @@ var scoreboard1;
 var scoreboard2;
 var time;
 var deltaTime;
+var isPaused: boolean = false;
 
 // Function that inits game variables
 function InitGame( match: IEventMatch ) {
@@ -338,7 +339,7 @@ function InitGame( match: IEventMatch ) {
   scenarioElem = document.querySelector('.scenario');
   styles = ['tecno', 'florido', 'neon', 'loco'];
   keyboard = new Keyboard();
-  boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight); 
+  boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
   dir = RandDir();
   ball = new Ball(boardEdges, document.querySelector('.ball'), 300, Math.cos(dir), Math.sin(dir), 0.1);
   paddle1 = new paddle(boardEdges, document.querySelector('.paddle1'), 400, 1.15, keyboard, 'w', 's');
@@ -347,6 +348,13 @@ function InitGame( match: IEventMatch ) {
   scoreboard2 = new Scoreboard(document.querySelector('.scoreboard2'));
   time = Date.now();
   deltaTime = 0;
+
+  // Event listener for the 'keydown' event that detects when the left Ctrl key is pressed
+  document.addEventListener('keydown', function (event) {
+    if (event.code === 'Escape') {
+      isPaused = !isPaused;
+    }
+  });
 
   // Event listener for the 'keydown' event that detects when the space bar is pressed
   document.addEventListener('keydown', function (event) {
@@ -394,8 +402,19 @@ function UpdateMovingObjects(): {
 
 // Function to calculate the deltaTime and call Update in each frame
 function Loop() {
-  deltaTime = (Date.now() - time) / 1000; //deltaTime in seconds
-  time = Date.now();
-  Update();
+  if (!isPaused) {
+    let currentTime = Date.now();
+    deltaTime = (currentTime - time) / 1000; // deltaTime in seconds
+    // Limit deltaTime to 0.1 seconds
+    const maxDeltaTime = 0.1;
+    if (deltaTime > maxDeltaTime) {
+      deltaTime = maxDeltaTime;
+    }
+    time = currentTime;
+    Update();
+  } else {
+    // If game is paused, update `time` to prevent deltaTime out of control
+    time = Date.now();
+  }
   requestAnimationFrame(Loop);
 }
