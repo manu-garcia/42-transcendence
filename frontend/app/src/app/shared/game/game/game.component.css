@@ -67,6 +67,16 @@ body {
   right: 4vw;
 }
 
+/* styles for the paddle 1 */
+.paddle3 {
+  left: 8vw;
+}
+
+/* styles for the paddle 2 */
+.paddle4 {
+  right: 8vw;
+}
+
 /* styles for the net */
 .net {
   position: absolute;
