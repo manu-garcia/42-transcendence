@@ -363,7 +363,11 @@ var scoreboard1;
 var scoreboard2;
 var time;
 var deltaTime;
+<<<<<<< 88-juego-con-dos-o-cuatro-jugadores-en-funcion-del-ieventmatch
 var fourPlayer = false;
+=======
+var isPaused: boolean = false;
+>>>>>>> master
 
 // Function that inits game variables
 function InitGame(match: IEventMatch) {
@@ -384,16 +388,27 @@ function InitGame(match: IEventMatch) {
   dir = RandDir();
   ball = new Ball(boardEdges, document.querySelector('.ball'), 300, Math.cos(dir), Math.sin(dir), 0.1);
   paddle1 = new paddle(boardEdges, document.querySelector('.paddle1'), 400, 1.15, keyboard, 'w', 's');
+<<<<<<< 88-juego-con-dos-o-cuatro-jugadores-en-funcion-del-ieventmatch
   paddle2 = new paddle(boardEdges, document.querySelector('.paddle2'), 400, 1.15, keyboard, 'o', 'l');
   if (fourPlayer) {
     paddle3 = new paddle(boardEdges, document.querySelector('.paddle3'), 400, 1.15, keyboard, 'r', 'f');
     paddle4 = new paddle(boardEdges, document.querySelector('.paddle4'), 400, 1.15, keyboard, 'u', 'j');
   }
+=======
+  paddle2 = new paddle(boardEdges, document.querySelector('.paddle2'), 400, 1.15, keyboard, 'ArrowUp', 'ArrowDown');
+>>>>>>> master
   updatePlayerInfo(match);
   scoreboard1 = new Scoreboard(document.querySelector('.scoreboard1'));
   scoreboard2 = new Scoreboard(document.querySelector('.scoreboard2'));
   time = Date.now();
   deltaTime = 0;
+
+  // Event listener for the 'keydown' event that detects when the left Ctrl key is pressed
+  document.addEventListener('keydown', function (event) {
+    if (event.code === 'Escape') {
+      isPaused = !isPaused;
+    }
+  });
 
   // Event listener for the 'keydown' event that detects when the space bar is pressed
   document.addEventListener('keydown', function (event) {
@@ -469,6 +484,7 @@ function UpdateMovingObjects(): {
     400,
     1.15,
     keyboard,
+<<<<<<< 88-juego-con-dos-o-cuatro-jugadores-en-funcion-del-ieventmatch
     'o',
     'l'
   );
@@ -478,6 +494,11 @@ function UpdateMovingObjects(): {
     updatedPaddle3 = new paddle(updatedBoardEdges, document.querySelector('.paddle3'), 400, 1.15, keyboard, 'r', 'f');
     updatedPaddle4 = new paddle(updatedBoardEdges, document.querySelector('.paddle4'), 400, 1.15, keyboard, 'u', 'j');
   }
+=======
+    'ArrowUp',
+    'ArrowDown'
+  );
+>>>>>>> master
 
   return { updatedBoardEdges, updatedDir, updatedBall, updatedPaddle1, updatedPaddle2, updatedPaddle3, updatedPaddle4 };
 }
@@ -564,10 +585,50 @@ function updatePlayerInfo(match: IEventMatch) {
   }
 }
 
+// Function to update player information display
+function updatePlayerInfo(match: IEventMatch) {
+  // This function updates the player information displayed in the HTML
+  const playerInfoGroup1 = document.querySelector('.player-info-group1');
+  const playerInfoGroup2 = document.querySelector('.player-info-group2');
+
+  if (playerInfoGroup1 && playerInfoGroup2) {
+    if (match.group1.users.length == 1 && match.group2.users.length == 1) {
+      playerInfoGroup1.innerHTML = `
+      <p>${match.group1.users[0].username} (${paddle1.keyCodeUp}/${paddle1.keyCodeDown})</p>
+      `;
+      playerInfoGroup2.innerHTML = `
+      <p>${match.group2.users[1].username} (${paddle2.keyCodeUp}/${paddle2.keyCodeDown})</p>
+      `;
+    } else {
+      playerInfoGroup1.innerHTML = `
+      <p>${match.group1.users[0].username} (${paddle1.keyCodeUp}/${paddle1.keyCodeDown})</p>
+      <p>${match.group1.users[1].username} (Key/Key)</p>
+      `;
+      playerInfoGroup2.innerHTML = `
+      <p>${match.group2.users[0].username} (Key/Key)</p>
+      <p>${match.group2.users[1].username} (${paddle2.keyCodeUp}/${paddle2.keyCodeDown})</p>
+      `;
+    }
+  } else {
+    console.error('Player info elements not found');
+  }
+}
+
 // Function to calculate the deltaTime and call Update in each frame
 function Loop() {
-  deltaTime = (Date.now() - time) / 1000; //deltaTime in seconds
-  time = Date.now();
-  Update();
+  if (!isPaused) {
+    let currentTime = Date.now();
+    deltaTime = (currentTime - time) / 1000; // deltaTime in seconds
+    // Limit deltaTime to 0.1 seconds
+    const maxDeltaTime = 0.1;
+    if (deltaTime > maxDeltaTime) {
+      deltaTime = maxDeltaTime;
+    }
+    time = currentTime;
+    Update();
+  } else {
+    // If game is paused, update `time` to prevent deltaTime out of control
+    time = Date.now();
+  }
   requestAnimationFrame(Loop);
 }
