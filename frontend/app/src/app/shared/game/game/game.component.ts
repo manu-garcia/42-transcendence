@@ -325,6 +325,7 @@ var scoreboard1;
 var scoreboard2;
 var time;
 var deltaTime;
+var isPaused: boolean = false;
 
 // Function that inits game variables
 function InitGame(match: IEventMatch) {
@@ -348,6 +349,13 @@ function InitGame(match: IEventMatch) {
   scoreboard2 = new Scoreboard(document.querySelector('.scoreboard2'));
   time = Date.now();
   deltaTime = 0;
+
+  // Event listener for the 'keydown' event that detects when the left Ctrl key is pressed
+  document.addEventListener('keydown', function (event) {
+    if (event.code === 'Escape') {
+      isPaused = !isPaused;
+    }
+  });
 
   // Event listener for the 'keydown' event that detects when the space bar is pressed
   document.addEventListener('keydown', function (event) {
@@ -447,8 +455,19 @@ function updatePlayerInfo(match: IEventMatch) {
 
 // Function to calculate the deltaTime and call Update in each frame
 function Loop() {
-  deltaTime = (Date.now() - time) / 1000; //deltaTime in seconds
-  time = Date.now();
-  Update();
+  if (!isPaused) {
+    let currentTime = Date.now();
+    deltaTime = (currentTime - time) / 1000; // deltaTime in seconds
+    // Limit deltaTime to 0.1 seconds
+    const maxDeltaTime = 0.1;
+    if (deltaTime > maxDeltaTime) {
+      deltaTime = maxDeltaTime;
+    }
+    time = currentTime;
+    Update();
+  } else {
+    // If game is paused, update `time` to prevent deltaTime out of control
+    time = Date.now();
+  }
   requestAnimationFrame(Loop);
 }
