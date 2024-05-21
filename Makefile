@@ -28,7 +28,7 @@ fclean-all: down downprod
 fclean: down downprod
 	@docker compose down --rmi all --volumes --remove-orphans
 	@docker images | grep -E '42-transcendence-nginx|42-transcendence-frontend|42-transcendence-backend|42-transcendence-db|42-transcendence-pgadmin' | awk '{print $$3}' | xargs -r docker rmi -f
-	@docker volume ls -q | grep -E 'transcendence_postgres-data|transcendence_pgadmin|transcendence_node_modules' | xargs -r docker volume rm
+	@docker volume ls -q | grep -E 'transcendence_postgres-data|transcendence_pgadmin|transcendence_node_modules|transcendence_redis-data' | xargs -r docker volume rm
 
 	@echo "fclean successful"
 
