@@ -211,3 +211,36 @@ Módulos (7 Major en total. 2 Minor == 1 Major):
 
 - Minor module: Multiple language supports.
 
+### Redis cache
+
+You can connect to the redis container and run:
+
+```
+redis-cli
+```
+
+Useful commands are:
+
+- See all keys:
+
+```
+keys *
+```
+
+- See data for one key:
+
+```
+get key_prefix
+```
+
+- Remove a key from cache:
+
+```
+del key_prefix
+```
+
+- Remove all keys from cache:
+
+```
+flushall
+```
