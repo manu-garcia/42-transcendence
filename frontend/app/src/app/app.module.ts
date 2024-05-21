@@ -13,7 +13,9 @@ import { CookieService } from 'core/services/cookie.service';
 import { from } from 'rxjs';
 import { HttpLoaderFactory } from 'shared/lib/lib.module';
 
-const modules = [CoreModule, AppRoutingModule];
+import { UserModuleShared } from 'shared/user/user.module';
+
+const modules = [CoreModule, AppRoutingModule, UserModuleShared];
 
 export function appInitializerFactory(translateService: TranslateService, cookieService: CookieService) {
   return () => {
