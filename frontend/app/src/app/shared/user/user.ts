@@ -18,3 +18,8 @@ export interface IUserCredentials {
   password: string;
   password2: string;
 }
+
+export interface IUserWithAlias {
+  user: IUser;
+  alias: string;
+}

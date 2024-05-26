@@ -1,9 +1,70 @@
 <ng-container *ngIf="form">
-  <form [formGroup]="form">
-    <input pInputText [maxLength]="200" formControlName="name" [placeholder]="'general.event.list.create.name' | translate" />
+  <form [formGroup]="form" class="d-flex flex-column">
+    <p-floatLabel class="mt-4">
+      <input class="z-3 w-100" pInputText [maxLength]="200" formControlName="name" [(ngModel)]="eventPayload.name" />
+      <label for="float-label" class="w-0">{{ "general.event.list.create.name" | translate }}</label>
+    </p-floatLabel>
+
+    <div class="w-100 mt-5 d-flex">
+      <p-floatLabel class="w-50">
+        <p-multiSelect
+          styleClass="w-100"
+          inputId="float-label"
+          formControlName="users1"
+          [options]="availableUsers1"
+          [(ngModel)]="eventPayload.users1"
+          (onChange)="onUsers1Change()"
+          optionLabel="user.username"
+          maxSelectedLabels="10"
+        ></p-multiSelect>
+        <label for="float-label" class="w-0">{{ "general.event.list.create.firstGroup" | translate }}</label>
+      </p-floatLabel>
+
+      <p-floatLabel *ngIf="minUsersGroup2 > 0" class="w-50">
+        <p-multiSelect
+          styleClass="w-100"
+          formControlName="users2"
+          [options]="availableUsers2"
+          [(ngModel)]="eventPayload.users2"
+          (onChange)="onUsers2Change()"
+          optionLabel="user.username"
+          maxSelectedLabels="10"
+        ></p-multiSelect>
+        <label for="float-label">{{ "general.event.list.create.secondGroup" | translate }}</label>
+      </p-floatLabel>
+    </div>
+
+    <p-table class="w-100 pb-5 mb-5" [value]="selectedUsers">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="w-50">{{ "general.event.list.create.username" | translate }}</th>
+          <th class="w-50">{{ "general.event.list.create.alias" | translate }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-userList let-editing="editing">
+        <tr>
+          <td>{{ userList.user.username }}</td>
+          <td [pEditableColumn]="userList.alias" pEditableColumnField="alias">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input
+                  [ngModelOptions]="{ standalone: true }"
+                  pInputText
+                  type="text"
+                  [(ngModel)]="userList.alias"
+                  (ngModelChange)="onAliasChange(userList)"
+                  (focus)="selectAlias($event)"
+                />
+              </ng-template>
+              <ng-template pTemplate="output">{{ userList.alias }}</ng-template>
+            </p-cellEditor>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </form>
 
-  <div class="d-flex justify-content-end mt-3">
-    <p-button label="Save" [disabled]="!form.valid" (onClick)="save()"></p-button>
+  <div class="d-flex justify-content-end mt-5">
+    <p-button class="mt-5" label="Save" [disabled]="!form.valid" (onClick)="save()"></p-button>
   </div>
 </ng-container>
