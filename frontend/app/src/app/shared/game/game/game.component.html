@@ -7,9 +7,18 @@
     <div class="paddle paddle1"></div>
     <div class="paddle paddle2"></div>
 
+    <div *ngIf="fourPlayer" class="paddle paddle3"></div>
+    <div *ngIf="fourPlayer" class="paddle paddle4"></div>
+
     <div class="net"></div>
     <div class="ball"></div>
   </div>
+</div>
+
+<!-- Contenedor para la información de los jugadores -->
+<div class="player-info">
+  <div class="player-info-group1"></div>
+  <div class="player-info-group2"></div>
 </div>
 
 <!-- Botón para mostrar/ocultar opciones -->

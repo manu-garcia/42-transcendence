@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   nginx:
@@ -33,6 +33,17 @@ services:
         - POSTGRES_DB=${POSTGRES_DB}
     depends_on:
       - db
+      - redis
+    networks:
+      - backend
+    restart: always
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data/
     networks:
       - backend
     restart: always
@@ -59,3 +70,4 @@ networks:
 
 volumes:
   postgres-data:
+  redis-data:

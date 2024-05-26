@@ -3,6 +3,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { AvatarModule } from 'primeng/avatar';
 import { TableModule } from 'primeng/table';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
@@ -50,6 +51,7 @@ const modules = [
   InputTextModule,
   MultiSelectModule,
   FloatLabelModule,
+  AvatarModule,
 
   //Translations
   TranslateModule.forChild(),

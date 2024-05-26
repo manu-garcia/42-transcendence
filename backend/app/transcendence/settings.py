@@ -152,3 +152,13 @@ REST_FRAMEWORK = {
 
 # Extending the built-in user model with our own, we are inheriting auth functionality
 AUTH_USER_MODEL = "user.User"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
