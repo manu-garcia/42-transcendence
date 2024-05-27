@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription, map } from 'rxjs';
 import { IEvent, IEventPayload, EEventType } from 'shared/event/event';
@@ -89,20 +89,23 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
   private buildForm(): FormGroup {
-    return new FormGroup({
-      name: new FormControl<string>(this.eventPayload.name || null, Validators.required),
-      type: new FormControl<EEventType>(this.eventPayload.type || null),
+    return new FormGroup(
+      {
+        name: new FormControl<string>(this.eventPayload.name || null, Validators.required),
+        type: new FormControl<EEventType>(this.eventPayload.type || null),
 
-      users1: new FormControl<{ user: IUser; alias: string }[]>(this.eventPayload.users2 || [], [
-        Validators.required,
-        this.minLengthArray(this.minUsersGroup1),
-      ]),
+        users1: new FormControl<IUserWithAlias[]>(this.eventPayload.users2 || [], [
+          Validators.required,
+          this.minLengthArray(this.minUsersGroup1),
+        ]),
 
-      users2: new FormControl<{ user: IUser; alias: string }[]>(this.eventPayload.users2 || [], [
-        this.minUsersGroup2 > 0 ? Validators.required : Validators.nullValidator,
-        this.minLengthArray(this.minUsersGroup2),
-      ]),
-    });
+        users2: new FormControl<IUserWithAlias[]>(this.eventPayload.users2 || [], [
+          this.minUsersGroup2 > 0 ? Validators.required : Validators.nullValidator,
+          this.minLengthArray(this.minUsersGroup2),
+        ]),
+      },
+      { validators: this.usersMatchValidator() }
+    );
   }
 
   private minLengthArray(min: number) {
@@ -111,6 +114,34 @@ export class EventFormComponent implements OnInit, OnDestroy {
         return null;
       }
       return { minLengthArray: { valid: false } };
+    };
+  }
+
+  private usersMatchValidator(): ValidatorFn {
+    return (formGroup: FormGroup): ValidationErrors | null => {
+      const users1 = formGroup.get('users1')?.value || [];
+      const users2 = formGroup.get('users2')?.value || [];
+
+      if (
+        this.eventPayload.type === EEventType.QUICK_GAME &&
+        (users1.length !== users2.length || users1.length > 2 || users2.length > 2)
+      ) {
+        formGroup.get('users1')?.setErrors({ usersMismatch: true });
+        formGroup.get('users2')?.setErrors({ usersMismatch: true });
+        return { usersMismatch: true };
+      } else if (this.eventPayload.type === EEventType.TOURNAMENT) {
+        return null;
+      } else {
+        const users1Errors = formGroup.get('users1')?.errors;
+        if (users1Errors && !users1Errors['minLengthArray']) {
+          formGroup.get('users1')?.setErrors(null);
+        }
+        const users2Errors = formGroup.get('users2')?.errors;
+        if (users2Errors && !users2Errors['minLengthArray']) {
+          formGroup.get('users2')?.setErrors(null);
+        }
+        return null;
+      }
     };
   }
 
@@ -144,12 +175,12 @@ export class EventFormComponent implements OnInit, OnDestroy {
     inputElement.select();
   }
 
-  onUsers1Change() {
+  onUsersChange(userType: string) {
     this.users$
       .pipe(
         map((users) =>
           users
-            .filter((user) => !this.eventPayload.users1.some((selectedUser) => user.id === selectedUser.user.id))
+            .filter((user) => !this.eventPayload[userType].some((selectedUser) => user.id === selectedUser.user.id))
             .map((user) => ({
               user: user,
               alias: user.username,
@@ -157,30 +188,13 @@ export class EventFormComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe((filteredUsers) => {
-        this.availableUsers2.length = 0;
-        this.availableUsers2.push(...filteredUsers);
-      });
-
-    this.selectedUsers.length = 0;
-    this.selectedUsers.push(...this.eventPayload.users1, ...this.eventPayload.users2);
-    this.onAliasChange(null);
-  }
-
-  onUsers2Change() {
-    this.users$
-      .pipe(
-        map((users) =>
-          users
-            .filter((user) => !this.eventPayload.users2.some((selectedUser) => user.id === selectedUser.user.id))
-            .map((user) => ({
-              user: user,
-              alias: user.username,
-            }))
-        )
-      )
-      .subscribe((filteredUsers) => {
-        this.availableUsers1.length = 0;
-        this.availableUsers1.push(...filteredUsers);
+        if (userType === 'users1') {
+          this.availableUsers2.length = 0;
+          this.availableUsers2.push(...filteredUsers);
+        } else if (userType === 'users2') {
+          this.availableUsers1.length = 0;
+          this.availableUsers1.push(...filteredUsers);
+        }
       });
 
     this.selectedUsers.length = 0;

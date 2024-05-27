@@ -13,7 +13,7 @@
           formControlName="users1"
           [options]="availableUsers1"
           [(ngModel)]="eventPayload.users1"
-          (onChange)="onUsers1Change()"
+          (onChange)="onUsersChange('users1')"
           optionLabel="user.username"
           maxSelectedLabels="10"
         ></p-multiSelect>
@@ -26,7 +26,7 @@
           formControlName="users2"
           [options]="availableUsers2"
           [(ngModel)]="eventPayload.users2"
-          (onChange)="onUsers2Change()"
+          (onChange)="onUsersChange('users2')"
           optionLabel="user.username"
           maxSelectedLabels="10"
         ></p-multiSelect>
