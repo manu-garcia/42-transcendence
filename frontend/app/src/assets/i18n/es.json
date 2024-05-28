@@ -21,6 +21,10 @@
   "general.event.list.create.name": "Nombre del Evento",
   "general.event.list.create.event": "Evento",
   "general.event.list.name": "Nombre",
+  "general.event.list.create.firstGroup": "Primer Grupo",
+  "general.event.list.create.secondGroup": "Segundo Grupo",
+  "general.event.list.create.username": "Nombre",
+  "general.event.list.create.alias": "Apodo",
 
   "shared.user.signin.username": "Usuario",
   "shared.user.signin.password": "Contraseña",
