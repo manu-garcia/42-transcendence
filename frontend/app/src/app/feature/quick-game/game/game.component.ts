@@ -39,7 +39,7 @@ export class GameScreenComponent implements OnInit {
       maxUsers: 1,
       users: [
         {
-          id: '1',
+          id: 1,
           username: 'diego',
           first_name: 'Diego',
           last_name: 'Transcendence',
@@ -54,7 +54,7 @@ export class GameScreenComponent implements OnInit {
       maxUsers: 1,
       users: [
         {
-          id: '2',
+          id: 2,
           username: 'manu',
           first_name: 'Manu',
           last_name: 'Transcendence',
@@ -90,14 +90,14 @@ export class GameScreenComponent implements OnInit {
       maxUsers: 2,
       users: [
         {
-          id: '1',
+          id: 1,
           username: 'andoni',
           first_name: 'Andoni',
           last_name: 'Transcendence',
           profile_pic: 'path/to/profile_pic1.jpg',
         } as IUser,
         {
-          id: '2',
+          id: 2,
           username: 'diego',
           first_name: 'Diego',
           last_name: 'Transcendence',
@@ -112,14 +112,14 @@ export class GameScreenComponent implements OnInit {
       maxUsers: 2,
       users: [
         {
-          id: '3',
+          id: 3,
           username: 'carlos',
           first_name: 'Carlos',
           last_name: 'Transcendence',
           profile_pic: 'path/to/profile_pic3.jpg',
         } as IUser,
         {
-          id: '4',
+          id: 4,
           username: 'manu',
           first_name: 'Manu',
           last_name: 'Transcendence',
