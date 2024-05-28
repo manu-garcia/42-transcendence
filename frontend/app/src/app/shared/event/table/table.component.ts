@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -7,7 +7,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { Observable } from 'rxjs';
 
-import { IEvent } from 'shared/event/event';
+import { IEvent, EEventType } from 'shared/event/event';
 import { EventService } from 'shared/event/event.service';
 import { EventFormComponent } from 'shared/event/form/form.component';
 
@@ -16,6 +16,7 @@ import { EventFormComponent } from 'shared/event/form/form.component';
   templateUrl: './table.component.html',
 })
 export class EventTableComponent implements OnInit, OnDestroy {
+  @Input() typeEvent: EEventType;
   public events$: Observable<IEvent[]>;
   public eventFormComponentRef: DynamicDialogRef | undefined;
 
@@ -55,6 +56,7 @@ export class EventTableComponent implements OnInit, OnDestroy {
       width: '50vw',
       data: {
         event,
+        typeEvent: this.typeEvent,
       },
     });
 

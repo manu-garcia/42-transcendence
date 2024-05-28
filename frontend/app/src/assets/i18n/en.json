@@ -21,6 +21,10 @@
   "general.event.list.create": "Create Event",
   "general.event.list.create.name": "Event Name",
   "general.event.list.create.event": "Event",
+  "general.event.list.create.firstGroup": "First Group",
+  "general.event.list.create.secondGroup": "Second Group",
+  "general.event.list.create.username": "Name",
+  "general.event.list.create.alias": "Alias",
 
   "shared.user.signin.username": "Username",
   "shared.user.signin.password": "Password",
