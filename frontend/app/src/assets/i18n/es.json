@@ -8,6 +8,7 @@
   "general.options": "Opciones",
   "general.friends": "Amigos",
   "general.stats": "Estadísticas",
+  "general.save": "Guardar",
 
   "shared.user.list": "Lista de usuarios",
   "shared.user.list.actions": "Acciones",
@@ -33,5 +34,8 @@
   "shared.user.signin.signup": "Registrate",
   "shared.user.signin.signout": "Cierra session",
   "shared.user.signin.error_singin": "Usuario/contraseña incorrectas",
-  "shared.user.signin.error_match": "Contraseñas no coinciden"
+  "shared.user.signin.error_match": "Contraseñas no coinciden",
+
+  "shared.user.form.choose_avatar": "Elige Imagen Avatar",
+  "shared.user.form.first_name": "Alias"
 }

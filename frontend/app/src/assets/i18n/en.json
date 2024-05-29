@@ -8,6 +8,7 @@
   "general.options": "Options",
   "general.friends": "Friends",
   "general.stats": "Stats",
+  "general.save": "Save",
 
   "shared.user.list": "Users List",
   "shared.user.list.actions": "Actions",
@@ -33,5 +34,8 @@
   "shared.user.signin.signout": "Sign out",
   "shared.user.signin.error_singin": "Invalid user/password",
   "shared.user.signin.error_match": "Passwords do not match",
-  "shared.event.list.name": "Name"
+  "shared.event.list.name": "Name",
+
+  "shared.user.form.choose_avatar": "Choose Avatar Picture",
+  "shared.user.form.first_name": "Alias"
 }
