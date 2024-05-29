@@ -1,0 +1,28 @@
+<div class="flex justify-content-center">
+  <form [formGroup]="form">
+    <p-toast></p-toast>
+
+    <div class="form-group">
+      <label for="first_name">{{ "general.user.form.first_name" | translate }}:</label>
+      <input type="first_name" id="first_name" formControlName="first_name" class="form-control" />
+    </div>
+
+    <div class="form-group mt-2">
+      <label for="profile_pic" class="d-block">{{ "general.user.form.choose_avatar" | translate }}:</label>
+      <div class="d-block p-4">
+        <input type="file" id="profile_pic" (change)="onFileChange($event)" />
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3 p-2">
+      <button
+        type="button"
+        pButton
+        [label]="'general.save' | translate"
+        icon="pi pi-check"
+        (click)="save()"
+        [disabled]="!form.valid || form.pristine"
+      ></button>
+    </div>
+  </form>
+</div>
