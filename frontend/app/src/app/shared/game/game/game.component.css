@@ -103,42 +103,42 @@ body {
 /* styles for the player-info */
 .player-info {
   position: absolute;
-  top: 20%; /* Mueve el contenedor a 5% del borde inferior */
+  top: 200px; /* Fixed position preventing unexpected moving after options menu */
   left: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  pointer-events: none; /* Permite que los eventos de clic pasen a través del contenedor */
-  z-index: 1; /* Asegura que esté por encima del fondo pero por debajo de los elementos interactivos */
+  pointer-events: none; /* Allows click events to pass through the container */
+  z-index: 1; /* Ensures it is above the background but below interactive elements */
 }
 
 .player-info-group1,
 .player-info-group2 {
-  background-color: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
-  color: black; /* Texto negro */
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+  color: black; /* Black text */
   padding: 10px;
   border-radius: 5px;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  text-align: center; /* Centra el texto horizontalmente */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  text-align: center; /* Center the text horizontally */
 }
 
-/* Alineación adicional para centrar el contenido dentro de cada grupo */
+/* Additional alignment to center the content within each group */
 .player-info-group1 {
   justify-content: center;
   align-items: center;
-  margin-left: 0%; /* Ajusta la posición para centrarlo en la mitad izquierda */
+  margin-left: 0%; /* Adjust the position to center it in the left half */
 }
 
 .player-info-group2 {
   justify-content: center;
   align-items: center;
-  margin-right: 0%; /* Ajusta la posición para centrarlo en la mitad derecha */
+  margin-right: 0%; /* Adjust the position to center it in the right half */
 }
 
 /* Additional styles */
-/* Modo florido */
+/* Florido mode */
 .scenario.florido {
   background: rgb(105, 39, 65);
   border-color: rgb(255, 103, 252);
@@ -163,7 +163,7 @@ body {
   color: #83f591;
 }
 
-/* Modo neon */
+/* Neon mode */
 .scenario.neon {
   background: rgb(4, 1, 39);
   border: 3px solid rgb(0, 242, 255);
@@ -191,7 +191,7 @@ body {
   text-shadow: rgb(255, 36, 240) 0 0 10px;
 }
 
-/* Modo tecno */
+/* Tecno mode */
 .scenario.tecno {
   background: rgb(136, 142, 184);
   border: 10px ridge rgb(53, 102, 157);
@@ -217,7 +217,7 @@ body {
   color: rgb(194, 205, 237);
 }
 
-/* Modo loco */
+/* Loco mode */
 .scenario.loco {
   animation: rainbow 2s linear infinite, escalar-borde 2s ease-out infinite alternate-reverse;
   border: 10px solid currentColor;
