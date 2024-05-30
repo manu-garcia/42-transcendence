@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   public items: MenuItem[] | undefined;
   public activeItem: MenuItem | undefined;
   public user$: Observable<IUser>;
-  public fakeUser: IUser;
   currentLanguage: string;
 
   constructor(
@@ -43,10 +42,6 @@ export class AppComponent implements OnInit {
     this.translateService.setDefaultLang('en');
     this.currentLanguage = this.cookieService.getCookie('app_language');
     this.translateService.use(this.currentLanguage);
-    this.fakeUser = {
-      username: 'carlos',
-      profile_pic: 'https://img.freepik.com/free-photo/front-view-funny-cute-dog-concept_23-2148786513.jpg',
-    } as IUser;
     this.items = [
       {
         label: this.translateService.instant('general.home'),
