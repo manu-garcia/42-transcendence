@@ -11,6 +11,14 @@ export class GameComponent implements OnInit {
 
   fourPlayer: boolean = false;
   showOptions: boolean = false;
+  isPaused: boolean = false;
+
+  // Global reference
+  static instance: GameComponent;
+
+  constructor() {
+    GameComponent.instance = this;
+  }
 
   ngOnInit(): void {
     // Check if 2v2 or 1v1 game
@@ -363,7 +371,6 @@ var scoreboard1;
 var scoreboard2;
 var time;
 var deltaTime;
-var isPaused: boolean = false;
 var fourPlayer = false;
 
 // Function that inits game variables
@@ -399,7 +406,8 @@ function InitGame(match: IEventMatch) {
   // Event listener for the 'keydown' event that detects when the left Ctrl key is pressed
   document.addEventListener('keydown', function (event) {
     if (event.code === 'Escape') {
-      isPaused = !isPaused;
+      GameComponent.instance.isPaused = !GameComponent.instance.isPaused;
+      GameComponent.instance.showOptions = GameComponent.instance.isPaused;
     }
   });
 
@@ -408,7 +416,9 @@ function InitGame(match: IEventMatch) {
     // Check if the key pressed is the space bar
     if (event.code === 'Space') {
       // Pause the game
-      isPaused = true;
+      GameComponent.instance.isPaused = true;
+      // Show options
+      GameComponent.instance.showOptions = true;
       // Change the appearance of the game
       scenarioElem.className = 'scenario ' + styles[Math.floor(Math.random() * styles.length)];
     }
@@ -453,7 +463,9 @@ function InitGame(match: IEventMatch) {
     }
 
     // Pause the game
-    isPaused = true;
+    GameComponent.instance.isPaused = true;
+    // Show options
+    GameComponent.instance.showOptions = true;
 
     // Update the position after resize
     Update();
@@ -596,7 +608,11 @@ function updatePlayerInfo(match: IEventMatch) {
 
 // Function to calculate the deltaTime and call Update in each frame
 function Loop() {
-  if (!isPaused) {
+  // Update isPaused if options toggled
+  if (GameComponent.instance.showOptions && !GameComponent.instance.isPaused) {
+    GameComponent.instance.isPaused = true;
+  }
+  if (!GameComponent.instance.isPaused) {
     let currentTime = Date.now();
     deltaTime = (currentTime - time) / 1000; // deltaTime in seconds
     // Limit deltaTime to 0.1 seconds
