@@ -1,6 +1,9 @@
 <!-- Elements of the game -->
 <div class="scenario-container">
   <div class="scenario">
+    <div *ngIf="isPaused" class="pause-screen">
+      <div class="pause-message">Game is paused, press 'ESC' to continue!</div>
+    </div>
     <div class="Scoreboard scoreboard1">0</div>
     <div class="Scoreboard scoreboard2">0</div>
 
