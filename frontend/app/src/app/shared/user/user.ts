@@ -5,7 +5,7 @@ export interface LoggedInUser {
 }
 
 export interface IUser {
-  id: string;
+  id: number;
   username: string;
   first_name: string;
   last_name: string;
