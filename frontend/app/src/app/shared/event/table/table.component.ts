@@ -52,7 +52,7 @@ export class EventTableComponent implements OnInit, OnDestroy {
 
   private openEventFormDialog(event: IEvent = null): void {
     this.eventFormComponentRef = this.dialogService.open(EventFormComponent, {
-      header: this.translateService.instant('general.event.list.create.event'),
+      header: this.translateService.instant('shared.event.list.create.event'),
       width: '50vw',
       data: {
         event,
