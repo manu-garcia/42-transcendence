@@ -9,10 +9,9 @@
         [activeItem]="activeItem"
         (activeItemChange)="onActiveItemChange($event)"
       ></p-tabMenu>
-
+      <app-user-avatar [user]="user"></app-user-avatar>
       <!-- Pedazo separador chaval -->
       <div class="flex-grow-1"></div>
-
       <!-- TODO: Replace this with app-user-avatar -->
       <div>{{ user.username }}</div>
 
@@ -27,7 +26,6 @@
         <option [value]="'es'" [selected]="currentLanguage === 'es'">ES</option>
       </select>
     </div>
-    <app-user-avatar [user]="fakeUser"></app-user-avatar>
   </nav>
 
   <div class="p-3">
