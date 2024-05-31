@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   public items: MenuItem[] | undefined;
   public activeItem: MenuItem | undefined;
   public user$: Observable<IUser>;
-
   currentLanguage: string;
 
   constructor(
@@ -43,7 +42,6 @@ export class AppComponent implements OnInit {
     this.translateService.setDefaultLang('en');
     this.currentLanguage = this.cookieService.getCookie('app_language');
     this.translateService.use(this.currentLanguage);
-
     this.items = [
       {
         label: this.translateService.instant('general.home'),
