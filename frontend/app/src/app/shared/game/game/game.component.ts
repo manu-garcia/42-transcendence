@@ -11,6 +11,14 @@ export class GameComponent implements OnInit {
 
   fourPlayer: boolean = false;
   showOptions: boolean = false;
+  isPaused: boolean = false;
+
+  // Global reference
+  static instance: GameComponent;
+
+  constructor() {
+    GameComponent.instance = this;
+  }
 
   ngOnInit(): void {
     // Check if 2v2 or 1v1 game
@@ -363,7 +371,6 @@ var scoreboard1;
 var scoreboard2;
 var time;
 var deltaTime;
-var isPaused: boolean = false;
 var fourPlayer = false;
 
 // Function that inits game variables
@@ -399,23 +406,26 @@ function InitGame(match: IEventMatch) {
   // Event listener for the 'keydown' event that detects when the left Ctrl key is pressed
   document.addEventListener('keydown', function (event) {
     if (event.code === 'Escape') {
-      isPaused = !isPaused;
+      GameComponent.instance.isPaused = !GameComponent.instance.isPaused;
+      GameComponent.instance.showOptions = GameComponent.instance.isPaused;
     }
   });
 
   // Event listener for the 'keydown' event that detects when the space bar is pressed
   document.addEventListener('keydown', function (event) {
+    // Check if the key pressed is the space bar
     if (event.code === 'Space') {
-      // Check if the key pressed is the space bar
+      // Pause the game
+      GameComponent.instance.isPaused = true;
+      // Show options
+      GameComponent.instance.showOptions = true;
       // Change the appearance of the game
       scenarioElem.className = 'scenario ' + styles[Math.floor(Math.random() * styles.length)];
-      ResetGame();
     }
   });
 
   // Handle window resize
   window.addEventListener('resize', () => {
-    console.log('Resized window');
     // Initialize moving objects again
     const {
       updatedBoardEdges,
@@ -426,6 +436,22 @@ function InitGame(match: IEventMatch) {
       updatedPaddle3,
       updatedPaddle4,
     } = UpdateMovingObjects();
+
+    // Preserve the ball's current direction and speed
+    updatedBall.dirX = ball.dirX;
+    updatedBall.dirY = ball.dirY;
+    updatedBall.vel = ball.vel;
+    updatedBall.x = ball.x * (updatedBoardEdges.maxX / boardEdges.maxX);
+    updatedBall.y = ball.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+
+    // Preserve paddles' positions
+    updatedPaddle1.y = paddle1.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+    updatedPaddle2.y = paddle2.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+    if (fourPlayer) {
+      updatedPaddle3.y = paddle3.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+      updatedPaddle4.y = paddle4.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+    }
+
     boardEdges = updatedBoardEdges;
     dir = updatedDir;
     ball = updatedBall;
@@ -435,7 +461,14 @@ function InitGame(match: IEventMatch) {
       paddle3 = updatedPaddle3;
       paddle4 = updatedPaddle4;
     }
-    ResetGame();
+
+    // Pause the game
+    GameComponent.instance.isPaused = true;
+    // Show options
+    GameComponent.instance.showOptions = true;
+
+    // Update the position after resize
+    Update();
   });
 
   // Call to the loop function
@@ -575,7 +608,11 @@ function updatePlayerInfo(match: IEventMatch) {
 
 // Function to calculate the deltaTime and call Update in each frame
 function Loop() {
-  if (!isPaused) {
+  // Update isPaused if options toggled
+  if (GameComponent.instance.showOptions && !GameComponent.instance.isPaused) {
+    GameComponent.instance.isPaused = true;
+  }
+  if (!GameComponent.instance.isPaused) {
     let currentTime = Date.now();
     deltaTime = (currentTime - time) / 1000; // deltaTime in seconds
     // Limit deltaTime to 0.1 seconds
