@@ -9,9 +9,14 @@ from django.db.models.signals import post_save
 from rest_framework.authtoken.models import Token
 
 
+def get_user_avatar_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/avatar/user_<id>_<filename>
+    return "avatar/user_{0}_{1}".format(instance.id, filename)
+
+
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
-    profile_pic = models.ImageField(blank=True)
+    profile_pic = models.ImageField(blank=True, upload_to=get_user_avatar_path)
 
     class Meta:
         db_table = "user"

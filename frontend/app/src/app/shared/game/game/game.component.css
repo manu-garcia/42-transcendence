@@ -13,6 +13,17 @@ body {
   display: flex;
 }
 
+.options-container {
+  display: flex;
+  justify-content: space-between; /* Align elements in the available space */
+  align-items: center; /* Center vertically */
+}
+
+.pause-text {
+  color: black;
+  text-align: right;
+}
+
 /* styles for the game scenario */
 .scenario {
   width: 70vw;

@@ -21,7 +21,11 @@ export class UserService {
       return of(null);
     }
 
-    return this.http.get<IUser>(`${this.apiUrl}${this.storedLoggedInUser.id}`);
+    return this.http.get<IUser>(`${this.apiUrl}${this.storedLoggedInUser.id}/`);
+  }
+
+  public saveUser(userId: number, userFormData: FormData): Observable<IUser> {
+    return this.http.put<IUser>(`${this.apiUrl}${userId}/`, userFormData);
   }
 
   public getUsers(): Observable<IUser[]> {

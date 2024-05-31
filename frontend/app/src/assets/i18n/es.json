@@ -8,19 +8,24 @@
   "general.options": "Opciones",
   "general.friends": "Amigos",
   "general.stats": "Estadísticas",
+  "general.save": "Guardar",
 
-  "general.user.list": "Lista de usuarios",
-  "general.user.list.actions": "Acciones",
-  "general.user.list.name": "Nombre",
+  "shared.user.list": "Lista de usuarios",
+  "shared.user.list.actions": "Acciones",
+  "shared.user.list.name": "Nombre",
 
-  "general.event.list": "Lista de eventos",
-  "general.event.list.actions": "Acciones",
-  "general.event.list.actions.edit": "Editar",
-  "general.event.list.actions.detail": "Ver",
-  "general.event.list.create": "Crear evento",
-  "general.event.list.create.name": "Nombre del Evento",
-  "general.event.list.create.event": "Evento",
-  "general.event.list.name": "Nombre",
+  "shared.event.list": "Lista de eventos",
+  "shared.event.list.actions": "Acciones",
+  "shared.event.list.actions.edit": "Editar",
+  "shared.event.list.actions.detail": "Ver",
+  "shared.event.list.create": "Crear evento",
+  "shared.event.list.create.name": "Nombre del Evento",
+  "shared.event.list.create.event": "Evento",
+  "shared.event.list.name": "Nombre",
+  "shared.event.list.create.firstGroup": "Primer Grupo",
+  "shared.event.list.create.secondGroup": "Segundo Grupo",
+  "shared.event.list.create.username": "Nombre",
+  "shared.event.list.create.alias": "Apodo",
 
   "shared.user.signin.username": "Usuario",
   "shared.user.signin.password": "Contraseña",
@@ -29,5 +34,8 @@
   "shared.user.signin.signup": "Registrate",
   "shared.user.signin.signout": "Cierra session",
   "shared.user.signin.error_singin": "Usuario/contraseña incorrectas",
-  "shared.user.signin.error_match": "Contraseñas no coinciden"
+  "shared.user.signin.error_match": "Contraseñas no coinciden",
+
+  "shared.user.form.choose_avatar": "Elige Imagen Avatar",
+  "shared.user.form.first_name": "Alias"
 }

@@ -5,11 +5,10 @@ export interface LoggedInUser {
 }
 
 export interface IUser {
-  id: string;
+  id: number;
   username: string;
   first_name: string;
   last_name: string;
-  // bio: string,
   profile_pic: string;
 }
 
@@ -17,4 +16,9 @@ export interface IUserCredentials {
   username: string;
   password: string;
   password2: string;
+}
+
+export interface IUserWithAlias {
+  user: IUser;
+  alias: string;
 }
