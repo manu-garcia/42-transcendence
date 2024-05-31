@@ -6,12 +6,16 @@
   "general.chat": "Chat",
   "general.error": "Error",
   "general.options": "Opciones",
-  "general.friends": "Amigos",
   "general.stats": "Estadísticas",
+
+  "general.friends": "Amigos",
+  "general.friends.add": "Añadir amigos",
 
   "general.user.list": "Lista de usuarios",
   "general.user.list.actions": "Acciones",
   "general.user.list.name": "Nombre",
+  "general.user.list.online": "Conectado",
+  "general.user.list.offline": "Desconectado",
 
   "general.event.list": "Lista de eventos",
   "general.event.list.actions": "Acciones",

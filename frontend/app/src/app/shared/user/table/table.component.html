@@ -1,14 +1,18 @@
-<p-panel [header]="'general.user.list' | translate">
+<p-panel [header]="title ? title : ('general.user.list' | translate)">
   <p-table [value]="users">
     <ng-template pTemplate="header">
       <tr>
         <th>{{ "general.user.list.name" | translate }}</th>
+        <th *ngIf="showOnlineColumn">{{ "general.user.list.online" | translate }}</th>
         <th>{{ "general.user.list.actions" | translate }}</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-user>
       <tr>
         <td>{{ user.username }}</td>
+        <td *ngIf="showOnlineColumn">
+          <span class="{{ user | userStatusColor }}">{{ user | userStatus }}</span>
+        </td>
         <td></td>
       </tr>
     </ng-template>
