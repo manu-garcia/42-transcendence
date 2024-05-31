@@ -41,5 +41,5 @@
   "shared.event.list.name": "Name",
 
   "shared.user.form.choose_avatar": "Choose Avatar Picture",
-  "shared.user.form.first_name": "Alias"
+  "shared.user.form.firstName": "Alias"
 }

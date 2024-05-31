@@ -24,9 +24,9 @@ export class UserFormComponent implements OnChanges {
   public onFileChange(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.form.patchValue({ profile_pic: file });
-      this.form.get('profile_pic').markAsDirty();
-      this.form.get('profile_pic').markAsTouched();
+      this.form.patchValue({ profilePic: file });
+      this.form.get('profilePic').markAsDirty();
+      this.form.get('profilePic').markAsTouched();
     }
   }
 
@@ -35,15 +35,16 @@ export class UserFormComponent implements OnChanges {
       const updatedUser: IUser = { ...this.user, ...this.form.value };
 
       const formData = new FormData();
-      for (const key in updatedUser) {
-        // dont send profile pic if we have not changed it
-        if (key != 'profile_pic' || !this.form.get('profile_pic').pristine) {
-          formData.append(key, updatedUser[key]);
-        }
+      formData.append('id', this.user.id.toLocaleString());
+      formData.append('firstName', updatedUser.firstName);
+
+      // dont send profile pic if we have not changed it
+      if (!this.form.get('profilePic').pristine) {
+        formData.append('profilePic', updatedUser.profilePic);
       }
 
       // TODO: We need to change the type of user id from string to number
-      this.userService.saveUser(Number(this.user.id), formData).subscribe(() => {
+      this.userService.saveUserFormData(this.user.id, formData).subscribe(() => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Profile updated successfully' });
         location.reload();
       });
@@ -52,8 +53,8 @@ export class UserFormComponent implements OnChanges {
 
   private buildForm(user: IUser): FormGroup {
     return new FormGroup({
-      profile_pic: new FormControl<string>(user?.profile_pic || null),
-      first_name: new FormControl<string>(user?.first_name || null, Validators.required),
+      profilePic: new FormControl<string>(user?.profilePic || null),
+      firstName: new FormControl<string>(user?.firstName || null, Validators.required),
     });
   }
 }

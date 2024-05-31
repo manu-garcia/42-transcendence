@@ -41,5 +41,5 @@
   "shared.user.signin.error_match": "Contraseñas no coinciden",
 
   "shared.user.form.choose_avatar": "Elige Imagen Avatar",
-  "shared.user.form.first_name": "Alias"
+  "shared.user.form.firstName": "Alias"
 }

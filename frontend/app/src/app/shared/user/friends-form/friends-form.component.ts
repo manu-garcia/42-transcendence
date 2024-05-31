@@ -59,7 +59,7 @@ export class UserFriendsFormComponent implements OnInit, OnChanges, OnDestroy {
 
   private buildForm(user: IUser): FormGroup {
     return new FormGroup({
-      id: new FormControl<number>(Number(user?.id) || null),
+      id: new FormControl<number>(user?.id || null),
       friends: new FormControl<IUser[]>(user?.friends || []),
     });
   }

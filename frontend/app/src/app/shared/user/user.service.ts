@@ -26,12 +26,13 @@ export class UserService {
     return this.http.get<IUser>(`${this.apiUrl}${this.storedLoggedInUser.id}/`);
   }
 
-  public saveUser(userId: number, userFormData: FormData): Observable<IUser> {
-    return this.http.put<IUser>(`${this.apiUrl}${userId}/`, userFormData);
-  }
-
   public getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(this.apiUrl);
+  }
+
+  // TODO: Intentar unificar saveUserFormData y saveUser
+  public saveUserFormData(userId: number, userFormData: FormData): Observable<IUser> {
+    return this.http.patch<IUser>(`${this.apiUrl}${userId}/`, userFormData);
   }
 
   public saveUser(user: IUser): Observable<IUser> {
