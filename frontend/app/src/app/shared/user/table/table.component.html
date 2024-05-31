@@ -1,10 +1,10 @@
-<p-panel [header]="title ? title : ('general.user.list' | translate)">
+<p-panel [header]="title ? title : ('shared.user.list' | translate)">
   <p-table [value]="users">
     <ng-template pTemplate="header">
       <tr>
-        <th>{{ "general.user.list.name" | translate }}</th>
-        <th *ngIf="showOnlineColumn">{{ "general.user.list.online" | translate }}</th>
-        <th>{{ "general.user.list.actions" | translate }}</th>
+        <th>{{ "shared.user.list.name" | translate }}</th>
+        <th *ngIf="showOnlineColumn">{{ "shared.user.list.online" | translate }}</th>
+        <th>{{ "shared.user.list.actions" | translate }}</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-user>

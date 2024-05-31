@@ -39,7 +39,9 @@ export class EventFormComponent implements OnInit, OnDestroy {
     public dialogConfig: DynamicDialogConfig,
     public dialogRef: DynamicDialogRef,
     private userService: UserService
-  ) {
+  ) {}
+
+  public ngOnInit() {
     if (this.dialogConfig?.data?.typeEvent) {
       this.eventPayload.type = this.dialogConfig.data.typeEvent;
     }
@@ -62,9 +64,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
       this.minUsersGroup1 = 1;
       this.minUsersGroup2 = 1;
     }
-  }
 
-  public ngOnInit() {
     this.form = this.buildForm();
   }
 

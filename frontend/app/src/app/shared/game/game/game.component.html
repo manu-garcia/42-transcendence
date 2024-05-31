@@ -1,6 +1,12 @@
 <!-- Elements of the game -->
 <div class="scenario-container">
+  <div *ngIf="gameOver" class="end-game-screen">
+    <div class="end-game-message"></div>
+  </div>
   <div class="scenario">
+    <div *ngIf="isPaused" class="pause-screen">
+      <div *ngIf="!gameOver" class="pause-message">Game is paused, press 'ESC' to continue!</div>
+    </div>
     <div class="Scoreboard scoreboard1">0</div>
     <div class="Scoreboard scoreboard2">0</div>
 
@@ -22,7 +28,10 @@
 </div>
 
 <!-- Botón para mostrar/ocultar opciones -->
-<button (click)="toggleOptions()">Opciones</button>
+<div class="options-container">
+  <button (click)="toggleOptions()">Opciones</button>
+  <div class="pause-text">Press 'Esc' to pause the game</div>
+</div>
 
 <!-- Componente de opciones, visible según la propiedad showOptions -->
 <app-game-options *ngIf="showOptions"></app-game-options>

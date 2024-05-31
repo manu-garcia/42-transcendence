@@ -7,7 +7,7 @@ export interface LoggedInUser {
 }
 
 export interface IUser {
-  id: string;
+  id: number;
   username: string;
   firstName: string;
   lastName: string;

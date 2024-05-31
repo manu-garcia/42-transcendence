@@ -13,9 +13,9 @@ export class UserStatusPipe implements PipeTransform {
 
   transform(user: IUser): string {
     if (this.userService.isOnline(user)) {
-      return this.translateService.instant('general.user.list.online');
+      return this.translateService.instant('shared.user.list.online');
     } else {
-      return this.translateService.instant('general.user.list.offline');
+      return this.translateService.instant('shared.user.list.offline');
     }
   }
 }
