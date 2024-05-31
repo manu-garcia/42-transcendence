@@ -9,11 +9,10 @@
         [activeItem]="activeItem"
         (activeItemChange)="onActiveItemChange($event)"
       ></p-tabMenu>
-      <app-user-avatar [user]="user"></app-user-avatar>
       <!-- Pedazo separador chaval -->
       <div class="flex-grow-1"></div>
+      <app-user-avatar [user]="user"></app-user-avatar>
       <!-- TODO: Replace this with app-user-avatar -->
-      <div>{{ user.username }}</div>
 
       <p-button [label]="'shared.user.signin.signout' | translate" (onClick)="signout()"></p-button>
     </ng-container>
