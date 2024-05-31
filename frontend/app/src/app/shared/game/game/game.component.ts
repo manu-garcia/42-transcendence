@@ -12,6 +12,7 @@ export class GameComponent implements OnInit {
   fourPlayer: boolean = false;
   showOptions: boolean = false;
   isPaused: boolean = false;
+  gameOver: boolean = false;
 
   // Global reference
   static instance: GameComponent;
@@ -233,6 +234,12 @@ class Scoreboard {
     this.points++;
     this.elem.innerHTML = '' + this.points;
   }
+
+  // Method to reset points and update the Scoreboard
+  Reset() {
+    this.points = 0;
+    this.elem.innerHTML = '0';
+  }
 }
 
 // Class to manage the keyboard
@@ -282,6 +289,7 @@ function Update() {
   MovePaddles();
   CheckPaddleCollision();
   CheckGoal();
+  CheckEndGame();
 }
 
 // Function to move the paddles
@@ -330,13 +338,39 @@ function CheckPaddleCollision() {
 // Function to check if there is a goal
 function CheckGoal() {
   var result = ball.CheckGoal();
-  if (result != 0) {
+  if (result != 0 && !GameComponent.instance.gameOver) {
     if (result == 1) {
       scoreboard1.ScorePoint();
     } else if (result == 2) {
       scoreboard2.ScorePoint();
     }
     ResetGame();
+  }
+}
+
+// Function to check if the game is over
+function CheckEndGame() {
+  const endGameMessage = document.querySelector('.end-game-message');
+
+  // endGameMessage is null while game is not over
+  if (endGameMessage) {
+    GameComponent.instance.isPaused = true;
+    if (scoreboard1.points == maxPoints) {
+      if (fourPlayer) {
+        endGameMessage.innerHTML = `${GameComponent.instance.match.group1.users[0].username} and ${GameComponent.instance.match.group1.users[1].username} are the winners!`;
+      } else {
+        endGameMessage.innerHTML = `${GameComponent.instance.match.group1.users[0].username} is the winner!`;
+      }
+    } else {
+      if (fourPlayer) {
+        endGameMessage.innerHTML = `${GameComponent.instance.match.group2.users[0].username} and ${GameComponent.instance.match.group2.users[1].username} are the winners!`;
+      } else {
+        endGameMessage.innerHTML = `${GameComponent.instance.match.group2.users[0].username} is the winner!`;
+      }
+      endGameMessage.innerHTML = endGameMessage.innerHTML + ` Press 'Esc' to restart`;
+    }
+  } else if (scoreboard1.points >= maxPoints || scoreboard2.points >= maxPoints) {
+    GameComponent.instance.gameOver = true;
   }
 }
 
@@ -353,6 +387,14 @@ function ResetGame() {
   var halfWidthScenario = scenarioElem.offsetWidth / 2;
   var halfHeightScenario = scenarioElem.offsetHeight / 2;
   ball.Reset(300, halfWidthScenario, halfHeightScenario, Math.cos(dir), Math.sin(dir));
+}
+
+// Game restart after end of match function
+function ResetEndGame() {
+  GameComponent.instance.gameOver = false;
+  scoreboard1.Reset();
+  scoreboard2.Reset();
+  ResetGame();
 }
 
 // VARIABLES OF THE GAME
@@ -372,6 +414,7 @@ var scoreboard2;
 var time;
 var deltaTime;
 var fourPlayer = false;
+var maxPoints = 5;
 
 // Function that inits game variables
 function InitGame(match: IEventMatch) {
@@ -403,16 +446,18 @@ function InitGame(match: IEventMatch) {
   time = Date.now();
   deltaTime = 0;
 
-  // Event listener for the 'keydown' event that detects when the left Ctrl key is pressed
+  // Event listener for the 'keydown' event
   document.addEventListener('keydown', function (event) {
+    // Check if the key pressed is Escape
     if (event.code === 'Escape') {
-      GameComponent.instance.isPaused = !GameComponent.instance.isPaused;
-      GameComponent.instance.showOptions = GameComponent.instance.isPaused;
+      if (GameComponent.instance.gameOver) {
+        ResetEndGame();
+      } else {
+        GameComponent.instance.isPaused = !GameComponent.instance.isPaused;
+        GameComponent.instance.showOptions = GameComponent.instance.isPaused;
+      }
     }
-  });
 
-  // Event listener for the 'keydown' event that detects when the space bar is pressed
-  document.addEventListener('keydown', function (event) {
     // Check if the key pressed is the space bar
     if (event.code === 'Space') {
       // Pause the game

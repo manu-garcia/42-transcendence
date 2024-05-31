@@ -1,18 +1,21 @@
 <!-- Elements of the game -->
 <div class="scenario-container">
+  <div *ngIf="gameOver" class="end-game-screen">
+    <div class="end-game-message"></div>
+  </div>
   <div class="scenario">
     <div *ngIf="isPaused" class="pause-screen">
-      <div class="pause-message">Game is paused, press 'ESC' to continue!</div>
+      <div *ngIf="!gameOver" class="pause-message">Game is paused, press 'ESC' to continue!</div>
     </div>
     <div class="Scoreboard scoreboard1">0</div>
     <div class="Scoreboard scoreboard2">0</div>
-    
+
     <div class="paddle paddle1"></div>
     <div class="paddle paddle2"></div>
-    
+
     <div *ngIf="fourPlayer" class="paddle paddle3"></div>
     <div *ngIf="fourPlayer" class="paddle paddle4"></div>
-    
+
     <div class="net"></div>
     <div class="ball"></div>
   </div>
