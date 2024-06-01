@@ -90,8 +90,9 @@ body {
   padding: 20px;
   border-radius: 10px;
   text-align: center; /* Center the text horizontally */
-  font-size: 2em; /* Increase font size */
+  font-size: calc(1em + 1vw); /* Responsive font size */
   max-width: 40%; /* Max width to prevent overflow */
+  max-height: 30%; /* Max height to prevent overflow */
 }
 
 /* styles for Scoreboards */

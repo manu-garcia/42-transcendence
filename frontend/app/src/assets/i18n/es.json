@@ -41,5 +41,28 @@
   "shared.user.signin.error_match": "Contraseñas no coinciden",
 
   "shared.user.form.choose_avatar": "Elige Imagen Avatar",
-  "shared.user.form.firstName": "Alias"
+  "shared.user.form.firstName": "Alias",
+
+  "shared.game.game.pause_message": "Juego pausado, pulsa 'ESC' para continuar!",
+  "shared.game.game.options": "Opciones",
+  "shared.game.game.options_message": "Pulsa 'Esc' para pausar el juego",
+  "shared.game.game.win_message_1": "y",
+  "shared.game.game.win_message_2": "han ganado!",
+  "shared.game.game.win_message_3": "ha ganado!",
+  "shared.game.game.reset": "Pulsa 'Esc' para reiniciar",
+  "shared.game.game.player": "Jugador",
+  "shared.game.game.controls": "Controles",
+
+  "shared.game.game.options.power_ups": "Mejoras",
+  "shared.game.game.options.yes": "Si",
+  "shared.game.game.options.no": "No",
+  "shared.game.game.options.velocity_boost": "Más velocidad",
+  "shared.game.game.options.freeze": "Congelar",
+  "shared.game.game.options.double_ball": "Doble bola",
+  "shared.game.game.options.appearance": "Apariencia",
+  "shared.game.game.options.default": "Por defecto",
+  "shared.game.game.options.neon": "Neón",
+  "shared.game.game.options.techno": "Tecno",
+  "shared.game.game.options.crazy": "Loco",
+  "shared.game.game.options.flowery": "Florido"
 }
