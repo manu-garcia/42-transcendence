@@ -4,9 +4,19 @@ import { UserTableModule } from './table/table.module';
 import { SigninModule } from './signin/signin.module';
 import { SignupModule } from './signup/signup.module';
 import { UserAvatarModule } from './avatar/avatar.module';
+import { StatusModule } from './status/status.module';
+import { UserFriendsFormModule } from './friends-form/friends-form.module';
 import { UserFormModule } from './form/form.module';
 
-const modules = [UserTableModule, SigninModule, SignupModule, UserAvatarModule, UserFormModule];
+const modules = [
+  UserTableModule,
+  SigninModule,
+  SignupModule,
+  UserAvatarModule,
+  StatusModule,
+  UserFriendsFormModule,
+  UserFormModule,
+];
 
 @NgModule({
   imports: modules,

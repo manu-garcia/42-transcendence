@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export interface LoggedInUser {
   id: number;
   username: string;
@@ -7,9 +9,11 @@ export interface LoggedInUser {
 export interface IUser {
   id: number;
   username: string;
-  first_name: string;
-  last_name: string;
-  profile_pic: string;
+  firstName: string;
+  lastName: string;
+  profilePic: string;
+  friends: IUser[];
+  lastActivity: moment.Moment;
 }
 
 export interface IUserCredentials {

@@ -12,8 +12,8 @@ export class UserAvatarComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    if (this.user && this.user.profile_pic) {
-      this.defaultAvatar = this.user.profile_pic;
+    if (this.user && this.user.profilePic) {
+      this.defaultAvatar = this.user.profilePic;
     }
   }
 }

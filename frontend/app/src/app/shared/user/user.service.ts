@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, of, tap } from 'rxjs';
+import { Observable, of, tap, map } from 'rxjs';
+
+import moment from 'moment';
 
 import { IUser, IUserCredentials, LoggedInUser } from './user';
 
@@ -24,12 +26,17 @@ export class UserService {
     return this.http.get<IUser>(`${this.apiUrl}${this.storedLoggedInUser.id}/`);
   }
 
-  public saveUser(userId: number, userFormData: FormData): Observable<IUser> {
-    return this.http.put<IUser>(`${this.apiUrl}${userId}/`, userFormData);
-  }
-
   public getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(this.apiUrl);
+  }
+
+  // TODO: Intentar unificar saveUserFormData y saveUser
+  public saveUserFormData(userId: number, userFormData: FormData): Observable<IUser> {
+    return this.http.patch<IUser>(`${this.apiUrl}${userId}/`, userFormData);
+  }
+
+  public saveUser(user: IUser): Observable<IUser> {
+    return this.http.patch<IUser>(`${this.apiUrl}${user.id}/`, { ...user });
   }
 
   public signin(userCredentials: IUserCredentials): Observable<LoggedInUser> {
@@ -70,6 +77,25 @@ export class UserService {
       localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
     } else if (localStorage.getItem(LOCAL_STORAGE_USER_KEY) !== JSON.stringify(user)) {
       localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(user));
+    }
+  }
+
+  public isOnline(user: IUser): boolean {
+    if (!user || !user.lastActivity) {
+      return false;
+    }
+
+    const lastActivity = moment(user.lastActivity);
+    const now = moment();
+
+    // Calculate the difference in minutes between now and lastActivity
+    const minutesDiff = now.diff(lastActivity, 'minutes');
+
+    // If the difference is greater than 2 minutes, consider user as offline
+    if (minutesDiff > 2) {
+      return false;
+    } else {
+      return true;
     }
   }
 }

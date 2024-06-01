@@ -6,13 +6,17 @@
   "general.chat": "Chat",
   "general.error": "Error",
   "general.options": "Opciones",
-  "general.friends": "Amigos",
   "general.stats": "Estadísticas",
   "general.save": "Guardar",
+
+  "general.friends": "Amigos",
+  "general.friends.add": "Añadir amigos",
 
   "shared.user.list": "Lista de usuarios",
   "shared.user.list.actions": "Acciones",
   "shared.user.list.name": "Nombre",
+  "shared.user.list.online": "Conectado",
+  "shared.user.list.offline": "Desconectado",
 
   "shared.event.list": "Lista de eventos",
   "shared.event.list.actions": "Acciones",
@@ -37,7 +41,7 @@
   "shared.user.signin.error_match": "Contraseñas no coinciden",
 
   "shared.user.form.choose_avatar": "Elige Imagen Avatar",
-  "shared.user.form.first_name": "Alias",
+  "shared.user.form.firstName": "Alias",
 
   "shared.game.game.pause_message": "Juego pausado, pulsa 'ESC' para continuar!",
   "shared.game.game.options": "Opciones",
