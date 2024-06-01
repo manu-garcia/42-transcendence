@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { IUser } from 'shared/user/user';
 
@@ -6,10 +6,8 @@ import { IUser } from 'shared/user/user';
   selector: 'app-user-table',
   templateUrl: './table.component.html',
 })
-export class UserTableComponent implements OnInit {
+export class UserTableComponent {
   @Input() users: IUser[];
-
-  constructor() { }
-
-  ngOnInit() { }
+  @Input() title: string;
+  @Input() showOnlineColumn: boolean;
 }

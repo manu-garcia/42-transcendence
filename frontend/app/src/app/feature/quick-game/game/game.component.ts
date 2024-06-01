@@ -41,9 +41,9 @@ export class GameScreenComponent implements OnInit {
         {
           id: 1,
           username: 'diego',
-          first_name: 'Diego',
-          last_name: 'Transcendence',
-          profile_pic: 'path/to/profile_pic1.jpg',
+          firstName: 'Diego',
+          lastName: 'Transcendence',
+          profilePic: 'path/to/profile_pic1.jpg',
         } as IUser,
       ],
     };
@@ -56,9 +56,9 @@ export class GameScreenComponent implements OnInit {
         {
           id: 2,
           username: 'manu',
-          first_name: 'Manu',
-          last_name: 'Transcendence',
-          profile_pic: 'path/to/profile_pic2.jpg',
+          firstName: 'Manu',
+          lastName: 'Transcendence',
+          profilePic: 'path/to/profile_pic2.jpg',
         } as IUser,
       ],
     };
@@ -92,16 +92,16 @@ export class GameScreenComponent implements OnInit {
         {
           id: 1,
           username: 'andoni',
-          first_name: 'Andoni',
-          last_name: 'Transcendence',
-          profile_pic: 'path/to/profile_pic1.jpg',
+          firstName: 'Andoni',
+          lastName: 'Transcendence',
+          profilePic: 'path/to/profile_pic1.jpg',
         } as IUser,
         {
           id: 2,
           username: 'diego',
-          first_name: 'Diego',
-          last_name: 'Transcendence',
-          profile_pic: 'path/to/profile_pic2.jpg',
+          firstName: 'Diego',
+          lastName: 'Transcendence',
+          profilePic: 'path/to/profile_pic2.jpg',
         } as IUser,
       ],
     };
@@ -114,16 +114,16 @@ export class GameScreenComponent implements OnInit {
         {
           id: 3,
           username: 'carlos',
-          first_name: 'Carlos',
-          last_name: 'Transcendence',
-          profile_pic: 'path/to/profile_pic3.jpg',
+          firstName: 'Carlos',
+          lastName: 'Transcendence',
+          profilePic: 'path/to/profile_pic3.jpg',
         } as IUser,
         {
           id: 4,
           username: 'manu',
-          first_name: 'Manu',
-          last_name: 'Transcendence',
-          profile_pic: 'path/to/profile_pic4.jpg',
+          firstName: 'Manu',
+          lastName: 'Transcendence',
+          profilePic: 'path/to/profile_pic4.jpg',
         } as IUser,
       ],
     };

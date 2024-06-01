@@ -1,3 +1,12 @@
+<ng-container *ngIf="user$ | async as user">
+  <div class="d-flex justify-content-end">
+    <p-button [label]="'general.friends.add' | translate" icon="pi pi-plus" (onClick)="addFriends(user)"></p-button>
+  </div>
 
-
-Hola Mundo desde la pestaña friends
+  <app-user-table
+    class="m-5"
+    [users]="user.friends"
+    [title]="'general.friends' | translate"
+    [showOnlineColumn]="true"
+  ></app-user-table>
+</ng-container>

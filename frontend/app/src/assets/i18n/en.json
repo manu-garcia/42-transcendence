@@ -6,13 +6,17 @@
   "general.chat": "Chat",
   "general.error": "Error",
   "general.options": "Options",
-  "general.friends": "Friends",
   "general.stats": "Stats",
   "general.save": "Save",
+
+  "general.friends": "Friends",
+  "general.friends.add": "Add friends",
 
   "shared.user.list": "Users List",
   "shared.user.list.actions": "Actions",
   "shared.user.list.name": "Name",
+  "shared.user.list.online": "Online",
+  "shared.user.list.offline": "Offline",
 
   "shared.event.list": "Event List",
   "shared.event.list.actions": "Actions",
@@ -37,5 +41,5 @@
   "shared.event.list.name": "Name",
 
   "shared.user.form.choose_avatar": "Choose Avatar Picture",
-  "shared.user.form.first_name": "Alias"
+  "shared.user.form.firstName": "Alias"
 }
