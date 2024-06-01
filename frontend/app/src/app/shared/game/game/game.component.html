@@ -5,7 +5,7 @@
   </div>
   <div class="scenario">
     <div *ngIf="isPaused" class="pause-screen">
-      <div *ngIf="!gameOver" class="pause-message">Game is paused, press 'ESC' to continue!</div>
+      <div *ngIf="!gameOver" class="pause-message">{{ "shared.game.game.pause_message" | translate }}</div>
     </div>
     <div class="Scoreboard scoreboard1">0</div>
     <div class="Scoreboard scoreboard2">0</div>
@@ -21,17 +21,55 @@
   </div>
 </div>
 
-<!-- Contenedor para la información de los jugadores -->
+<!-- Container for players info -->
 <div class="player-info">
-  <div class="player-info-group1"></div>
-  <div class="player-info-group2"></div>
+  <div class="player-info-group1">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ "shared.game.game.player" | translate }}</th>
+          <th>-> {{ "shared.game.game.controls" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ match.group1.users[0].username }}</td>
+          <td class="controls1"></td>
+        </tr>
+        <tr *ngIf="fourPlayer">
+          <td>{{ match.group1.users[1].username }}</td>
+          <td class="controls3"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="player-info-group2">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ "shared.game.game.player" | translate }}</th>
+          <th>-> {{ "shared.game.game.controls" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ match.group2.users[0].username }}</td>
+          <td class="controls2"></td>
+        </tr>
+        <tr *ngIf="fourPlayer">
+          <td>{{ match.group2.users[1].username }}</td>
+          <td class="controls4"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<!-- Botón para mostrar/ocultar opciones -->
+<!-- Button for show and hide options -->
 <div class="options-container">
-  <button (click)="toggleOptions()">Opciones</button>
-  <div class="pause-text">Press 'Esc' to pause the game</div>
+  <button (click)="toggleOptions()">{{ "shared.game.game.options" | translate }}</button>
+  <div class="pause-text">{{ "shared.game.game.options_message" | translate }}</div>
 </div>
 
-<!-- Componente de opciones, visible según la propiedad showOptions -->
+<!-- Options component, visible according to the showOptions property -->
 <app-game-options *ngIf="showOptions"></app-game-options>

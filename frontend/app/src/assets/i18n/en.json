@@ -37,5 +37,28 @@
   "shared.event.list.name": "Name",
 
   "shared.user.form.choose_avatar": "Choose Avatar Picture",
-  "shared.user.form.first_name": "Alias"
+  "shared.user.form.first_name": "Alias",
+
+  "shared.game.game.pause_message": "Game is paused, press 'ESC' to continue!",
+  "shared.game.game.options": "Options",
+  "shared.game.game.options_message": "Press 'Esc' to pause the game",
+  "shared.game.game.win_message_1": "and",
+  "shared.game.game.win_message_2": "are the winners!",
+  "shared.game.game.win_message_3": "is the winner!",
+  "shared.game.game.reset": "Press 'Esc' to restart",
+  "shared.game.game.player": "Player",
+  "shared.game.game.controls": "Controls",
+
+  "shared.game.game.options.power_ups": "Power-ups",
+  "shared.game.game.options.yes": "Yes",
+  "shared.game.game.options.no": "No",
+  "shared.game.game.options.velocity_boost": "Velocity boost",
+  "shared.game.game.options.freeze": "Freeze",
+  "shared.game.game.options.double_ball": "Double ball",
+  "shared.game.game.options.appearance": "Appearance",
+  "shared.game.game.options.default": "Default",
+  "shared.game.game.options.neon": "Neon",
+  "shared.game.game.options.techno": "Techno",
+  "shared.game.game.options.crazy": "Crazy",
+  "shared.game.game.options.flowery": "Flowery"
 }

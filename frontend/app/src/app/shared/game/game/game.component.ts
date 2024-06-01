@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IEventMatch } from 'shared/event/event';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-game',
@@ -17,7 +18,7 @@ export class GameComponent implements OnInit {
   // Global reference
   static instance: GameComponent;
 
-  constructor() {
+  constructor(public translate: TranslateService) {
     GameComponent.instance = this;
   }
 
@@ -357,17 +358,32 @@ function CheckEndGame() {
     GameComponent.instance.isPaused = true;
     if (scoreboard1.points == maxPoints) {
       if (fourPlayer) {
-        endGameMessage.innerHTML = `${GameComponent.instance.match.group1.users[0].username} and ${GameComponent.instance.match.group1.users[1].username} are the winners!`;
+        endGameMessage.innerHTML = `${
+          GameComponent.instance.match.group1.users[0].username
+        } ${GameComponent.instance.translate.instant('shared.game.game.win_message_1')} ${
+          GameComponent.instance.match.group1.users[1].username
+        } ${GameComponent.instance.translate.instant('shared.game.game.win_message_2')}`;
       } else {
-        endGameMessage.innerHTML = `${GameComponent.instance.match.group1.users[0].username} is the winner!`;
+        endGameMessage.innerHTML = `${
+          GameComponent.instance.match.group1.users[0].username
+        } ${GameComponent.instance.translate.instant('shared.game.game.win_message_3')}`;
       }
+      endGameMessage.innerHTML =
+        endGameMessage.innerHTML + ` ${GameComponent.instance.translate.instant('shared.game.game.reset')}`;
     } else {
       if (fourPlayer) {
-        endGameMessage.innerHTML = `${GameComponent.instance.match.group2.users[0].username} and ${GameComponent.instance.match.group2.users[1].username} are the winners!`;
+        endGameMessage.innerHTML = `${
+          GameComponent.instance.match.group2.users[0].username
+        } ${GameComponent.instance.translate.instant('shared.game.game.win_message_1')} ${
+          GameComponent.instance.match.group2.users[1].username
+        } ${GameComponent.instance.translate.instant('shared.game.game.win_message_2')}`;
       } else {
-        endGameMessage.innerHTML = `${GameComponent.instance.match.group2.users[0].username} is the winner!`;
+        endGameMessage.innerHTML = `${
+          GameComponent.instance.match.group2.users[0].username
+        } ${GameComponent.instance.translate.instant('shared.game.game.win_message_3')}`;
       }
-      endGameMessage.innerHTML = endGameMessage.innerHTML + ` Press 'Esc' to restart`;
+      endGameMessage.innerHTML =
+        endGameMessage.innerHTML + ` ${GameComponent.instance.translate.instant('shared.game.game.reset')}`;
     }
   } else if (scoreboard1.points >= maxPoints || scoreboard2.points >= maxPoints) {
     GameComponent.instance.gameOver = true;
@@ -571,80 +587,17 @@ function UpdateMovingObjects(): {
 // Function to update player information display
 function updatePlayerInfo(match: IEventMatch) {
   // This function updates the player information displayed in the HTML
-  const playerInfoGroup1 = document.querySelector('.player-info-group1');
-  const playerInfoGroup2 = document.querySelector('.player-info-group2');
+  const controls1 = document.querySelector('.controls1');
+  const controls2 = document.querySelector('.controls2');
+  const controls3 = document.querySelector('.controls3');
+  const controls4 = document.querySelector('.controls4');
 
-  if (playerInfoGroup1 && playerInfoGroup2) {
-    if (match.group1.users.length == 1 && match.group2.users.length == 1) {
-      playerInfoGroup1.innerHTML = `
-      <table>
-      <thead>
-        <tr>
-          <th>Player</th>
-          <th>-> Controls</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>${match.group1.users[0].username}</td>
-          <td>${paddle1.keyCodeUp} / ${paddle1.keyCodeDown}</td>
-        </tr>
-      </tbody>
-    </table>`;
-      playerInfoGroup2.innerHTML = `
-      <table>
-      <thead>
-        <tr>
-          <th>Player</th>
-          <th>-> Controls</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>${match.group2.users[0].username}</td>
-          <td>${paddle2.keyCodeUp} / ${paddle2.keyCodeDown}</td>
-        </tr>
-      </tbody>
-    </table>`;
-    } else {
-      playerInfoGroup1.innerHTML = `
-      <table>
-      <thead>
-        <tr>
-          <th>Player</th>
-          <th>-> Controls</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>${match.group1.users[0].username}</td>
-          <td>${paddle1.keyCodeUp} / ${paddle1.keyCodeDown}</td>
-        </tr>
-        <tr>
-          <td>${match.group1.users[1].username}</td>
-          <td>${paddle3.keyCodeUp} / ${paddle3.keyCodeDown}</td>
-        </tr>
-      </tbody>
-    </table>`;
-      playerInfoGroup2.innerHTML = `
-      <table>
-      <thead>
-        <tr>
-          <th>Player</th>
-          <th>-> Controls</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>${match.group2.users[0].username}</td>
-          <td>${paddle4.keyCodeUp} / ${paddle4.keyCodeDown}</td>
-        </tr>
-        <tr>
-          <td>${match.group2.users[1].username}</td>
-          <td>${paddle2.keyCodeUp} / ${paddle2.keyCodeDown}</td>
-        </tr>
-      </tbody>
-    </table>`;
+  if (controls1 && controls2) {
+    controls1.innerHTML = `${paddle1.keyCodeUp} / ${paddle1.keyCodeDown}`;
+    controls2.innerHTML = `${paddle2.keyCodeUp} / ${paddle2.keyCodeDown}`;
+    if (controls3 && controls4 && match.group1.users.length > 1 && match.group2.users.length > 1) {
+      controls3.innerHTML = `${paddle3.keyCodeUp} / ${paddle3.keyCodeDown}`;
+      controls4.innerHTML = `${paddle4.keyCodeUp} / ${paddle4.keyCodeDown}`;
     }
   } else {
     console.error('Player info elements not found');
