@@ -18,6 +18,7 @@
 
     <div class="net"></div>
     <div class="ball"></div>
+    <div *ngIf="anyPowerUp" class="powerUp"></div>
   </div>
 </div>
 
@@ -72,4 +73,12 @@
 </div>
 
 <!-- Options component, visible according to the showOptions property -->
-<app-game-options *ngIf="showOptions"></app-game-options>
+<app-game-options
+  *ngIf="showOptions"
+  [velocityBoost]="velocityBoost"
+  [freeze]="freeze"
+  [appearance]="appearance"
+  (velocityBoostChange)="onVelocityBoostChange($event)"
+  (freezeChange)="onFreezeChange($event)"
+  (appearanceChange)="onAppearanceChange($event)"
+></app-game-options>

@@ -54,11 +54,8 @@
   "shared.game.game.controls": "Controls",
 
   "shared.game.game.options.power_ups": "Power-ups",
-  "shared.game.game.options.yes": "Yes",
-  "shared.game.game.options.no": "No",
   "shared.game.game.options.velocity_boost": "Velocity boost",
   "shared.game.game.options.freeze": "Freeze",
-  "shared.game.game.options.double_ball": "Double ball",
   "shared.game.game.options.appearance": "Appearance",
   "shared.game.game.options.default": "Default",
   "shared.game.game.options.neon": "Neon",

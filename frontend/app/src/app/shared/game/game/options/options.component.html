@@ -1,41 +1,27 @@
 <div class="options-container">
+  <h2>{{ "shared.game.game.options.power_ups" | translate }}</h2>
   <div class="option-group">
-    <label for="power-ups">{{ "shared.game.game.options.power_ups" | translate }}</label>
-    <select id="power-ups" (change)="togglePowerUpOptions($event)">
-      <option value="no">{{ "shared.game.game.options.no" | translate }}</option>
-      <option value="yes">{{ "shared.game.game.options.yes" | translate }}</option>
-    </select>
+    <label for="velocity-boost">
+      <input type="checkbox" id="velocity-boost" [checked]="velocityBoost" (change)="onVelocityBoostChange($event)" />
+      {{ "shared.game.game.options.velocity_boost" | translate }}
+    </label>
   </div>
-
-  <div *ngIf="powerUpsEnabled" class="power-up-options">
-    <div class="option-group">
-      <label for="velocity-boost">
-        <input type="checkbox" id="velocity-boost" />
-        {{ "shared.game.game.options.velocity_boost" | translate }}
-      </label>
-    </div>
-    <div class="option-group">
-      <label for="freeze">
-        <input type="checkbox" id="freeze" />
-        {{ "shared.game.game.options.freeze" | translate }}
-      </label>
-    </div>
-    <div class="option-group">
-      <label for="double-ball">
-        <input type="checkbox" id="double-ball" />
-        {{ "shared.game.game.options.double_ball" | translate }}
-      </label>
-    </div>
+  <div class="option-group">
+    <label for="freeze">
+      <input type="checkbox" id="freeze" [checked]="freeze" (change)="onFreezeChange($event)" />
+      {{ "shared.game.game.options.freeze" | translate }}
+    </label>
   </div>
 
   <div class="option-group">
-    <label for="appearance">{{ "shared.game.game.options.appearance" | translate }}</label>
-    <select id="appearance">
-      <option value="appearance1">{{ "shared.game.game.options.default" | translate }}</option>
-      <option value="appearance2">{{ "shared.game.game.options.neon" | translate }}</option>
-      <option value="appearance3">{{ "shared.game.game.options.techno" | translate }}</option>
-      <option value="appearance4">{{ "shared.game.game.options.crazy" | translate }}</option>
-      <option value="appearance5">{{ "shared.game.game.options.flowery" | translate }}</option>
+    <h2>{{ "shared.game.game.options.appearance" | translate }}</h2>
+    <label for="appearance"></label>
+    <select id="appearance" [value]="appearance" (change)="onAppearanceChange($event)">
+      <option value="default">{{ "shared.game.game.options.default" | translate }}</option>
+      <option value="neon">{{ "shared.game.game.options.neon" | translate }}</option>
+      <option value="tecno">{{ "shared.game.game.options.techno" | translate }}</option>
+      <option value="loco">{{ "shared.game.game.options.crazy" | translate }}</option>
+      <option value="florido">{{ "shared.game.game.options.flowery" | translate }}</option>
     </select>
   </div>
 </div>
