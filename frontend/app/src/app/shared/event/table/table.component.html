@@ -1,6 +1,8 @@
 <p-panel [header]="'shared.event.list' | translate">
   <ng-template pTemplate="icons">
-    <p-button [label]="'shared.event.list.create' | translate" icon="pi pi-plus" (onClick)="createEvent()"></p-button>
+    <button type="button" class="btn btn-primary" (click)="createEvent()">
+      {{ "shared.event.list.create" | translate }}
+    </button>
   </ng-template>
   <p-table [value]="events$ | async">
     <ng-template pTemplate="header">
@@ -13,17 +15,9 @@
       <tr>
         <td>{{ event.name }}</td>
         <td>
-          <p-button
-            [label]="'shared.event.list.actions.edit' | translate"
-            icon="pi pi-pencil"
-            (onClick)="editEvent(event)"
-          ></p-button>
-          <p-button
-            class="m-2"
-            [label]="'shared.event.list.actions.detail' | translate"
-            icon="pi pi-play"
-            (onClick)="goToEventDetail(event)"
-          ></p-button>
+          <button type="button" class="btn btn-primary m-2" (click)="goToEventDetail(event)">
+            {{ "shared.event.list.actions.detail" | translate }}
+          </button>
         </td>
       </tr>
     </ng-template>

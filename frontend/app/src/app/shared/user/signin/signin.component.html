@@ -11,11 +11,9 @@
   </form>
 
   <div class="d-flex justify-content-end mt-3">
-    <p-button
-      [label]="'shared.user.signin.signin' | translate"
-      [disabled]="!form.valid || loading"
-      (onClick)="signin()"
-    ></p-button>
+    <button type="button" class="btn btn-primary" [disabled]="!form.valid || loading" (click)="signin()">
+      {{ "shared.user.signin.signin" | translate }}
+    </button>
   </div>
 
   <div class="d-flex justify-content-end mt-3">

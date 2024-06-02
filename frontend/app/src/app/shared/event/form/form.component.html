@@ -65,6 +65,8 @@
   </form>
 
   <div class="d-flex justify-content-end mt-5">
-    <p-button class="mt-5" label="Save" [disabled]="!form.valid" (onClick)="save()"></p-button>
+    <button type="button" class="btn btn-primary mt-5" [disabled]="!form.valid" (click)="save()">
+      {{ "general.save" | translate }}
+    </button>
   </div>
 </ng-container>

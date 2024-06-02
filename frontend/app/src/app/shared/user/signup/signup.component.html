@@ -18,10 +18,8 @@
   </form>
 
   <div class="d-flex justify-content-end mt-3">
-    <p-button
-      [label]="'shared.user.signin.signup' | translate"
-      [disabled]="!form.valid || loading"
-      (onClick)="signup()"
-    ></p-button>
+    <button type="button" class="btn btn-primary" [disabled]="!form.valid || loading" (click)="signup()">
+      {{ "shared.user.signin.signup" | translate }}
+    </button>
   </div>
 </ng-container>
