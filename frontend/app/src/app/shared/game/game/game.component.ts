@@ -15,10 +15,12 @@ export class GameComponent implements OnInit {
   isPaused: boolean = false;
   gameOver: boolean = false;
   anyPowerUp: boolean = false;
-  // SELECT POWER-UPS HERE
-  // TODO: Change from game options
+  updatePowerUps: boolean = false;
   velocityBoost: boolean = false;
   freeze: boolean = false;
+  appearance: string = 'default';
+  updateAppearance: boolean = false;
+
   // Global reference
   static instance: GameComponent;
 
@@ -27,7 +29,7 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Check if ther is an active power up
+    // Check if there is an active power up
     this.checkAnyPowerUp();
     // Check if 2v2 or 1v1 game
     this.checkFourPlayer();
@@ -50,6 +52,21 @@ export class GameComponent implements OnInit {
 
   checkAnyPowerUp(): void {
     this.anyPowerUp = this.velocityBoost || this.freeze;
+  }
+
+  onVelocityBoostChange(enabled: boolean) {
+    this.velocityBoost = enabled;
+    this.updatePowerUps = true;
+  }
+
+  onFreezeChange(enabled: boolean) {
+    this.freeze = enabled;
+    this.updatePowerUps = true;
+  }
+
+  onAppearanceChange(value: string) {
+    this.appearance = value;
+    this.updateAppearance = true;
   }
 }
 
@@ -397,6 +414,52 @@ function Update() {
   CheckGoal();
   CheckEndGame();
   UpdateFrozenTimers();
+  CheckUpdatePowerUps();
+  CheckUpdateAppearance();
+}
+
+// Update power-ups after a change in options
+function CheckUpdatePowerUps() {
+  if (GameComponent.instance.updatePowerUps) {
+    if (GameComponent.instance.velocityBoost || GameComponent.instance.freeze) {
+      GameComponent.instance.anyPowerUp = true;
+      if (!powerUp) {
+        setTimeout(() => {
+          // Wait for DOM to update
+          const powerUpDOM = document.querySelector('.powerUp');
+          if (powerUpDOM) {
+            powerUp = new PowerUp(boardEdges, powerUpDOM, 300, 0.4);
+          }
+        }, 0);
+      } else {
+        powerUp = new PowerUp(boardEdges, document.querySelector('.powerUp'), 300, 0.4);
+      }
+    } else {
+      GameComponent.instance.anyPowerUp = false;
+      if (powerUp) {
+        // Remove powerUp from DOM
+        var powerUpElement = document.querySelector('.powerUp');
+        if (powerUpElement) {
+          powerUpElement.remove();
+        }
+        // Old powerUp object is not useful anymore
+        powerUp = null;
+      }
+    }
+    GameComponent.instance.updatePowerUps = false;
+  }
+}
+
+function CheckUpdateAppearance() {
+  if (GameComponent.instance.updateAppearance) {
+    // Change the appearance of the game
+    if (GameComponent.instance.appearance == 'default') {
+      scenarioElem.className = 'scenario';
+    } else {
+      scenarioElem.className = 'scenario ' + GameComponent.instance.appearance;
+    }
+    GameComponent.instance.updateAppearance = false;
+  }
 }
 
 // Function that updates the frozen timers of the paddles
@@ -562,6 +625,16 @@ function ResetGame() {
   ball.Reset(300, halfWidthScenario, halfHeightScenario, Math.cos(dir), Math.sin(dir));
   if (GameComponent.instance.anyPowerUp) {
     powerUp.Reset(300, halfWidthScenario, 0, 0.4);
+  } else {
+    if (powerUp) {
+      // Remove powerUp from DOM
+      var powerUpElement = document.querySelector('.powerUp');
+      if (powerUpElement) {
+        powerUpElement.remove();
+      }
+      // Old powerUp object is not useful anymore
+      powerUp = null;
+    }
   }
 }
 
