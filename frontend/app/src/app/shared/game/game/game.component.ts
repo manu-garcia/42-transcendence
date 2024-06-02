@@ -707,16 +707,6 @@ function InitGame(match: IEventMatch) {
         GameComponent.instance.showOptions = GameComponent.instance.isPaused;
       }
     }
-
-    // Check if the key pressed is the space bar
-    if (event.code === 'Space') {
-      // Pause the game
-      GameComponent.instance.isPaused = true;
-      // Show options
-      GameComponent.instance.showOptions = true;
-      // Change the appearance of the game
-      scenarioElem.className = 'scenario ' + styles[Math.floor(Math.random() * styles.length)];
-    }
   });
 
   // Handle window resize
