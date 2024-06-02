@@ -14,7 +14,11 @@ export class GameComponent implements OnInit {
   showOptions: boolean = false;
   isPaused: boolean = false;
   gameOver: boolean = false;
-
+  anyPowerUp: boolean = false;
+  // SELECT POWER-UPS HERE
+  // TODO: Change from game options
+  velocityBoost: boolean = false;
+  freeze: boolean = false;
   // Global reference
   static instance: GameComponent;
 
@@ -23,6 +27,8 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Check if ther is an active power up
+    this.checkAnyPowerUp();
     // Check if 2v2 or 1v1 game
     this.checkFourPlayer();
   }
@@ -40,6 +46,10 @@ export class GameComponent implements OnInit {
     if (this.match.group1.users.length === 2 && this.match.group2.users.length === 2) {
       this.fourPlayer = true;
     }
+  }
+
+  checkAnyPowerUp(): void {
+    this.anyPowerUp = this.velocityBoost || this.freeze;
   }
 }
 
@@ -160,6 +170,92 @@ class Ball extends MovingObject {
   }
 }
 
+// Class for the power-ups
+class PowerUp extends MovingObject {
+  dirY: number;
+  activePowerUps: string[];
+  actualPowerUp: string;
+
+  constructor(boardEdges, elem, vel, dirY) {
+    super(boardEdges, elem, vel);
+    this.dirY = dirY;
+    this.BuildPowerUps();
+    this.y = 0;
+  }
+
+  // Method to update active power ups and choose one
+  BuildPowerUps() {
+    this.activePowerUps = [];
+    if (GameComponent.instance.velocityBoost) {
+      this.activePowerUps.push('Velocity Boost');
+    }
+    if (GameComponent.instance.freeze) {
+      this.activePowerUps.push('Freeze');
+    }
+
+    this.actualPowerUp = this.activePowerUps[Math.floor(Math.random() * this.activePowerUps.length)];
+
+    const powerUpInitial = document.querySelector('.powerUp');
+    if (powerUpInitial) {
+      if (this.actualPowerUp == 'Velocity Boost') {
+        powerUpInitial.innerHTML = `V`;
+      } else if (this.actualPowerUp == 'Freeze') {
+        powerUpInitial.innerHTML = 'F';
+      }
+    }
+  }
+
+  // Getter for ActualPowerUp
+  getActualPowerUp() {
+    return this.actualPowerUp;
+  }
+
+  // Method to move the ball
+  Move() {
+    this.y += this.dirY * this.vel * deltaTime;
+    this.elem.style.left = this.x + 'px';
+    this.elem.style.bottom = this.y + 'px';
+    this.CheckBounce();
+  }
+
+  // Method to check and manage the bounce of the ball on the edges
+  CheckBounce() {
+    // BOTTOM BOUNCE
+    if (this.y + this.height / 2 > this.boardEdges.maxY && this.dirY > 0) {
+      this.BounceY();
+      // UPPER BOUNCE
+    } else if (this.y - this.height / 2 < this.boardEdges.minY && this.dirY < 0) {
+      this.BounceY();
+    }
+  }
+
+  // Method to manage bounce in the Y axis
+  BounceY() {
+    this.dirY = -this.dirY;
+  }
+
+  // Method to check collision with another object
+  CheckColision(edges2) {
+    var edges1 = this.GetEdges();
+    return !(
+      edges1.maxX < edges2.minX ||
+      edges1.minX > edges2.maxX ||
+      edges1.maxY < edges2.minY ||
+      edges1.minY > edges2.maxY
+    );
+  }
+
+  // Method to Reset the powerUp
+  Reset(vel, x, y, dirY) {
+    this.vel = vel;
+    this.x = x;
+    this.y = y;
+    this.dirY = dirY;
+    super.ResetMovingObject();
+    this.BuildPowerUps();
+  }
+}
+
 // Class for the paddles
 class paddle extends MovingObject {
   keyboard: Keyboard;
@@ -167,6 +263,7 @@ class paddle extends MovingObject {
   friction: number;
   keyCodeUp: string;
   keyCodeDown: string;
+  isFrozen: number;
 
   constructor(boardEdges, elem, vel, friction, keyboard, keyCodeUp, keyCodeDown) {
     super(boardEdges, elem, vel);
@@ -175,10 +272,14 @@ class paddle extends MovingObject {
     this.friction = friction;
     this.keyCodeUp = keyCodeUp;
     this.keyCodeDown = keyCodeDown;
+    this.isFrozen = 0;
   }
 
   // Method to move the paddle
   Move() {
+    // While the paddle is frozen it can't move
+    if (this.isFrozen > 0) return;
+
     // Check pressed keys and adjust current speed
     if (this.keyboard.isPressed(this.keyCodeUp)) {
       this.actualSpeed = this.vel;
@@ -287,10 +388,37 @@ function RandDir() {
 // Update function that is called in each frame
 function Update() {
   ball.Move();
+  if (GameComponent.instance.anyPowerUp) {
+    powerUp.Move();
+    CheckPowerUpCollision();
+  }
   MovePaddles();
   CheckPaddleCollision();
   CheckGoal();
   CheckEndGame();
+  UpdateFrozenTimers();
+}
+
+// Function that updates the frozen timers of the paddles
+function UpdateFrozenTimers() {
+  if (paddle1.isFrozen > 0) {
+    paddle1.isFrozen -= deltaTime;
+    if (paddle1.isFrozen < 0) paddle1.isFrozen = 0;
+  }
+  if (paddle2.isFrozen > 0) {
+    paddle2.isFrozen -= deltaTime;
+    if (paddle2.isFrozen < 0) paddle2.isFrozen = 0;
+  }
+  if (GameComponent.instance.fourPlayer) {
+    if (paddle3.isFrozen > 0) {
+      paddle3.isFrozen -= deltaTime;
+      if (paddle3.isFrozen < 0) paddle3.isFrozen = 0;
+    }
+    if (paddle4.isFrozen > 0) {
+      paddle4.isFrozen -= deltaTime;
+      if (paddle4.isFrozen < 0) paddle4.isFrozen = 0;
+    }
+  }
 }
 
 // Function to move the paddles
@@ -299,7 +427,7 @@ function MovePaddles() {
   paddle1.ProgressiveStop();
   paddle2.Move();
   paddle2.ProgressiveStop();
-  if (fourPlayer) {
+  if (GameComponent.instance.fourPlayer) {
     paddle3.Move();
     paddle3.ProgressiveStop();
     paddle4.Move();
@@ -321,7 +449,7 @@ function CheckPaddleCollision() {
       ball.BounceX(paddle2.actualSpeed * deltaTime, deviation);
     }
   }
-  if (fourPlayer) {
+  if (GameComponent.instance.fourPlayer) {
     if (paddle3.CheckColision(ballEdges)) {
       if (ball.dirX < 0) {
         var deviation = paddle3.CheckDeviationY(ballEdges);
@@ -349,6 +477,35 @@ function CheckGoal() {
   }
 }
 
+// Function to check collisions with the paddles
+function CheckPowerUpCollision() {
+  var ballEdges = ball.GetEdges();
+  if (powerUp.CheckColision(ballEdges)) {
+    if (powerUp.actualPowerUp == 'Velocity Boost') {
+      // Boost ball's velocity
+      ball.vel = ball.vel * 1.5;
+    } else if (powerUp.actualPowerUp == 'Freeze') {
+      // Freeze opponent group's paddles for 1 second
+      FreezePaddles();
+    }
+  }
+}
+
+// Function to freeze opponent's paddles
+function FreezePaddles() {
+  if (ball.dirX < 0) {
+    paddle1.isFrozen = 1; // Frozen for 1 second
+    if (GameComponent.instance.fourPlayer) {
+      paddle3.isFrozen = 1;
+    }
+  } else {
+    paddle2.isFrozen = 1;
+    if (GameComponent.instance.fourPlayer) {
+      paddle4.isFrozen = 1;
+    }
+  }
+}
+
 // Function to check if the game is over
 function CheckEndGame() {
   const endGameMessage = document.querySelector('.end-game-message');
@@ -357,7 +514,7 @@ function CheckEndGame() {
   if (endGameMessage) {
     GameComponent.instance.isPaused = true;
     if (scoreboard1.points == maxPoints) {
-      if (fourPlayer) {
+      if (GameComponent.instance.fourPlayer) {
         endGameMessage.innerHTML = `${
           GameComponent.instance.match.group1.users[0].username
         } ${GameComponent.instance.translate.instant('shared.game.game.win_message_1')} ${
@@ -371,7 +528,7 @@ function CheckEndGame() {
       endGameMessage.innerHTML =
         endGameMessage.innerHTML + ` ${GameComponent.instance.translate.instant('shared.game.game.reset')}`;
     } else {
-      if (fourPlayer) {
+      if (GameComponent.instance.fourPlayer) {
         endGameMessage.innerHTML = `${
           GameComponent.instance.match.group2.users[0].username
         } ${GameComponent.instance.translate.instant('shared.game.game.win_message_1')} ${
@@ -394,7 +551,7 @@ function CheckEndGame() {
 function ResetGame() {
   paddle1.ResetMovingObject();
   paddle2.ResetMovingObject();
-  if (fourPlayer) {
+  if (GameComponent.instance.fourPlayer) {
     paddle3.ResetMovingObject();
     paddle4.ResetMovingObject();
   }
@@ -403,6 +560,9 @@ function ResetGame() {
   var halfWidthScenario = scenarioElem.offsetWidth / 2;
   var halfHeightScenario = scenarioElem.offsetHeight / 2;
   ball.Reset(300, halfWidthScenario, halfHeightScenario, Math.cos(dir), Math.sin(dir));
+  if (GameComponent.instance.anyPowerUp) {
+    powerUp.Reset(300, halfWidthScenario, 0, 0.4);
+  }
 }
 
 // Game restart after end of match function
@@ -420,6 +580,7 @@ var styles;
 var boardEdges;
 var dir;
 var ball;
+var powerUp;
 var keyboard;
 var paddle1;
 var paddle2;
@@ -429,7 +590,6 @@ var scoreboard1;
 var scoreboard2;
 var time;
 var deltaTime;
-var fourPlayer = false;
 var maxPoints = 5;
 
 // Function that inits game variables
@@ -437,12 +597,10 @@ function InitGame(match: IEventMatch) {
   // Check if we have a match and print it
   if (match) {
     console.log('Match:', match);
-    if (match.group1.users.length == 2) {
-      fourPlayer = true;
-    }
   } else {
     // Handle error if match is null or undefined
     console.error('No match data available.');
+    return;
   }
   scenarioElem = document.querySelector('.scenario');
   styles = ['tecno', 'florido', 'neon', 'loco'];
@@ -450,9 +608,12 @@ function InitGame(match: IEventMatch) {
   boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
   dir = RandDir();
   ball = new Ball(boardEdges, document.querySelector('.ball'), 300, Math.cos(dir), Math.sin(dir), 0.1);
+  if (GameComponent.instance.anyPowerUp) {
+    powerUp = new PowerUp(boardEdges, document.querySelector('.powerUp'), 300, 0.4);
+  }
   paddle1 = new paddle(boardEdges, document.querySelector('.paddle1'), 400, 1.15, keyboard, 'w', 's');
   paddle2 = new paddle(boardEdges, document.querySelector('.paddle2'), 400, 1.15, keyboard, 'o', 'l');
-  if (fourPlayer) {
+  if (GameComponent.instance.fourPlayer) {
     paddle3 = new paddle(boardEdges, document.querySelector('.paddle3'), 400, 1.15, keyboard, 'r', 'f');
     paddle4 = new paddle(boardEdges, document.querySelector('.paddle4'), 400, 1.15, keyboard, 'u', 'j');
   }
@@ -496,29 +657,37 @@ function InitGame(match: IEventMatch) {
       updatedPaddle2,
       updatedPaddle3,
       updatedPaddle4,
+      updatedPowerUp,
     } = UpdateMovingObjects();
 
-    // Preserve the ball's current direction and speed
+    // Update board edges and dir
+    boardEdges = updatedBoardEdges;
+    dir = updatedDir;
+
+    // Preserve the ball's current direction and speed and update it
     updatedBall.dirX = ball.dirX;
     updatedBall.dirY = ball.dirY;
     updatedBall.vel = ball.vel;
     updatedBall.x = ball.x * (updatedBoardEdges.maxX / boardEdges.maxX);
     updatedBall.y = ball.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+    ball = updatedBall;
 
-    // Preserve paddles' positions
+    // Preserve the power-up's current direction and speed and update it
+    if (GameComponent.instance.anyPowerUp) {
+      updatedPowerUp.dirY = powerUp.dirY;
+      updatedPowerUp.vel = powerUp.vel;
+      updatedPowerUp.x = powerUp.x * (updatedBoardEdges.maxX / boardEdges.maxX);
+      updatedPowerUp.y = powerUp.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+      powerUp = updatedPowerUp;
+    }
+    // Preserve paddles' positions and update them
     updatedPaddle1.y = paddle1.y * (updatedBoardEdges.maxY / boardEdges.maxY);
     updatedPaddle2.y = paddle2.y * (updatedBoardEdges.maxY / boardEdges.maxY);
-    if (fourPlayer) {
-      updatedPaddle3.y = paddle3.y * (updatedBoardEdges.maxY / boardEdges.maxY);
-      updatedPaddle4.y = paddle4.y * (updatedBoardEdges.maxY / boardEdges.maxY);
-    }
-
-    boardEdges = updatedBoardEdges;
-    dir = updatedDir;
-    ball = updatedBall;
     paddle1 = updatedPaddle1;
     paddle2 = updatedPaddle2;
-    if (fourPlayer) {
+    if (GameComponent.instance.fourPlayer) {
+      updatedPaddle3.y = paddle3.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+      updatedPaddle4.y = paddle4.y * (updatedBoardEdges.maxY / boardEdges.maxY);
       paddle3 = updatedPaddle3;
       paddle4 = updatedPaddle4;
     }
@@ -545,6 +714,7 @@ function UpdateMovingObjects(): {
   updatedPaddle2: paddle;
   updatedPaddle3?: paddle;
   updatedPaddle4?: paddle;
+  updatedPowerUp?: PowerUp;
 } {
   const updatedBoardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
   const updatedDir = RandDir();
@@ -574,14 +744,26 @@ function UpdateMovingObjects(): {
     'o',
     'l'
   );
-
+  let updatedPowerUp;
+  if (GameComponent.instance.anyPowerUp) {
+    updatedPowerUp = new PowerUp(updatedBoardEdges, document.querySelector('.powerUp'), 300, 0.4);
+  }
   let updatedPaddle3, updatedPaddle4;
-  if (fourPlayer) {
+  if (GameComponent.instance.fourPlayer) {
     updatedPaddle3 = new paddle(updatedBoardEdges, document.querySelector('.paddle3'), 400, 1.15, keyboard, 'r', 'f');
     updatedPaddle4 = new paddle(updatedBoardEdges, document.querySelector('.paddle4'), 400, 1.15, keyboard, 'u', 'j');
   }
 
-  return { updatedBoardEdges, updatedDir, updatedBall, updatedPaddle1, updatedPaddle2, updatedPaddle3, updatedPaddle4 };
+  return {
+    updatedBoardEdges,
+    updatedDir,
+    updatedBall,
+    updatedPaddle1,
+    updatedPaddle2,
+    updatedPaddle3,
+    updatedPaddle4,
+    updatedPowerUp,
+  };
 }
 
 // Function to update player information display
