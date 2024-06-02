@@ -4,15 +4,16 @@
       {{ "shared.event.list.create" | translate }}
     </button>
   </ng-template>
-  <p-table [value]="events$ | async">
-    <ng-template pTemplate="header">
+
+  <table class="table table-striped table-bordered table-responsive">
+    <thead>
       <tr>
         <th>{{ "shared.event.list.name" | translate }}</th>
         <th>{{ "shared.event.list.actions" | translate }}</th>
       </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-event>
-      <tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of events$ | async">
         <td>{{ event.name }}</td>
         <td>
           <button type="button" class="btn btn-primary m-2" (click)="goToEventDetail(event)">
@@ -20,6 +21,6 @@
           </button>
         </td>
       </tr>
-    </ng-template>
-  </p-table>
+    </tbody>
+  </table>
 </p-panel>

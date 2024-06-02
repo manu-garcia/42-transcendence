@@ -34,34 +34,29 @@
       </p-floatLabel>
     </div>
 
-    <p-table class="w-100 pb-5 mb-5" [value]="selectedUsers">
-      <ng-template pTemplate="header">
+    <table class="table table-striped table-bordered table-responsive w-100 pb-5 mb-5">
+      <thead>
         <tr>
           <th class="w-50">{{ "shared.event.list.create.username" | translate }}</th>
           <th class="w-50">{{ "shared.event.list.create.alias" | translate }}</th>
         </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-userList let-editing="editing">
-        <tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let userList of selectedUsers">
           <td>{{ userList.user.username }}</td>
-          <td [pEditableColumn]="userList.alias" pEditableColumnField="alias">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input
-                  [ngModelOptions]="{ standalone: true }"
-                  pInputText
-                  type="text"
-                  [(ngModel)]="userList.alias"
-                  (ngModelChange)="onAliasChange(userList)"
-                  (focus)="selectAlias($event)"
-                />
-              </ng-template>
-              <ng-template pTemplate="output">{{ userList.alias }}</ng-template>
-            </p-cellEditor>
+          <td>
+            <input
+              [ngModelOptions]="{ standalone: true }"
+              pInputText
+              type="text"
+              [(ngModel)]="userList.alias"
+              (ngModelChange)="onAliasChange(userList)"
+              (focus)="selectAlias($event)"
+            />
           </td>
         </tr>
-      </ng-template>
-    </p-table>
+      </tbody>
+    </table>
   </form>
 
   <div class="d-flex justify-content-end mt-5">

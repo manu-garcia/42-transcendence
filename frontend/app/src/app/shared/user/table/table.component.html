@@ -1,20 +1,20 @@
 <p-panel [header]="title ? title : ('shared.user.list' | translate)">
-  <p-table [value]="users">
-    <ng-template pTemplate="header">
+  <table class="table table-striped table-bordered table-responsive">
+    <thead>
       <tr>
         <th>{{ "shared.user.list.name" | translate }}</th>
         <th *ngIf="showOnlineColumn">{{ "shared.user.list.online" | translate }}</th>
         <th>{{ "shared.user.list.actions" | translate }}</th>
       </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-user>
-      <tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
         <td>{{ user.username }}</td>
         <td *ngIf="showOnlineColumn">
           <span class="{{ user | userStatusColor }}">{{ user | userStatus }}</span>
         </td>
         <td></td>
       </tr>
-    </ng-template>
-  </p-table>
+    </tbody>
+  </table>
 </p-panel>

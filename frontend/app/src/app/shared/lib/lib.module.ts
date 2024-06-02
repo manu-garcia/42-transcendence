@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AvatarModule } from 'primeng/avatar';
-import { TableModule } from 'primeng/table';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { PanelModule } from 'primeng/panel';
@@ -36,7 +35,6 @@ const modules = [
   FormsModule,
 
   // PrimeNG
-  TableModule,
   CheckboxModule,
   DropdownModule,
   PanelModule,
