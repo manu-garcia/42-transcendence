@@ -76,7 +76,7 @@ class edges {
   maxX: number;
   minY: number;
   maxY: number;
-  constructor(minX, maxX, minY, maxY) {
+  constructor(minX: number, maxX: number, minY: number, maxY: number) {
     this.minX = minX;
     this.maxX = maxX;
     this.minY = minY;
@@ -94,7 +94,7 @@ class MovingObject {
   height: number;
   elem: HTMLElement;
 
-  constructor(boardEdges, elem, vel) {
+  constructor(boardEdges: edges, elem: HTMLElement, vel: number) {
     this.boardEdges = boardEdges;
     this.vel = vel;
     this.x = parseInt(getComputedStyle(elem).left);
@@ -127,7 +127,7 @@ class Ball extends MovingObject {
   dirY: number;
   drag: number;
 
-  constructor(boardEdges, elem, vel, dirX, dirY, drag) {
+  constructor(boardEdges: edges, elem: HTMLElement, vel: number, dirX: number, dirY: number, drag: number) {
     super(boardEdges, elem, vel);
     this.dirX = dirX;
     this.dirY = dirY;
@@ -155,7 +155,7 @@ class Ball extends MovingObject {
   }
 
   // Method to manage bounce in the X axis
-  BounceX(paddleInertia, deviation) {
+  BounceX(paddleInertia: number, deviation: number) {
     this.dirY += deviation;
     this.dirY += paddleInertia * this.drag;
     this.dirX = -this.dirX;
@@ -177,7 +177,7 @@ class Ball extends MovingObject {
   }
 
   // Method to Reset the ball
-  Reset(vel, x, y, dirX, dirY) {
+  Reset(vel: number, x: number, y: number, dirX: number, dirY: number) {
     this.vel = vel;
     this.x = x;
     this.y = y;
@@ -193,7 +193,7 @@ class PowerUp extends MovingObject {
   activePowerUps: string[];
   actualPowerUp: string;
 
-  constructor(boardEdges, elem, vel, dirY) {
+  constructor(boardEdges: edges, elem: HTMLElement, vel: number, dirY: number) {
     super(boardEdges, elem, vel);
     this.dirY = dirY;
     this.BuildPowerUps();
@@ -212,7 +212,7 @@ class PowerUp extends MovingObject {
 
     this.actualPowerUp = this.activePowerUps[Math.floor(Math.random() * this.activePowerUps.length)];
 
-    const powerUpInitial = document.querySelector('.powerUp');
+    let powerUpInitial: HTMLElement = document.querySelector('.powerUp');
     if (powerUpInitial) {
       if (this.actualPowerUp == 'Velocity Boost') {
         powerUpInitial.innerHTML = `V`;
@@ -252,8 +252,8 @@ class PowerUp extends MovingObject {
   }
 
   // Method to check collision with another object
-  CheckColision(edges2) {
-    var edges1 = this.GetEdges();
+  CheckColision(edges2: edges) {
+    let edges1: edges = this.GetEdges();
     return !(
       edges1.maxX < edges2.minX ||
       edges1.minX > edges2.maxX ||
@@ -263,7 +263,7 @@ class PowerUp extends MovingObject {
   }
 
   // Method to Reset the powerUp
-  Reset(vel, x, y, dirY) {
+  Reset(vel: number, x: number, y: number, dirY: number) {
     this.vel = vel;
     this.x = x;
     this.y = y;
@@ -282,7 +282,15 @@ class paddle extends MovingObject {
   keyCodeDown: string;
   isFrozen: number;
 
-  constructor(boardEdges, elem, vel, friction, keyboard, keyCodeUp, keyCodeDown) {
+  constructor(
+    boardEdges: edges,
+    elem: HTMLElement,
+    vel: number,
+    friction: number,
+    keyboard: Keyboard,
+    keyCodeUp: string,
+    keyCodeDown: string
+  ) {
     super(boardEdges, elem, vel);
     this.keyboard = keyboard;
     this.actualSpeed = 0;
@@ -320,8 +328,8 @@ class paddle extends MovingObject {
   }
 
   // Method to check collision with another object
-  CheckColision(edges2) {
-    var edges1 = this.GetEdges();
+  CheckColision(edges2: edges) {
+    let edges1: edges = this.GetEdges();
     return !(
       edges1.maxX < edges2.minX ||
       edges1.minX > edges2.maxX ||
@@ -331,10 +339,10 @@ class paddle extends MovingObject {
   }
 
   // Method to calculate the deviation in the Y axis when hitting the ball
-  CheckDeviationY(edges2) {
-    var edges1 = this.GetEdges();
-    var middle2Y = (edges2.maxY + edges2.minY) / 2;
-    var relativePos = (middle2Y - edges1.minY) / (edges1.maxY - edges1.minY);
+  CheckDeviationY(edges2: edges) {
+    let edges1: edges = this.GetEdges();
+    let middle2Y: number = (edges2.maxY + edges2.minY) / 2;
+    let relativePos: number = (middle2Y - edges1.minY) / (edges1.maxY - edges1.minY);
     return relativePos * 2 - 1;
   }
 }
@@ -343,7 +351,7 @@ class paddle extends MovingObject {
 class Scoreboard {
   elem: HTMLElement;
   points: number;
-  constructor(elem) {
+  constructor(elem: HTMLElement) {
     this.elem = elem;
     this.points = 0;
   }
@@ -371,7 +379,7 @@ class Keyboard {
   }
 
   // Method to register the key pressed
-  keyPressed(evento) {
+  keyPressed(evento: KeyboardEvent) {
     if (evento.key === 'ArrowUp' || evento.key === 'ArrowDown') {
       evento.preventDefault();
     }
@@ -379,12 +387,12 @@ class Keyboard {
   }
 
   // Method to register the release of a key
-  keyReleased(evento) {
+  keyReleased(evento: KeyboardEvent) {
     this.pressedKeys[evento.key] = false;
   }
 
   // Method to check if a key is pressed
-  isPressed(tecla) {
+  isPressed(tecla: string) {
     return !!this.pressedKeys[tecla];
   }
 }
@@ -392,13 +400,13 @@ class Keyboard {
 // Function to generate a random motion direction in radians
 function RandDir() {
   // Array with motion direction options in radians
-  var optionsDir = [
+  let optionsDir: number[] = [
     Math.PI / 4, // 45 degrees
     (3 * Math.PI) / 4, // 135 degrees
     (5 * Math.PI) / 4, // 225 degrees
     (7 * Math.PI) / 4, // 315 degrees
   ];
-  var randomIndex = Math.floor(Math.random() * optionsDir.length);
+  let randomIndex: number = Math.floor(Math.random() * optionsDir.length);
   return optionsDir[randomIndex];
 }
 
@@ -426,7 +434,7 @@ function CheckUpdatePowerUps() {
       if (!powerUp) {
         setTimeout(() => {
           // Wait for DOM to update
-          const powerUpDOM = document.querySelector('.powerUp');
+          let powerUpDOM: HTMLElement = document.querySelector('.powerUp');
           if (powerUpDOM) {
             powerUp = new PowerUp(boardEdges, powerUpDOM, 300, 0.4);
           }
@@ -438,7 +446,7 @@ function CheckUpdatePowerUps() {
       GameComponent.instance.anyPowerUp = false;
       if (powerUp) {
         // Remove powerUp from DOM
-        var powerUpElement = document.querySelector('.powerUp');
+        let powerUpElement: HTMLElement = document.querySelector('.powerUp');
         if (powerUpElement) {
           powerUpElement.remove();
         }
@@ -500,27 +508,27 @@ function MovePaddles() {
 
 // Function to check collisions with the paddles
 function CheckPaddleCollision() {
-  var ballEdges = ball.GetEdges();
+  let ballEdges: edges = ball.GetEdges();
   if (paddle1.CheckColision(ballEdges)) {
     if (ball.dirX < 0) {
-      var deviation = paddle1.CheckDeviationY(ballEdges);
+      let deviation: number = paddle1.CheckDeviationY(ballEdges);
       ball.BounceX(paddle1.actualSpeed * deltaTime, deviation);
     }
   } else if (paddle2.CheckColision(ballEdges)) {
     if (ball.dirX > 0) {
-      var deviation = paddle2.CheckDeviationY(ballEdges);
+      let deviation: number = paddle2.CheckDeviationY(ballEdges);
       ball.BounceX(paddle2.actualSpeed * deltaTime, deviation);
     }
   }
   if (GameComponent.instance.fourPlayer) {
     if (paddle3.CheckColision(ballEdges)) {
       if (ball.dirX < 0) {
-        var deviation = paddle3.CheckDeviationY(ballEdges);
+        let deviation: number = paddle3.CheckDeviationY(ballEdges);
         ball.BounceX(paddle3.actualSpeed * deltaTime, deviation);
       }
     } else if (paddle4.CheckColision(ballEdges)) {
       if (ball.dirX > 0) {
-        var deviation = paddle4.CheckDeviationY(ballEdges);
+        let deviation: number = paddle4.CheckDeviationY(ballEdges);
         ball.BounceX(paddle4.actualSpeed * deltaTime, deviation);
       }
     }
@@ -529,7 +537,7 @@ function CheckPaddleCollision() {
 
 // Function to check if there is a goal
 function CheckGoal() {
-  var result = ball.CheckGoal();
+  let result: number = ball.CheckGoal();
   if (result != 0 && !GameComponent.instance.gameOver) {
     if (result == 1) {
       scoreboard1.ScorePoint();
@@ -542,7 +550,7 @@ function CheckGoal() {
 
 // Function to check collisions with the paddles
 function CheckPowerUpCollision() {
-  var ballEdges = ball.GetEdges();
+  let ballEdges: edges = ball.GetEdges();
   if (powerUp.CheckColision(ballEdges)) {
     if (powerUp.actualPowerUp == 'Velocity Boost') {
       // Boost ball's velocity
@@ -571,7 +579,7 @@ function FreezePaddles() {
 
 // Function to check if the game is over
 function CheckEndGame() {
-  const endGameMessage = document.querySelector('.end-game-message');
+  let endGameMessage: HTMLElement = document.querySelector('.end-game-message');
 
   // endGameMessage is null while game is not over
   if (endGameMessage) {
@@ -618,17 +626,20 @@ function ResetGame() {
     paddle3.ResetMovingObject();
     paddle4.ResetMovingObject();
   }
-  var dir = RandDir();
+  // Get a random direction
+  let dir: number = RandDir();
   // Calculate half the width and height of the scenario
-  var halfWidthScenario = scenarioElem.offsetWidth / 2;
-  var halfHeightScenario = scenarioElem.offsetHeight / 2;
+  let halfWidthScenario: number = scenarioElem.offsetWidth / 2;
+  let halfHeightScenario: number = scenarioElem.offsetHeight / 2;
+  // Reset the ball with the new direction and position
   ball.Reset(300, halfWidthScenario, halfHeightScenario, Math.cos(dir), Math.sin(dir));
+  // Reset the power-up if any
   if (GameComponent.instance.anyPowerUp) {
     powerUp.Reset(300, halfWidthScenario, 0, 0.4);
   } else {
     if (powerUp) {
       // Remove powerUp from DOM
-      var powerUpElement = document.querySelector('.powerUp');
+      let powerUpElement: Element = document.querySelector('.powerUp');
       if (powerUpElement) {
         powerUpElement.remove();
       }
@@ -647,23 +658,21 @@ function ResetEndGame() {
 }
 
 // VARIABLES OF THE GAME
-// TODO: Replace any with Element here, and fix the missing property offsetWidth
-let scenarioElem: any;
-var styles;
-var boardEdges;
-var dir;
-var ball;
-var powerUp;
-var keyboard;
-var paddle1;
-var paddle2;
-var paddle3;
-var paddle4;
-var scoreboard1;
-var scoreboard2;
-var time;
-var deltaTime;
-var maxPoints = 5;
+let scenarioElem: HTMLElement;
+let boardEdges: edges;
+let dir: number;
+let ball: Ball;
+let powerUp: PowerUp;
+let keyboard: Keyboard;
+let paddle1: paddle;
+let paddle2: paddle;
+let paddle3: paddle;
+let paddle4: paddle;
+let scoreboard1: Scoreboard;
+let scoreboard2: Scoreboard;
+let time: number;
+let deltaTime: number;
+let maxPoints: number = 5;
 
 // Function that inits game variables
 function InitGame(match: IEventMatch) {
@@ -676,7 +685,6 @@ function InitGame(match: IEventMatch) {
     return;
   }
   scenarioElem = document.querySelector('.scenario');
-  styles = ['tecno', 'florido', 'neon', 'loco'];
   keyboard = new Keyboard();
   boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
   dir = RandDir();
@@ -711,8 +719,18 @@ function InitGame(match: IEventMatch) {
 
   // Handle window resize
   window.addEventListener('resize', () => {
+    type UpdatedElements = {
+      updatedBoardEdges: edges;
+      updatedDir: number;
+      updatedBall: Ball;
+      updatedPaddle1: paddle;
+      updatedPaddle2: paddle;
+      updatedPaddle3?: paddle;
+      updatedPaddle4?: paddle;
+      updatedPowerUp?: PowerUp;
+    };
     // Initialize moving objects again
-    const {
+    let {
       updatedBoardEdges,
       updatedDir,
       updatedBall,
@@ -721,7 +739,7 @@ function InitGame(match: IEventMatch) {
       updatedPaddle3,
       updatedPaddle4,
       updatedPowerUp,
-    } = UpdateMovingObjects();
+    }: UpdatedElements = UpdateMovingObjects();
 
     // Update board edges and dir
     boardEdges = updatedBoardEdges;
@@ -779,9 +797,9 @@ function UpdateMovingObjects(): {
   updatedPaddle4?: paddle;
   updatedPowerUp?: PowerUp;
 } {
-  const updatedBoardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
-  const updatedDir = RandDir();
-  const updatedBall = new Ball(
+  let updatedBoardEdges: edges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
+  let updatedDir: number = RandDir();
+  let updatedBall: Ball = new Ball(
     updatedBoardEdges,
     document.querySelector('.ball'),
     300,
@@ -789,7 +807,7 @@ function UpdateMovingObjects(): {
     Math.sin(updatedDir),
     0.1
   );
-  const updatedPaddle1 = new paddle(
+  let updatedPaddle1: paddle = new paddle(
     updatedBoardEdges,
     document.querySelector('.paddle1'),
     400,
@@ -798,7 +816,7 @@ function UpdateMovingObjects(): {
     'w',
     's'
   );
-  const updatedPaddle2 = new paddle(
+  let updatedPaddle2: paddle = new paddle(
     updatedBoardEdges,
     document.querySelector('.paddle2'),
     400,
@@ -807,11 +825,11 @@ function UpdateMovingObjects(): {
     'o',
     'l'
   );
-  let updatedPowerUp;
+  let updatedPowerUp: PowerUp;
   if (GameComponent.instance.anyPowerUp) {
     updatedPowerUp = new PowerUp(updatedBoardEdges, document.querySelector('.powerUp'), 300, 0.4);
   }
-  let updatedPaddle3, updatedPaddle4;
+  let updatedPaddle3: paddle, updatedPaddle4: paddle;
   if (GameComponent.instance.fourPlayer) {
     updatedPaddle3 = new paddle(updatedBoardEdges, document.querySelector('.paddle3'), 400, 1.15, keyboard, 'r', 'f');
     updatedPaddle4 = new paddle(updatedBoardEdges, document.querySelector('.paddle4'), 400, 1.15, keyboard, 'u', 'j');
@@ -832,10 +850,10 @@ function UpdateMovingObjects(): {
 // Function to update player information display
 function updatePlayerInfo(match: IEventMatch) {
   // This function updates the player information displayed in the HTML
-  const controls1 = document.querySelector('.controls1');
-  const controls2 = document.querySelector('.controls2');
-  const controls3 = document.querySelector('.controls3');
-  const controls4 = document.querySelector('.controls4');
+  let controls1: HTMLElement = document.querySelector('.controls1');
+  let controls2: HTMLElement = document.querySelector('.controls2');
+  let controls3: HTMLElement = document.querySelector('.controls3');
+  let controls4: HTMLElement = document.querySelector('.controls4');
 
   if (controls1 && controls2) {
     controls1.innerHTML = `${paddle1.keyCodeUp} / ${paddle1.keyCodeDown}`;
@@ -859,7 +877,7 @@ function Loop() {
     let currentTime = Date.now();
     deltaTime = (currentTime - time) / 1000; // deltaTime in seconds
     // Limit deltaTime to 0.1 seconds
-    const maxDeltaTime = 0.1;
+    let maxDeltaTime: number = 0.1;
     if (deltaTime > maxDeltaTime) {
       deltaTime = maxDeltaTime;
     }
