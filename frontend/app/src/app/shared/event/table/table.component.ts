@@ -42,10 +42,6 @@ export class EventTableComponent implements OnInit, OnDestroy {
     this.openEventFormDialog();
   }
 
-  public editEvent(event: IEvent): void {
-    this.openEventFormDialog(event);
-  }
-
   public goToEventDetail(event: IEvent) {
     this.router.navigate(['./', event.id], { relativeTo: this.route });
   }

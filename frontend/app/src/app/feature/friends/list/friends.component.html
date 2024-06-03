@@ -1,6 +1,8 @@
 <ng-container *ngIf="user$ | async as user">
   <div class="d-flex justify-content-end">
-    <p-button [label]="'general.friends.add' | translate" icon="pi pi-plus" (onClick)="addFriends(user)"></p-button>
+    <button type="button" class="btn btn-primary" (click)="addFriends(user)">
+      {{ "general.friends.add" | translate }}
+    </button>
   </div>
 
   <app-user-table

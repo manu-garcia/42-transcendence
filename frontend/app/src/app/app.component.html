@@ -12,9 +12,10 @@
       <!-- Pedazo separador chaval -->
       <div class="flex-grow-1"></div>
       <app-user-avatar [user]="user"></app-user-avatar>
-      <!-- TODO: Replace this with app-user-avatar -->
 
-      <p-button [label]="'shared.user.signin.signout' | translate" (onClick)="signout()"></p-button>
+      <button type="button" class="btn btn-primary" (click)="signout()">
+        {{ "shared.user.signin.signout" | translate }}
+      </button>
     </ng-container>
 
     <span class="text-primary">{{ "general.language" | translate }}:</span>

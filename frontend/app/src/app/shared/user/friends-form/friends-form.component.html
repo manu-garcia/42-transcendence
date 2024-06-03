@@ -1,21 +1,22 @@
 <ng-container *ngIf="form">
   <form [formGroup]="form" class="d-flex flex-column">
-    <div class="w-100 mt-5 d-flex">
-      <p-floatLabel class="w-50">
-        <p-multiSelect
-          styleClass="w-100"
-          formControlName="friends"
-          optionLabel="username"
-          dataKey="id"
-          [options]="allUsers$ | async"
-          [showToggleAll]="false"
-        ></p-multiSelect>
-        <label for="float-label" class="w-0">{{ "general.friends" | translate }}</label>
-      </p-floatLabel>
+    <div class="w-100 mt-5">
+      <label for="friends" class="w-0">{{ "general.friends" | translate }}</label>
+      <p-multiSelect
+        inputId="friends"
+        styleClass="w-100"
+        formControlName="friends"
+        optionLabel="username"
+        dataKey="id"
+        [options]="allUsers$ | async"
+        [showToggleAll]="false"
+      ></p-multiSelect>
     </div>
   </form>
 
   <div class="d-flex justify-content-end mt-5">
-    <p-button class="mt-5" label="Save" [disabled]="!form.valid" (onClick)="save()"></p-button>
+    <button type="button" class="btn btn-primary mt-5" [disabled]="!form.valid" (click)="save()">
+      {{ "general.save" | translate }}
+    </button>
   </div>
 </ng-container>

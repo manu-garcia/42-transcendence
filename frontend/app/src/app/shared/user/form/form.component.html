@@ -15,14 +15,9 @@
     </div>
 
     <div class="d-flex justify-content-end mt-3 p-2">
-      <button
-        type="button"
-        pButton
-        [label]="'general.save' | translate"
-        icon="pi pi-check"
-        (click)="save()"
-        [disabled]="!form.valid || form.pristine"
-      ></button>
+      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!form.valid || form.pristine">
+        {{ "general.save" | translate }}
+      </button>
     </div>
   </form>
 </div>

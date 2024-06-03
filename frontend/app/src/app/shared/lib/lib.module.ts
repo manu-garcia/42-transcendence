@@ -4,10 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AvatarModule } from 'primeng/avatar';
-import { TableModule } from 'primeng/table';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
-import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
@@ -37,10 +35,8 @@ const modules = [
   FormsModule,
 
   // PrimeNG
-  TableModule,
   CheckboxModule,
   DropdownModule,
-  ButtonModule,
   PanelModule,
   CardModule,
   DividerModule,
