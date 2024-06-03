@@ -41,7 +41,7 @@
   "shared.event.list.name": "Name",
 
   "shared.user.form.choose_avatar": "Choose Avatar Picture",
-  "shared.user.form.firstName": "Alias",
+  "shared.user.form.firstName": "Name",
 
   "shared.game.game.pause_message": "Game is paused, press 'ESC' to continue!",
   "shared.game.game.options": "Options",
