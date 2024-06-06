@@ -639,7 +639,7 @@ function ResetGame() {
   } else {
     if (powerUp) {
       // Remove powerUp from DOM
-      let powerUpElement: Element = document.querySelector('.powerUp');
+      let powerUpElement: HTMLElement = document.querySelector('.powerUp');
       if (powerUpElement) {
         powerUpElement.remove();
       }
