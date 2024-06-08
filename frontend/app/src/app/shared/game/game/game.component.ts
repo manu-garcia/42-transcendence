@@ -184,9 +184,9 @@ class Ball extends MovingObject {
 
   // Method to move the ball
   Move() {
-    // If game is paused vel = 0 to prevent it to move while resizing window
+    // If game is paused or over vel = 0 to prevent it to move while resizing window
     let vel: number;
-    if (GameComponent.instance.isPaused) {
+    if (GameComponent.instance.isPaused || GameComponent.instance.gameOver) {
       vel = 0;
     } else {
       vel = this.vel;
@@ -284,9 +284,9 @@ class PowerUp extends MovingObject {
 
   // Method to move the ball
   Move() {
-    // If game is paused vel = 0 to prevent it to move while resizing window
+    // If game is paused or over vel = 0 to prevent it to move while resizing window
     let vel: number;
-    if (GameComponent.instance.isPaused) {
+    if (GameComponent.instance.isPaused || GameComponent.instance.gameOver) {
       vel = 0;
     } else {
       vel = this.vel;
@@ -364,11 +364,19 @@ class paddle extends MovingObject {
     // While the paddle is frozen it can't move
     if (this.isFrozen > 0) return;
 
+    // If game is paused or over vel = 0 to prevent it to move while resizing window
+    let vel: number;
+    if (GameComponent.instance.isPaused || GameComponent.instance.gameOver) {
+      vel = 0;
+    } else {
+      vel = this.vel;
+    }
+
     // Check pressed keys and adjust current speed
     if (GameComponent.instance.pressedKeys[this.keyCodeUp]) {
-      this.actualSpeed = this.vel;
+      this.actualSpeed = vel;
     } else if (GameComponent.instance.pressedKeys[this.keyCodeDown]) {
-      this.actualSpeed = -this.vel;
+      this.actualSpeed = -vel;
     }
 
     // Move the paddle and prevent it from leaving the board
