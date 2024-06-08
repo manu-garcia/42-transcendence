@@ -49,7 +49,7 @@
   "shared.game.game.win_message_1": "y",
   "shared.game.game.win_message_2": "han ganado!",
   "shared.game.game.win_message_3": "ha ganado!",
-  "shared.game.game.reset": "Pulsa 'Esc' para reiniciar",
+  "shared.game.game.reset": "Sal de la pestaña de juego",
   "shared.game.game.player": "Jugador",
   "shared.game.game.controls": "Controles",
 
