@@ -2,7 +2,7 @@ import { IUser, IUserWithAlias } from 'shared/user/user';
 
 export const enum EEventType {
   NONE = '',
-  QUICK_GAME = 'quickgame',
+  QUICK_GAME = 'quick-game',
   TOURNAMENT = 'tournament',
 }
 
@@ -41,6 +41,7 @@ export interface IEventMatch {
 export interface IEventPayload {
   name: string;
   type: EEventType;
+  maxUsers: number;
   users1: IUserWithAlias[];
   users2: IUserWithAlias[];
 }
