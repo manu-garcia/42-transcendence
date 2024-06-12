@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Event, EventGroup, EventGroupUser, EventType, User
+from .models import Event, EventGroup, EventGroupUser, EventType, EventMatch, User
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -49,17 +49,39 @@ class EventSerializer(serializers.ModelSerializer):
         event_group_data["event"] = event
         event_group_data["max_users"] = max_users
 
+        event_groups = []
+
         if validated_data["type"] == EventType.QUICK_GAME:
-            event_group_1 = EventGroup.objects.create(**event_group_data)
-            event_group_2 = EventGroup.objects.create(**event_group_data)
+            event_groups.append(EventGroup.objects.create(**event_group_data))
+            event_groups.append(EventGroup.objects.create(**event_group_data))
             for event_group_user_data in event_group_user_1_data:
-                create_event_group_user(event_group_1, event_group_user_data)
+                create_event_group_user(event_groups[0], event_group_user_data)
             for event_group_user_data in event_group_user_2_data:
-                create_event_group_user(event_group_2, event_group_user_data)
+                create_event_group_user(event_groups[1], event_group_user_data)
+            
+            # Create event match for quick-game
+            EventMatch.objects.create(
+                event=event,
+                event_group_1=event_groups[0],
+                event_group_2=event_groups[1],
+                points_delta=0,
+            )
 
         elif validated_data["type"] == EventType.TOURNAMENT:
+            len = 0
             for event_group_user_data in event_group_user_1_data:
-                event_group = EventGroup.objects.create(**event_group_data)
-                create_event_group_user(event_group, event_group_user_data)
+                event_groups.append(EventGroup.objects.create(**event_group_data))
+                create_event_group_user(event_groups[len], event_group_user_data)
+                len += 1
+
+            # Create event match for quick-game
+            for i in range(len):
+                for j in range(i + 1, len):
+                    EventMatch.objects.create(
+                        event=event,
+                        event_group_1=event_groups[i],
+                        event_group_2=event_groups[j],
+                        points_delta=0,
+                    )
 
         return event
