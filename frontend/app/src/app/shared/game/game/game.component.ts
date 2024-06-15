@@ -1,13 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { IEventMatch } from 'shared/event/event';
 import { TranslateService } from '@ngx-translate/core';
+import { GameService } from 'shared/game/game.service';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   @Input() match: IEventMatch;
 
   fourPlayer: boolean = false;
@@ -20,24 +21,50 @@ export class GameComponent implements OnInit {
   freeze: boolean = false;
   appearance: string = 'default';
   updateAppearance: boolean = false;
+  windowResizing: boolean = false;
+
+  // Object to store key states
+  pressedKeys: { [key: string]: boolean } = {
+    w: false,
+    s: false,
+    r: false,
+    f: false,
+    u: false,
+    j: false,
+    o: false,
+    l: false,
+  };
 
   // Global reference
   static instance: GameComponent;
 
-  constructor(public translate: TranslateService) {
+  constructor(public translate: TranslateService, public gameService: GameService) {
     GameComponent.instance = this;
   }
 
   ngOnInit(): void {
+    // Pause the game
+    this.isPaused = true;
     // Check if there is an active power up
     this.checkAnyPowerUp();
     // Check if 2v2 or 1v1 game
     this.checkFourPlayer();
+    // Add event listeners
+    window.addEventListener('keydown', this.onKeyDown);
+    window.addEventListener('keyup', this.onKeyUp);
+    window.addEventListener('resize', this.onResize);
   }
 
   ngAfterViewInit(): void {
     // Start game
     InitGame(this.match);
+  }
+
+  ngOnDestroy(): void {
+    // Remove event listeners
+    window.removeEventListener('keydown', this.onKeyDown);
+    window.removeEventListener('keyup', this.onKeyUp);
+    window.removeEventListener('resize', this.onResize);
   }
 
   toggleOptions() {
@@ -68,6 +95,27 @@ export class GameComponent implements OnInit {
     this.appearance = value;
     this.updateAppearance = true;
   }
+
+  onKeyDown = (event: KeyboardEvent): void => {
+    if (this.pressedKeys.hasOwnProperty(event.key)) {
+      this.pressedKeys[event.key] = true;
+    }
+    if (event.key == 'Escape') {
+      this.isPaused = !this.isPaused;
+      this.showOptions = this.isPaused;
+    }
+  };
+
+  onKeyUp = (event: KeyboardEvent): void => {
+    if (this.pressedKeys.hasOwnProperty(event.key)) {
+      this.pressedKeys[event.key] = false;
+    }
+  };
+
+  onResize = (): void => {
+    // Handle resize event
+    this.windowResizing = true;
+  };
 }
 
 // Class for the objects of the board
@@ -76,7 +124,7 @@ class edges {
   maxX: number;
   minY: number;
   maxY: number;
-  constructor(minX, maxX, minY, maxY) {
+  constructor(minX: number, maxX: number, minY: number, maxY: number) {
     this.minX = minX;
     this.maxX = maxX;
     this.minY = minY;
@@ -94,7 +142,7 @@ class MovingObject {
   height: number;
   elem: HTMLElement;
 
-  constructor(boardEdges, elem, vel) {
+  constructor(boardEdges: edges, elem: HTMLElement, vel: number) {
     this.boardEdges = boardEdges;
     this.vel = vel;
     this.x = parseInt(getComputedStyle(elem).left);
@@ -127,7 +175,7 @@ class Ball extends MovingObject {
   dirY: number;
   drag: number;
 
-  constructor(boardEdges, elem, vel, dirX, dirY, drag) {
+  constructor(boardEdges: edges, elem: HTMLElement, vel: number, dirX: number, dirY: number, drag: number) {
     super(boardEdges, elem, vel);
     this.dirX = dirX;
     this.dirY = dirY;
@@ -136,8 +184,15 @@ class Ball extends MovingObject {
 
   // Method to move the ball
   Move() {
-    this.x += this.dirX * this.vel * deltaTime;
-    this.y += this.dirY * this.vel * deltaTime;
+    // If game is paused or over vel = 0 to prevent it to move while resizing window
+    let vel: number;
+    if (GameComponent.instance.isPaused || GameComponent.instance.gameOver) {
+      vel = 0;
+    } else {
+      vel = this.vel;
+    }
+    this.x += this.dirX * vel * deltaTime;
+    this.y += this.dirY * vel * deltaTime;
     this.elem.style.left = this.x + 'px';
     this.elem.style.bottom = this.y + 'px';
     this.CheckBounce();
@@ -155,7 +210,7 @@ class Ball extends MovingObject {
   }
 
   // Method to manage bounce in the X axis
-  BounceX(paddleInertia, deviation) {
+  BounceX(paddleInertia: number, deviation: number) {
     this.dirY += deviation;
     this.dirY += paddleInertia * this.drag;
     this.dirX = -this.dirX;
@@ -177,7 +232,7 @@ class Ball extends MovingObject {
   }
 
   // Method to Reset the ball
-  Reset(vel, x, y, dirX, dirY) {
+  Reset(vel: number, x: number, y: number, dirX: number, dirY: number) {
     this.vel = vel;
     this.x = x;
     this.y = y;
@@ -193,7 +248,7 @@ class PowerUp extends MovingObject {
   activePowerUps: string[];
   actualPowerUp: string;
 
-  constructor(boardEdges, elem, vel, dirY) {
+  constructor(boardEdges: edges, elem: HTMLElement, vel: number, dirY: number) {
     super(boardEdges, elem, vel);
     this.dirY = dirY;
     this.BuildPowerUps();
@@ -212,7 +267,7 @@ class PowerUp extends MovingObject {
 
     this.actualPowerUp = this.activePowerUps[Math.floor(Math.random() * this.activePowerUps.length)];
 
-    const powerUpInitial = document.querySelector('.powerUp');
+    let powerUpInitial: HTMLElement = document.querySelector('.powerUp');
     if (powerUpInitial) {
       if (this.actualPowerUp == 'Velocity Boost') {
         powerUpInitial.innerHTML = `V`;
@@ -229,7 +284,14 @@ class PowerUp extends MovingObject {
 
   // Method to move the ball
   Move() {
-    this.y += this.dirY * this.vel * deltaTime;
+    // If game is paused or over vel = 0 to prevent it to move while resizing window
+    let vel: number;
+    if (GameComponent.instance.isPaused || GameComponent.instance.gameOver) {
+      vel = 0;
+    } else {
+      vel = this.vel;
+    }
+    this.y += this.dirY * vel * deltaTime;
     this.elem.style.left = this.x + 'px';
     this.elem.style.bottom = this.y + 'px';
     this.CheckBounce();
@@ -252,8 +314,8 @@ class PowerUp extends MovingObject {
   }
 
   // Method to check collision with another object
-  CheckColision(edges2) {
-    var edges1 = this.GetEdges();
+  CheckColision(edges2: edges) {
+    let edges1: edges = this.GetEdges();
     return !(
       edges1.maxX < edges2.minX ||
       edges1.minX > edges2.maxX ||
@@ -263,7 +325,7 @@ class PowerUp extends MovingObject {
   }
 
   // Method to Reset the powerUp
-  Reset(vel, x, y, dirY) {
+  Reset(vel: number, x: number, y: number, dirY: number) {
     this.vel = vel;
     this.x = x;
     this.y = y;
@@ -275,16 +337,21 @@ class PowerUp extends MovingObject {
 
 // Class for the paddles
 class paddle extends MovingObject {
-  keyboard: Keyboard;
   actualSpeed: number;
   friction: number;
   keyCodeUp: string;
   keyCodeDown: string;
   isFrozen: number;
 
-  constructor(boardEdges, elem, vel, friction, keyboard, keyCodeUp, keyCodeDown) {
+  constructor(
+    boardEdges: edges,
+    elem: HTMLElement,
+    vel: number,
+    friction: number,
+    keyCodeUp: string,
+    keyCodeDown: string
+  ) {
     super(boardEdges, elem, vel);
-    this.keyboard = keyboard;
     this.actualSpeed = 0;
     this.friction = friction;
     this.keyCodeUp = keyCodeUp;
@@ -297,11 +364,19 @@ class paddle extends MovingObject {
     // While the paddle is frozen it can't move
     if (this.isFrozen > 0) return;
 
+    // If game is paused or over vel = 0 to prevent it to move while resizing window
+    let vel: number;
+    if (GameComponent.instance.isPaused || GameComponent.instance.gameOver) {
+      vel = 0;
+    } else {
+      vel = this.vel;
+    }
+
     // Check pressed keys and adjust current speed
-    if (this.keyboard.isPressed(this.keyCodeUp)) {
-      this.actualSpeed = this.vel;
-    } else if (this.keyboard.isPressed(this.keyCodeDown)) {
-      this.actualSpeed = -this.vel;
+    if (GameComponent.instance.pressedKeys[this.keyCodeUp]) {
+      this.actualSpeed = vel;
+    } else if (GameComponent.instance.pressedKeys[this.keyCodeDown]) {
+      this.actualSpeed = -vel;
     }
 
     // Move the paddle and prevent it from leaving the board
@@ -313,15 +388,15 @@ class paddle extends MovingObject {
 
   // Method to manage the progressive braking of the paddle
   ProgressiveStop() {
-    if (!this.keyboard.isPressed(this.keyCodeUp) && !this.keyboard.isPressed(this.keyCodeDown)) {
+    if (!GameComponent.instance.pressedKeys[this.keyCodeUp] && !GameComponent.instance.pressedKeys[this.keyCodeDown]) {
       this.actualSpeed /= this.friction;
-      if (Math.abs(this.actualSpeed) < 1) this.actualSpeed = 0;
+      if (Math.abs(this.actualSpeed) < 0.2) this.actualSpeed = 0;
     }
   }
 
   // Method to check collision with another object
-  CheckColision(edges2) {
-    var edges1 = this.GetEdges();
+  CheckColision(edges2: edges) {
+    let edges1: edges = this.GetEdges();
     return !(
       edges1.maxX < edges2.minX ||
       edges1.minX > edges2.maxX ||
@@ -331,10 +406,10 @@ class paddle extends MovingObject {
   }
 
   // Method to calculate the deviation in the Y axis when hitting the ball
-  CheckDeviationY(edges2) {
-    var edges1 = this.GetEdges();
-    var middle2Y = (edges2.maxY + edges2.minY) / 2;
-    var relativePos = (middle2Y - edges1.minY) / (edges1.maxY - edges1.minY);
+  CheckDeviationY(edges2: edges) {
+    let edges1: edges = this.GetEdges();
+    let middle2Y: number = (edges2.maxY + edges2.minY) / 2;
+    let relativePos: number = (middle2Y - edges1.minY) / (edges1.maxY - edges1.minY);
     return relativePos * 2 - 1;
   }
 }
@@ -343,7 +418,7 @@ class paddle extends MovingObject {
 class Scoreboard {
   elem: HTMLElement;
   points: number;
-  constructor(elem) {
+  constructor(elem: HTMLElement) {
     this.elem = elem;
     this.points = 0;
   }
@@ -361,51 +436,23 @@ class Scoreboard {
   }
 }
 
-// Class to manage the keyboard
-class Keyboard {
-  pressedKeys: Object;
-  constructor() {
-    this.pressedKeys = {};
-    document.addEventListener('keydown', this.keyPressed.bind(this));
-    document.addEventListener('keyup', this.keyReleased.bind(this));
-  }
-
-  // Method to register the key pressed
-  keyPressed(evento) {
-    if (evento.key === 'ArrowUp' || evento.key === 'ArrowDown') {
-      evento.preventDefault();
-    }
-    this.pressedKeys[evento.key] = true;
-  }
-
-  // Method to register the release of a key
-  keyReleased(evento) {
-    this.pressedKeys[evento.key] = false;
-  }
-
-  // Method to check if a key is pressed
-  isPressed(tecla) {
-    return !!this.pressedKeys[tecla];
-  }
-}
-
 // Function to generate a random motion direction in radians
 function RandDir() {
   // Array with motion direction options in radians
-  var optionsDir = [
+  let optionsDir: number[] = [
     Math.PI / 4, // 45 degrees
     (3 * Math.PI) / 4, // 135 degrees
     (5 * Math.PI) / 4, // 225 degrees
     (7 * Math.PI) / 4, // 315 degrees
   ];
-  var randomIndex = Math.floor(Math.random() * optionsDir.length);
+  let randomIndex: number = Math.floor(Math.random() * optionsDir.length);
   return optionsDir[randomIndex];
 }
 
 // Update function that is called in each frame
 function Update() {
   ball.Move();
-  if (GameComponent.instance.anyPowerUp) {
+  if (powerUp) {
     powerUp.Move();
     CheckPowerUpCollision();
   }
@@ -426,7 +473,7 @@ function CheckUpdatePowerUps() {
       if (!powerUp) {
         setTimeout(() => {
           // Wait for DOM to update
-          const powerUpDOM = document.querySelector('.powerUp');
+          let powerUpDOM: HTMLElement = document.querySelector('.powerUp');
           if (powerUpDOM) {
             powerUp = new PowerUp(boardEdges, powerUpDOM, 300, 0.4);
           }
@@ -438,7 +485,7 @@ function CheckUpdatePowerUps() {
       GameComponent.instance.anyPowerUp = false;
       if (powerUp) {
         // Remove powerUp from DOM
-        var powerUpElement = document.querySelector('.powerUp');
+        let powerUpElement: HTMLElement = document.querySelector('.powerUp');
         if (powerUpElement) {
           powerUpElement.remove();
         }
@@ -500,27 +547,27 @@ function MovePaddles() {
 
 // Function to check collisions with the paddles
 function CheckPaddleCollision() {
-  var ballEdges = ball.GetEdges();
+  let ballEdges: edges = ball.GetEdges();
   if (paddle1.CheckColision(ballEdges)) {
     if (ball.dirX < 0) {
-      var deviation = paddle1.CheckDeviationY(ballEdges);
+      let deviation: number = paddle1.CheckDeviationY(ballEdges);
       ball.BounceX(paddle1.actualSpeed * deltaTime, deviation);
     }
   } else if (paddle2.CheckColision(ballEdges)) {
     if (ball.dirX > 0) {
-      var deviation = paddle2.CheckDeviationY(ballEdges);
+      let deviation: number = paddle2.CheckDeviationY(ballEdges);
       ball.BounceX(paddle2.actualSpeed * deltaTime, deviation);
     }
   }
   if (GameComponent.instance.fourPlayer) {
     if (paddle3.CheckColision(ballEdges)) {
       if (ball.dirX < 0) {
-        var deviation = paddle3.CheckDeviationY(ballEdges);
+        let deviation: number = paddle3.CheckDeviationY(ballEdges);
         ball.BounceX(paddle3.actualSpeed * deltaTime, deviation);
       }
     } else if (paddle4.CheckColision(ballEdges)) {
       if (ball.dirX > 0) {
-        var deviation = paddle4.CheckDeviationY(ballEdges);
+        let deviation: number = paddle4.CheckDeviationY(ballEdges);
         ball.BounceX(paddle4.actualSpeed * deltaTime, deviation);
       }
     }
@@ -529,7 +576,7 @@ function CheckPaddleCollision() {
 
 // Function to check if there is a goal
 function CheckGoal() {
-  var result = ball.CheckGoal();
+  let result: number = ball.CheckGoal();
   if (result != 0 && !GameComponent.instance.gameOver) {
     if (result == 1) {
       scoreboard1.ScorePoint();
@@ -542,7 +589,7 @@ function CheckGoal() {
 
 // Function to check collisions with the paddles
 function CheckPowerUpCollision() {
-  var ballEdges = ball.GetEdges();
+  let ballEdges: edges = ball.GetEdges();
   if (powerUp.CheckColision(ballEdges)) {
     if (powerUp.actualPowerUp == 'Velocity Boost') {
       // Boost ball's velocity
@@ -571,11 +618,28 @@ function FreezePaddles() {
 
 // Function to check if the game is over
 function CheckEndGame() {
-  const endGameMessage = document.querySelector('.end-game-message');
+  let endGameMessage: HTMLElement = document.querySelector('.end-game-message');
 
   // endGameMessage is null while game is not over
   if (endGameMessage) {
     GameComponent.instance.isPaused = true;
+    GameComponent.instance.match.played = true;
+
+    /* // Save played match
+    GameComponent.instance.gameService.saveMatch(GameComponent.instance.match).subscribe(
+      (savedMatch) => {
+        // Match saved correctly.
+        console.log('Saved match:', savedMatch);
+      },
+      (error) => {
+        // Handle error saving the played match.
+        console.error('Error saving match:', error);
+      }
+    ); */
+
+    // Print the ended match
+    console.log('Played match: ', GameComponent.instance.match);
+
     if (scoreboard1.points == maxPoints) {
       if (GameComponent.instance.fourPlayer) {
         endGameMessage.innerHTML = `${
@@ -605,8 +669,14 @@ function CheckEndGame() {
       endGameMessage.innerHTML =
         endGameMessage.innerHTML + ` ${GameComponent.instance.translate.instant('shared.game.game.reset')}`;
     }
-  } else if (scoreboard1.points >= maxPoints || scoreboard2.points >= maxPoints) {
+  } else if (scoreboard1.points >= maxPoints) {
     GameComponent.instance.gameOver = true;
+    GameComponent.instance.match.pointsDelta = scoreboard1.points - scoreboard2.points;
+    GameComponent.instance.match.winnerEventMatchGroupId = GameComponent.instance.match.group1.id;
+  } else if (scoreboard2.points >= maxPoints) {
+    GameComponent.instance.gameOver = true;
+    GameComponent.instance.match.pointsDelta = scoreboard2.points - scoreboard1.points;
+    GameComponent.instance.match.winnerEventMatchGroupId = GameComponent.instance.match.group2.id;
   }
 }
 
@@ -618,17 +688,20 @@ function ResetGame() {
     paddle3.ResetMovingObject();
     paddle4.ResetMovingObject();
   }
-  var dir = RandDir();
+  // Get a random direction
+  let dir: number = RandDir();
   // Calculate half the width and height of the scenario
-  var halfWidthScenario = scenarioElem.offsetWidth / 2;
-  var halfHeightScenario = scenarioElem.offsetHeight / 2;
+  let halfWidthScenario: number = scenarioElem.offsetWidth / 2;
+  let halfHeightScenario: number = scenarioElem.offsetHeight / 2;
+  // Reset the ball with the new direction and position
   ball.Reset(300, halfWidthScenario, halfHeightScenario, Math.cos(dir), Math.sin(dir));
+  // Reset the power-up if any
   if (GameComponent.instance.anyPowerUp) {
     powerUp.Reset(300, halfWidthScenario, 0, 0.4);
   } else {
     if (powerUp) {
       // Remove powerUp from DOM
-      var powerUpElement = document.querySelector('.powerUp');
+      let powerUpElement: HTMLElement = document.querySelector('.powerUp');
       if (powerUpElement) {
         powerUpElement.remove();
       }
@@ -638,32 +711,21 @@ function ResetGame() {
   }
 }
 
-// Game restart after end of match function
-function ResetEndGame() {
-  GameComponent.instance.gameOver = false;
-  scoreboard1.Reset();
-  scoreboard2.Reset();
-  ResetGame();
-}
-
 // VARIABLES OF THE GAME
-// TODO: Replace any with Element here, and fix the missing property offsetWidth
-let scenarioElem: any;
-var styles;
-var boardEdges;
-var dir;
-var ball;
-var powerUp;
-var keyboard;
-var paddle1;
-var paddle2;
-var paddle3;
-var paddle4;
-var scoreboard1;
-var scoreboard2;
-var time;
-var deltaTime;
-var maxPoints = 5;
+let scenarioElem: HTMLElement;
+let boardEdges: edges;
+let dir: number;
+let ball: Ball;
+let powerUp: PowerUp;
+let paddle1: paddle;
+let paddle2: paddle;
+let paddle3: paddle;
+let paddle4: paddle;
+let scoreboard1: Scoreboard;
+let scoreboard2: Scoreboard;
+let time: number;
+let deltaTime: number;
+let maxPoints: number = 5;
 
 // Function that inits game variables
 function InitGame(match: IEventMatch) {
@@ -676,19 +738,17 @@ function InitGame(match: IEventMatch) {
     return;
   }
   scenarioElem = document.querySelector('.scenario');
-  styles = ['tecno', 'florido', 'neon', 'loco'];
-  keyboard = new Keyboard();
   boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
   dir = RandDir();
   ball = new Ball(boardEdges, document.querySelector('.ball'), 300, Math.cos(dir), Math.sin(dir), 0.1);
   if (GameComponent.instance.anyPowerUp) {
     powerUp = new PowerUp(boardEdges, document.querySelector('.powerUp'), 300, 0.4);
   }
-  paddle1 = new paddle(boardEdges, document.querySelector('.paddle1'), 400, 1.15, keyboard, 'w', 's');
-  paddle2 = new paddle(boardEdges, document.querySelector('.paddle2'), 400, 1.15, keyboard, 'o', 'l');
+  paddle1 = new paddle(boardEdges, document.querySelector('.paddle1'), 400, 1.15, 'w', 's');
+  paddle2 = new paddle(boardEdges, document.querySelector('.paddle2'), 400, 1.15, 'o', 'l');
   if (GameComponent.instance.fourPlayer) {
-    paddle3 = new paddle(boardEdges, document.querySelector('.paddle3'), 400, 1.15, keyboard, 'r', 'f');
-    paddle4 = new paddle(boardEdges, document.querySelector('.paddle4'), 400, 1.15, keyboard, 'u', 'j');
+    paddle3 = new paddle(boardEdges, document.querySelector('.paddle3'), 400, 1.15, 'r', 'f');
+    paddle4 = new paddle(boardEdges, document.querySelector('.paddle4'), 400, 1.15, 'u', 'j');
   }
   updatePlayerInfo(match);
   scoreboard1 = new Scoreboard(document.querySelector('.scoreboard1'));
@@ -696,76 +756,75 @@ function InitGame(match: IEventMatch) {
   time = Date.now();
   deltaTime = 0;
 
-  // Event listener for the 'keydown' event
-  document.addEventListener('keydown', function (event) {
-    // Check if the key pressed is Escape
-    if (event.code === 'Escape') {
-      if (GameComponent.instance.gameOver) {
-        ResetEndGame();
-      } else {
-        GameComponent.instance.isPaused = !GameComponent.instance.isPaused;
-        GameComponent.instance.showOptions = GameComponent.instance.isPaused;
-      }
-    }
-  });
-
-  // Handle window resize
-  window.addEventListener('resize', () => {
-    // Initialize moving objects again
-    const {
-      updatedBoardEdges,
-      updatedDir,
-      updatedBall,
-      updatedPaddle1,
-      updatedPaddle2,
-      updatedPaddle3,
-      updatedPaddle4,
-      updatedPowerUp,
-    } = UpdateMovingObjects();
-
-    // Update board edges and dir
-    boardEdges = updatedBoardEdges;
-    dir = updatedDir;
-
-    // Preserve the ball's current direction and speed and update it
-    updatedBall.dirX = ball.dirX;
-    updatedBall.dirY = ball.dirY;
-    updatedBall.vel = ball.vel;
-    updatedBall.x = ball.x * (updatedBoardEdges.maxX / boardEdges.maxX);
-    updatedBall.y = ball.y * (updatedBoardEdges.maxY / boardEdges.maxY);
-    ball = updatedBall;
-
-    // Preserve the power-up's current direction and speed and update it
-    if (GameComponent.instance.anyPowerUp) {
-      updatedPowerUp.dirY = powerUp.dirY;
-      updatedPowerUp.vel = powerUp.vel;
-      updatedPowerUp.x = powerUp.x * (updatedBoardEdges.maxX / boardEdges.maxX);
-      updatedPowerUp.y = powerUp.y * (updatedBoardEdges.maxY / boardEdges.maxY);
-      powerUp = updatedPowerUp;
-    }
-    // Preserve paddles' positions and update them
-    updatedPaddle1.y = paddle1.y * (updatedBoardEdges.maxY / boardEdges.maxY);
-    updatedPaddle2.y = paddle2.y * (updatedBoardEdges.maxY / boardEdges.maxY);
-    paddle1 = updatedPaddle1;
-    paddle2 = updatedPaddle2;
-    if (GameComponent.instance.fourPlayer) {
-      updatedPaddle3.y = paddle3.y * (updatedBoardEdges.maxY / boardEdges.maxY);
-      updatedPaddle4.y = paddle4.y * (updatedBoardEdges.maxY / boardEdges.maxY);
-      paddle3 = updatedPaddle3;
-      paddle4 = updatedPaddle4;
-    }
-
-    // Pause the game
-    GameComponent.instance.isPaused = true;
-    // Show options
-    GameComponent.instance.showOptions = true;
-
-    // Update the position after resize
-    Update();
-  });
-
   // Call to the loop function
   Loop();
+}
+
+// Handle window resize
+function handleResize(): void {
+  type UpdatedElements = {
+    updatedBoardEdges: edges;
+    updatedDir: number;
+    updatedBall: Ball;
+    updatedPaddle1: paddle;
+    updatedPaddle2: paddle;
+    updatedPaddle3?: paddle;
+    updatedPaddle4?: paddle;
+    updatedPowerUp?: PowerUp;
+  };
+  // Initialize moving objects again
+  let {
+    updatedBoardEdges,
+    updatedDir,
+    updatedBall,
+    updatedPaddle1,
+    updatedPaddle2,
+    updatedPaddle3,
+    updatedPaddle4,
+    updatedPowerUp,
+  }: UpdatedElements = UpdateMovingObjects();
+
+  // Preserve the ball's current direction and speed and update it
+  updatedBall.dirX = ball.dirX;
+  updatedBall.dirY = ball.dirY;
+  updatedBall.vel = ball.vel;
+  updatedBall.x = ball.x * (updatedBoardEdges.maxX / boardEdges.maxX);
+  updatedBall.y = ball.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+  ball = updatedBall;
+
+  // Preserve the power-up's current direction and speed and update it
+  if (powerUp) {
+    updatedPowerUp.dirY = powerUp.dirY;
+    updatedPowerUp.vel = powerUp.vel;
+    updatedPowerUp.x = powerUp.x * (updatedBoardEdges.maxX / boardEdges.maxX);
+    updatedPowerUp.y = powerUp.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+    powerUp = updatedPowerUp;
+  }
+  // Preserve paddles' positions and update them
+  updatedPaddle1.y = paddle1.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+  updatedPaddle2.y = paddle2.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+  paddle1 = updatedPaddle1;
+  paddle2 = updatedPaddle2;
+  if (GameComponent.instance.fourPlayer) {
+    updatedPaddle3.y = paddle3.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+    updatedPaddle4.y = paddle4.y * (updatedBoardEdges.maxY / boardEdges.maxY);
+    paddle3 = updatedPaddle3;
+    paddle4 = updatedPaddle4;
+  }
+
+  // Update board edges and dir
+  boardEdges = updatedBoardEdges;
+  dir = updatedDir;
+
+  // Pause the game
+  GameComponent.instance.isPaused = true;
+  // Show options
+  GameComponent.instance.showOptions = true;
+  // Reset windows resize
+  GameComponent.instance.windowResizing = false;
+
+  // Update the position after resize
+  Update();
 }
 
 // Function to create new moving objects after window resize
@@ -779,9 +838,9 @@ function UpdateMovingObjects(): {
   updatedPaddle4?: paddle;
   updatedPowerUp?: PowerUp;
 } {
-  const updatedBoardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
-  const updatedDir = RandDir();
-  const updatedBall = new Ball(
+  let updatedBoardEdges: edges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
+  let updatedDir: number = RandDir();
+  let updatedBall: Ball = new Ball(
     updatedBoardEdges,
     document.querySelector('.ball'),
     300,
@@ -789,32 +848,16 @@ function UpdateMovingObjects(): {
     Math.sin(updatedDir),
     0.1
   );
-  const updatedPaddle1 = new paddle(
-    updatedBoardEdges,
-    document.querySelector('.paddle1'),
-    400,
-    1.15,
-    keyboard,
-    'w',
-    's'
-  );
-  const updatedPaddle2 = new paddle(
-    updatedBoardEdges,
-    document.querySelector('.paddle2'),
-    400,
-    1.15,
-    keyboard,
-    'o',
-    'l'
-  );
-  let updatedPowerUp;
+  let updatedPaddle1: paddle = new paddle(updatedBoardEdges, document.querySelector('.paddle1'), 400, 1.15, 'w', 's');
+  let updatedPaddle2: paddle = new paddle(updatedBoardEdges, document.querySelector('.paddle2'), 400, 1.15, 'o', 'l');
+  let updatedPowerUp: PowerUp;
   if (GameComponent.instance.anyPowerUp) {
     updatedPowerUp = new PowerUp(updatedBoardEdges, document.querySelector('.powerUp'), 300, 0.4);
   }
-  let updatedPaddle3, updatedPaddle4;
+  let updatedPaddle3: paddle, updatedPaddle4: paddle;
   if (GameComponent.instance.fourPlayer) {
-    updatedPaddle3 = new paddle(updatedBoardEdges, document.querySelector('.paddle3'), 400, 1.15, keyboard, 'r', 'f');
-    updatedPaddle4 = new paddle(updatedBoardEdges, document.querySelector('.paddle4'), 400, 1.15, keyboard, 'u', 'j');
+    updatedPaddle3 = new paddle(updatedBoardEdges, document.querySelector('.paddle3'), 400, 1.15, 'r', 'f');
+    updatedPaddle4 = new paddle(updatedBoardEdges, document.querySelector('.paddle4'), 400, 1.15, 'u', 'j');
   }
 
   return {
@@ -832,10 +875,10 @@ function UpdateMovingObjects(): {
 // Function to update player information display
 function updatePlayerInfo(match: IEventMatch) {
   // This function updates the player information displayed in the HTML
-  const controls1 = document.querySelector('.controls1');
-  const controls2 = document.querySelector('.controls2');
-  const controls3 = document.querySelector('.controls3');
-  const controls4 = document.querySelector('.controls4');
+  let controls1: HTMLElement = document.querySelector('.controls1');
+  let controls2: HTMLElement = document.querySelector('.controls2');
+  let controls3: HTMLElement = document.querySelector('.controls3');
+  let controls4: HTMLElement = document.querySelector('.controls4');
 
   if (controls1 && controls2) {
     controls1.innerHTML = `${paddle1.keyCodeUp} / ${paddle1.keyCodeDown}`;
@@ -851,6 +894,10 @@ function updatePlayerInfo(match: IEventMatch) {
 
 // Function to calculate the deltaTime and call Update in each frame
 function Loop() {
+  // Reset all elements if window is resized
+  if (GameComponent.instance.windowResizing) {
+    handleResize();
+  }
   // Update isPaused if options toggled
   if (GameComponent.instance.showOptions && !GameComponent.instance.isPaused) {
     GameComponent.instance.isPaused = true;
@@ -859,7 +906,7 @@ function Loop() {
     let currentTime = Date.now();
     deltaTime = (currentTime - time) / 1000; // deltaTime in seconds
     // Limit deltaTime to 0.1 seconds
-    const maxDeltaTime = 0.1;
+    let maxDeltaTime: number = 0.1;
     if (deltaTime > maxDeltaTime) {
       deltaTime = maxDeltaTime;
     }

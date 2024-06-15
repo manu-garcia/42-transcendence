@@ -3,11 +3,16 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { GameScreenComponent } from './game/game.component';
 import { QuickGameListScreenComponent } from './list/list.component';
+import { QuickGameDetailScreenComponent } from './detail/detail.component';
 
 const routes: Routes = [
   {
+    path: 'list/:id',
+    component: QuickGameDetailScreenComponent,
+  },
+  {
     path: '',
-    redirectTo: 'game',
+    redirectTo: 'game', // Cambiar por list cuando se acabe el desarrollo del juego
     pathMatch: 'full',
   },
   {
