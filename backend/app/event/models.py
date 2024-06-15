@@ -56,11 +56,11 @@ class EventMatch(models.Model):
         Event,
         on_delete=models.CASCADE,
     )
-    event_group_1 = models.ForeignKey(
-        EventGroup, on_delete=models.CASCADE, related_name="event_group_1"
+    group_1 = models.ForeignKey(
+        EventGroup, on_delete=models.CASCADE, related_name="group_1", default=None
     )
-    event_group_2 = models.ForeignKey(
-        EventGroup, on_delete=models.CASCADE, related_name="event_group_2"
+    group_2 = models.ForeignKey(
+        EventGroup, on_delete=models.CASCADE, related_name="group_2", default=None
     )
     played = models.BooleanField(default=False)
     points_delta = models.IntegerField()
@@ -75,7 +75,7 @@ class EventMatch(models.Model):
         db_table = "event_match"
 
     def __str__(self):
-        return f"EventMatch {self.id} - Event: {self.event_id} - Group 1: {self.event_group_1_id} - Group 2: {self.event_group_2_id} - Played: {self.played} - Points Delta: {self.points_delta}"
+        return f"EventMatch {self.id} - Event: {self.event_id} - Group 1: {self.group_1_id} - Group 2: {self.group_2_id} - Played: {self.played} - Points Delta: {self.points_delta}"
 
 
 class EventGroupUser(models.Model):

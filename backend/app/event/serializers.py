@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Event, EventGroup, EventGroupUser, EventType, EventMatch, User
+from user.serializers import UserSerializer
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -58,12 +59,12 @@ class EventSerializer(serializers.ModelSerializer):
                 create_event_group_user(event_groups[0], event_group_user_data)
             for event_group_user_data in event_group_user_2_data:
                 create_event_group_user(event_groups[1], event_group_user_data)
-            
+
             # Create event match for quick-game
             EventMatch.objects.create(
                 event=event,
-                event_group_1=event_groups[0],
-                event_group_2=event_groups[1],
+                group_1=event_groups[0],
+                group_2=event_groups[1],
                 points_delta=0,
             )
 
@@ -79,9 +80,34 @@ class EventSerializer(serializers.ModelSerializer):
                 for j in range(i + 1, len):
                     EventMatch.objects.create(
                         event=event,
-                        event_group_1=event_groups[i],
-                        event_group_2=event_groups[j],
+                        group_1=event_groups[i],
+                        group_2=event_groups[j],
                         points_delta=0,
                     )
 
         return event
+
+
+class EventMatchSerializer(serializers.ModelSerializer):
+    event = EventSerializer()
+
+    class Meta:
+        model = EventMatch
+        fields = ["id", "event", "group_1", "group_2", "played", "points_delta"]
+
+
+class EventGroupSerializer(serializers.ModelSerializer):
+    event = EventSerializer()
+
+    class Meta:
+        model = EventGroup
+        fields = ["id", "event", "max_users"]
+
+
+class EventGroupUserSerializer(serializers.ModelSerializer):
+    event_group = EventGroupSerializer()
+    user = UserSerializer()
+
+    class Meta:
+        model = EventGroupUser
+        fields = ["id", "event_group", "user", "points"]
