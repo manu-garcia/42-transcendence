@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
   templateUrl: './game.component.html',
 })
 export class GameScreenComponent implements OnInit {
-  public eventMatch: Observable<IEventMatch>;
+  public eventMatch$: Observable<IEventMatch>;
   public eventPruebas: IEvent;
   // Select here: TRUE = 2v2, FALSE = 1v1
   multiplayer: boolean = true;
@@ -21,9 +21,9 @@ export class GameScreenComponent implements OnInit {
   ngOnInit() {
     // MODIFICAR EL SIGUIENTE ID!!!! TIENE QUE ESTAR CREADO UN EVENTO
     // Y TIENE QUE TENER MATCHES!!
-    this.eventPruebas.id = 3;
+    this.eventPruebas = { id: 3 } as IEvent;
 
-    this.eventMatch = this.gameService.getMatch(this.eventPruebas);
+    this.eventMatch$ = this.gameService.getMatch(this.eventPruebas);
 
     // if (this.multiplayer) {
     //   this.initializeEventMatch2();

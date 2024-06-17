@@ -10,9 +10,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./game.component.css'],
 })
 export class GameComponent implements OnInit, OnDestroy {
-  @Input() matchObservable: Observable<IEventMatch>;
+  @Input() match: IEventMatch;
 
-  match: IEventMatch;
   fourPlayer: boolean = false;
   showOptions: boolean = false;
   isPaused: boolean = false;
@@ -45,25 +44,25 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.matchObservable.subscribe((match) => {
-      this.match = match;
-    });
+    console.log(this.match);
   }
 
   ngAfterViewInit(): void {
-    // Pause the game
-    this.isPaused = true;
-    // Check if there is an active power up
-    this.checkAnyPowerUp();
-    // Add event listeners
-    window.addEventListener('keydown', this.onKeyDown);
-    window.addEventListener('keyup', this.onKeyUp);
-    window.addEventListener('resize', this.onResize);
-    // Check if 2v2 or 1v1 game
-    this.checkFourPlayer();
-    console.log('afterinit match:', this.match);
-    // Start game
-    InitGame(this.match);
+    if (this.match) {
+      // Pause the game
+      this.isPaused = true;
+      // Check if there is an active power up
+      this.checkAnyPowerUp();
+      // Add event listeners
+      window.addEventListener('keydown', this.onKeyDown);
+      window.addEventListener('keyup', this.onKeyUp);
+      window.addEventListener('resize', this.onResize);
+      // Check if 2v2 or 1v1 game
+      this.checkFourPlayer();
+      console.log('afterinit match:', this.match);
+      // Start game
+      InitGame(this.match);
+    }
   }
 
   ngOnDestroy(): void {
