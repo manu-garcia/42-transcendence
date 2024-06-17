@@ -22,6 +22,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
   public eventPayload: IEventPayload = {
     name: '',
     type: EEventType.NONE,
+    maxUsers: 0,
     users1: [],
     users2: [],
   };
@@ -57,10 +58,12 @@ export class EventFormComponent implements OnInit, OnDestroy {
       this.availableUsers2.push(...this.availableUsers1);
     });
 
-    if (this.eventPayload.type === EEventType.TOURNAMENT) {
+    if (this.eventPayload.type == EEventType.TOURNAMENT) {
+      this.eventPayload.maxUsers = 1;
       this.minUsersGroup1 = 2;
       this.minUsersGroup2 = 0;
-    } else if (this.eventPayload.type === EEventType.QUICK_GAME) {
+    } else if (this.eventPayload.type == EEventType.QUICK_GAME) {
+      this.eventPayload.maxUsers = 0;
       this.minUsersGroup1 = 1;
       this.minUsersGroup2 = 1;
     }
@@ -93,6 +96,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
       {
         name: new FormControl<string>(this.eventPayload.name || null, Validators.required),
         type: new FormControl<EEventType>(this.eventPayload.type || null),
+        maxUsers: new FormControl<number>(this.eventPayload.maxUsers || 0),
 
         users1: new FormControl<IUserWithAlias[]>(this.eventPayload.users2 || [], [
           Validators.required,
