@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { IEventMatch } from 'shared/event/event';
 import { TranslateService } from '@ngx-translate/core';
 import { GameService } from 'shared/game/game.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-game',
@@ -9,8 +10,9 @@ import { GameService } from 'shared/game/game.service';
   styleUrls: ['./game.component.css'],
 })
 export class GameComponent implements OnInit, OnDestroy {
-  @Input() match: IEventMatch;
+  @Input() matchObservable: Observable<IEventMatch>;
 
+  match: IEventMatch;
   fourPlayer: boolean = false;
   showOptions: boolean = false;
   isPaused: boolean = false;
@@ -43,19 +45,23 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.matchObservable.subscribe((match) => {
+      this.match = match;
+    });
+  }
+
+  ngAfterViewInit(): void {
     // Pause the game
     this.isPaused = true;
     // Check if there is an active power up
     this.checkAnyPowerUp();
-    // Check if 2v2 or 1v1 game
-    this.checkFourPlayer();
     // Add event listeners
     window.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('keyup', this.onKeyUp);
     window.addEventListener('resize', this.onResize);
-  }
-
-  ngAfterViewInit(): void {
+    // Check if 2v2 or 1v1 game
+    this.checkFourPlayer();
+    console.log('afterinit match:', this.match);
     // Start game
     InitGame(this.match);
   }
@@ -75,6 +81,7 @@ export class GameComponent implements OnInit, OnDestroy {
     if (this.match.group1.users.length === 2 && this.match.group2.users.length === 2) {
       this.fourPlayer = true;
     }
+    console.log('FOURPLAYER = ', this.fourPlayer);
   }
 
   checkAnyPowerUp(): void {
@@ -643,13 +650,13 @@ function CheckEndGame() {
     if (scoreboard1.points == maxPoints) {
       if (GameComponent.instance.fourPlayer) {
         endGameMessage.innerHTML = `${
-          GameComponent.instance.match.group1.users[0].username
+          GameComponent.instance.match.group1.users[0].alias
         } ${GameComponent.instance.translate.instant('shared.game.game.win_message_1')} ${
-          GameComponent.instance.match.group1.users[1].username
+          GameComponent.instance.match.group1.users[1].alias
         } ${GameComponent.instance.translate.instant('shared.game.game.win_message_2')}`;
       } else {
         endGameMessage.innerHTML = `${
-          GameComponent.instance.match.group1.users[0].username
+          GameComponent.instance.match.group1.users[0].alias
         } ${GameComponent.instance.translate.instant('shared.game.game.win_message_3')}`;
       }
       endGameMessage.innerHTML =
@@ -657,13 +664,13 @@ function CheckEndGame() {
     } else {
       if (GameComponent.instance.fourPlayer) {
         endGameMessage.innerHTML = `${
-          GameComponent.instance.match.group2.users[0].username
+          GameComponent.instance.match.group2.users[0].alias
         } ${GameComponent.instance.translate.instant('shared.game.game.win_message_1')} ${
-          GameComponent.instance.match.group2.users[1].username
+          GameComponent.instance.match.group2.users[1].alias
         } ${GameComponent.instance.translate.instant('shared.game.game.win_message_2')}`;
       } else {
         endGameMessage.innerHTML = `${
-          GameComponent.instance.match.group2.users[0].username
+          GameComponent.instance.match.group2.users[0].alias
         } ${GameComponent.instance.translate.instant('shared.game.game.win_message_3')}`;
       }
       endGameMessage.innerHTML =
@@ -672,11 +679,11 @@ function CheckEndGame() {
   } else if (scoreboard1.points >= maxPoints) {
     GameComponent.instance.gameOver = true;
     GameComponent.instance.match.pointsDelta = scoreboard1.points - scoreboard2.points;
-    GameComponent.instance.match.winnerEventMatchGroupId = GameComponent.instance.match.group1.id;
+    GameComponent.instance.match.winnerEventMatchGroup = GameComponent.instance.match.group1;
   } else if (scoreboard2.points >= maxPoints) {
     GameComponent.instance.gameOver = true;
     GameComponent.instance.match.pointsDelta = scoreboard2.points - scoreboard1.points;
-    GameComponent.instance.match.winnerEventMatchGroupId = GameComponent.instance.match.group2.id;
+    GameComponent.instance.match.winnerEventMatchGroup = GameComponent.instance.match.group2;
   }
 }
 
