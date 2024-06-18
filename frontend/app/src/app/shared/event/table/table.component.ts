@@ -43,7 +43,7 @@ export class EventTableComponent implements OnInit, OnDestroy {
   }
 
   public goToEventDetail(event: IEvent) {
-    this.router.navigate(['./', event.id], { relativeTo: this.route });
+    this.router.navigate(['./', event.id], { relativeTo: this.route, state: { event } });
   }
 
   private openEventFormDialog(event: IEvent = null): void {

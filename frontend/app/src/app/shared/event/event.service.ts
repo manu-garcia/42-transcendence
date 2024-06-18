@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { IEvent } from './event';
+import { IEvent, IEventMatchDiego } from './event';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,10 @@ export class EventService {
 
   public getEvents(): Observable<IEvent[]> {
     return this.http.get<IEvent[]>(this.apiUrl);
+  }
+
+  public getMatches(event: IEvent): Observable<IEventMatchDiego[]> {
+    return this.http.get<IEventMatchDiego[]>(`${this.apiUrl}${event.id}/matches/`);
   }
 
   public saveEvent(event: IEvent): Observable<IEvent> {

@@ -8,7 +8,7 @@ router.register("", EventViewSet, basename="events")
 urlpatterns = [
     path(
         "events/<int:pk>/match/",
-        EventViewSet.as_view({"post": "match", "get": "next_match"}),
+        EventViewSet.as_view({"post": "match", "get": "next_match", "get": "matches"}),
         name="event-match",
     ),
 ] + router.urls

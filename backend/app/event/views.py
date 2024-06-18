@@ -163,3 +163,80 @@ class EventViewSet(CachedViewSet):
             return Response({"success": "Tournament results updated"}, status=200)
         else:
             return Response({"success": "Match result updated"}, status=200)
+
+    # /events/<int:pk>/matches/
+    @action(detail=True, methods=["get"])
+    def matches(self, request, pk=None):
+
+        # Check and get the event data
+        try:
+            event = Event.objects.get(id=pk)
+        except Event.DoesNotExist:
+            raise Http404
+
+        matches = EventMatch.objects.filter(event=event)
+
+        if matches:
+
+            # Map matches data
+            matches_data = []
+            for match in matches:
+                event_group_users_1 = EventGroupUser.objects.filter(
+                    event_group=match.group_1
+                )
+                event_group_users_2 = EventGroupUser.objects.filter(
+                    event_group=match.group_2
+                )
+
+                # Map users with alias
+                users_with_alias_1 = []
+                for event_group_user in event_group_users_1:
+                    user_data = {
+                        "user": UserSerializer(event_group_user.user).data,
+                        "alias": event_group_user.alias,
+                    }
+                    users_with_alias_1.append(user_data)
+                users_with_alias_2 = []
+                for event_group_user in event_group_users_2:
+                    user_data = {
+                        "user": UserSerializer(event_group_user.user).data,
+                        "alias": event_group_user.alias,
+                    }
+                    users_with_alias_2.append(user_data)
+
+                # Map match data
+                match_id = match.id
+                match_event = EventSerializer(match.event).data
+
+                match_group_1 = {
+                    "id": match.group_1.id,
+                    "event": EventSerializer(match.group_1.event).data,
+                    "max_users": match.group_1.max_users,
+                    "users": users_with_alias_1,
+                }
+                match_group_2 = {
+                    "id": match.group_2.id,
+                    "event": EventSerializer(match.group_2.event).data,
+                    "max_users": match.group_2.max_users,
+                    "users": users_with_alias_2,
+                }
+
+                match_played = match.played
+                match_points_delta = match.points_delta
+                match_winner_event_match_group = EventGroupSerializer(
+                    match.winner_event_match_group
+                ).data
+                match_data = {
+                    "id": match_id,
+                    "event": match_event,
+                    "group_1": match_group_1,
+                    "group_2": match_group_2,
+                    "played": match_played,
+                    "points_delta": match_points_delta,
+                    "winner_event_match_group": match_winner_event_match_group,
+                }
+                matches_data.append(match_data)
+
+            return Response(matches_data, status=200)
+        else:
+            raise Http404
