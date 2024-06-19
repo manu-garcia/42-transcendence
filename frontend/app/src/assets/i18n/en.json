@@ -30,6 +30,15 @@
   "shared.event.list.create.username": "Name",
   "shared.event.list.create.alias": "Alias",
 
+  "shared.event.detail.beginMatch": "Begin Match",
+  "shared.event.detail.firstGroup": "First Group",
+  "shared.event.detail.secondGroup": "Second Group",
+  "shared.event.detail.status": "Status",
+  "shared.event.detail.status.pending": "Pending",
+  "shared.event.detail.status.finalized": "Finalized",
+  "shared.event.detail.winners": "Winners",
+  "shared.event.detail.noWinner": "No winner",
+
   "shared.user.signin.username": "Username",
   "shared.user.signin.password": "Password",
   "shared.user.signin.password_repeat": "Repeat password",

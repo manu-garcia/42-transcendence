@@ -1,8 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 
-import { IEvent, IEventMatchDiego } from 'shared/event/event';
-import { EventService } from 'shared/event/event.service';
+import { IEvent } from 'shared/event/event';
 
 @Component({
   selector: 'app-tournament-detail-screen',
@@ -10,12 +8,8 @@ import { EventService } from 'shared/event/event.service';
 })
 export class TournamentDetailScreenComponent implements OnInit {
   public event: IEvent;
-  public matches$: Observable<IEventMatchDiego[]>;
-
-  constructor(private eventService: EventService) {}
 
   ngOnInit() {
     this.event = history.state.event;
-    this.matches$ = this.eventService.getMatches(this.event);
   }
 }
