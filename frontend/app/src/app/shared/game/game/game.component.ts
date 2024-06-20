@@ -1,15 +1,14 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { IEventMatch } from 'shared/event/event';
 import { TranslateService } from '@ngx-translate/core';
 import { GameService } from 'shared/game/game.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
-export class GameComponent implements OnInit, OnDestroy {
+export class GameComponent implements OnDestroy, OnChanges {
   @Input() match: IEventMatch;
 
   fourPlayer: boolean = false;
@@ -23,6 +22,7 @@ export class GameComponent implements OnInit, OnDestroy {
   appearance: string = 'default';
   updateAppearance: boolean = false;
   windowResizing: boolean = false;
+  infoUpdated: boolean = false;
 
   // Object to store key states
   pressedKeys: { [key: string]: boolean } = {
@@ -43,25 +43,9 @@ export class GameComponent implements OnInit, OnDestroy {
     GameComponent.instance = this;
   }
 
-  ngOnInit(): void {
-    console.log(this.match);
-  }
-
-  ngAfterViewInit(): void {
-    if (this.match) {
-      // Pause the game
-      this.isPaused = true;
-      // Check if there is an active power up
-      this.checkAnyPowerUp();
-      // Add event listeners
-      window.addEventListener('keydown', this.onKeyDown);
-      window.addEventListener('keyup', this.onKeyUp);
-      window.addEventListener('resize', this.onResize);
-      // Check if 2v2 or 1v1 game
-      this.checkFourPlayer();
-      console.log('afterinit match:', this.match);
-      // Start game
-      InitGame(this.match);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.match && this.match) {
+      this.initializeGame();
     }
   }
 
@@ -72,6 +56,25 @@ export class GameComponent implements OnInit, OnDestroy {
     window.removeEventListener('resize', this.onResize);
   }
 
+  initializeGame(): void {
+    if (this.match) {
+      // Pause the game
+      this.isPaused = true;
+      // Check if there is an active power up
+      this.checkAnyPowerUp();
+      // Add event listeners
+      window.addEventListener('keydown', this.onKeyDown.bind(this));
+      window.addEventListener('keyup', this.onKeyUp.bind(this));
+      window.addEventListener('resize', this.onResize.bind(this));
+      // Check if 2v2 or 1v1 game
+      this.checkFourPlayer();
+      // Game Over like received match
+      this.gameOver = false;
+      // Start game
+      InitGame(this.match);
+    }
+  }
+
   toggleOptions() {
     this.showOptions = !this.showOptions;
   }
@@ -80,7 +83,6 @@ export class GameComponent implements OnInit, OnDestroy {
     if (this.match.group1.users.length === 2 && this.match.group2.users.length === 2) {
       this.fourPlayer = true;
     }
-    console.log('FOURPLAYER = ', this.fourPlayer);
   }
 
   checkAnyPowerUp(): void {
@@ -631,7 +633,7 @@ function CheckEndGame() {
     GameComponent.instance.isPaused = true;
     GameComponent.instance.match.played = true;
 
-    /* // Save played match
+    // Save played match
     GameComponent.instance.gameService.saveMatch(GameComponent.instance.match).subscribe(
       (savedMatch) => {
         // Match saved correctly.
@@ -641,7 +643,7 @@ function CheckEndGame() {
         // Handle error saving the played match.
         console.error('Error saving match:', error);
       }
-    ); */
+    );
 
     // Print the ended match
     console.log('Played match: ', GameComponent.instance.match);
@@ -675,11 +677,11 @@ function CheckEndGame() {
       endGameMessage.innerHTML =
         endGameMessage.innerHTML + ` ${GameComponent.instance.translate.instant('shared.game.game.reset')}`;
     }
-  } else if (scoreboard1.points >= maxPoints) {
+  } else if (scoreboard1.points >= maxPoints && GameComponent.instance.match) {
     GameComponent.instance.gameOver = true;
     GameComponent.instance.match.pointsDelta = scoreboard1.points - scoreboard2.points;
     GameComponent.instance.match.winnerEventMatchGroup = GameComponent.instance.match.group1;
-  } else if (scoreboard2.points >= maxPoints) {
+  } else if (scoreboard2.points >= maxPoints && GameComponent.instance.match) {
     GameComponent.instance.gameOver = true;
     GameComponent.instance.match.pointsDelta = scoreboard2.points - scoreboard1.points;
     GameComponent.instance.match.winnerEventMatchGroup = GameComponent.instance.match.group2;
@@ -718,7 +720,7 @@ function ResetGame() {
 }
 
 // VARIABLES OF THE GAME
-let scenarioElem: HTMLElement;
+let scenarioElem: HTMLElement = null;
 let boardEdges: edges;
 let dir: number;
 let ball: Ball;
@@ -743,27 +745,36 @@ function InitGame(match: IEventMatch) {
     console.error('No match data available.');
     return;
   }
-  scenarioElem = document.querySelector('.scenario');
-  boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
-  dir = RandDir();
-  ball = new Ball(boardEdges, document.querySelector('.ball'), 300, Math.cos(dir), Math.sin(dir), 0.1);
-  if (GameComponent.instance.anyPowerUp) {
-    powerUp = new PowerUp(boardEdges, document.querySelector('.powerUp'), 300, 0.4);
-  }
-  paddle1 = new paddle(boardEdges, document.querySelector('.paddle1'), 400, 1.15, 'w', 's');
-  paddle2 = new paddle(boardEdges, document.querySelector('.paddle2'), 400, 1.15, 'o', 'l');
-  if (GameComponent.instance.fourPlayer) {
-    paddle3 = new paddle(boardEdges, document.querySelector('.paddle3'), 400, 1.15, 'r', 'f');
-    paddle4 = new paddle(boardEdges, document.querySelector('.paddle4'), 400, 1.15, 'u', 'j');
-  }
-  updatePlayerInfo(match);
-  scoreboard1 = new Scoreboard(document.querySelector('.scoreboard1'));
-  scoreboard2 = new Scoreboard(document.querySelector('.scoreboard2'));
-  time = Date.now();
-  deltaTime = 0;
 
-  // Call to the loop function
-  Loop();
+  // Use setInterval to wait for the scenario element to be available
+  const checkScenarioElem = setInterval(() => {
+    scenarioElem = document.querySelector('.scenario');
+
+    if (scenarioElem) {
+      clearInterval(checkScenarioElem);
+
+      // Initialize the game variables once the scenario element is found
+      boardEdges = new edges(0, scenarioElem.offsetWidth, 0, scenarioElem.offsetHeight);
+      dir = RandDir();
+      ball = new Ball(boardEdges, document.querySelector('.ball'), 300, Math.cos(dir), Math.sin(dir), 0.1);
+      if (GameComponent.instance.anyPowerUp) {
+        powerUp = new PowerUp(boardEdges, document.querySelector('.powerUp'), 300, 0.4);
+      }
+      paddle1 = new paddle(boardEdges, document.querySelector('.paddle1'), 400, 1.15, 'w', 's');
+      paddle2 = new paddle(boardEdges, document.querySelector('.paddle2'), 400, 1.15, 'o', 'l');
+      if (GameComponent.instance.fourPlayer) {
+        paddle3 = new paddle(boardEdges, document.querySelector('.paddle3'), 400, 1.15, 'r', 'f');
+        paddle4 = new paddle(boardEdges, document.querySelector('.paddle4'), 400, 1.15, 'u', 'j');
+      }
+      scoreboard1 = new Scoreboard(document.querySelector('.scoreboard1'));
+      scoreboard2 = new Scoreboard(document.querySelector('.scoreboard2'));
+      time = Date.now();
+      deltaTime = 0;
+
+      // Call to the loop function
+      Loop();
+    }
+  }, 100); // Check every 100 ms
 }
 
 // Handle window resize
@@ -893,8 +904,7 @@ function updatePlayerInfo(match: IEventMatch) {
       controls3.innerHTML = `${paddle3.keyCodeUp} / ${paddle3.keyCodeDown}`;
       controls4.innerHTML = `${paddle4.keyCodeUp} / ${paddle4.keyCodeDown}`;
     }
-  } else {
-    console.error('Player info elements not found');
+    GameComponent.instance.infoUpdated = true;
   }
 }
 
@@ -903,6 +913,10 @@ function Loop() {
   // Reset all elements if window is resized
   if (GameComponent.instance.windowResizing) {
     handleResize();
+  }
+  // Update player info if it is not updated
+  if (!GameComponent.instance.infoUpdated) {
+    updatePlayerInfo(GameComponent.instance.match);
   }
   // Update isPaused if options toggled
   if (GameComponent.instance.showOptions && !GameComponent.instance.isPaused) {
