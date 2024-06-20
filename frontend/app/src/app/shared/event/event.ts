@@ -18,7 +18,7 @@ export interface IEventGroup {
   id: number;
   event: IEvent;
   maxUsers: number;
-  users: IUser[];
+  users: IUserWithAlias[];
 }
 
 export interface IEventGroupUser {
@@ -35,7 +35,7 @@ export interface IEventMatch {
   group2: IEventGroup;
   played: boolean;
   pointsDelta: number;
-  winnerEventMatchGroupId: number;
+  winnerEventMatchGroup: IEventGroup;
 }
 
 export interface IEventPayload {
