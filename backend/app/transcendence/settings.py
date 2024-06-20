@@ -61,6 +61,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:4200",
+    "https://transcendence.42.fr",
 ]
 
 ROOT_URLCONF = "transcendence.urls"

@@ -85,11 +85,4 @@ export class AppComponent implements OnInit {
   public onActiveItemChange(event: MenuItem) {
     this.activeItem = event;
   }
-
-  public signout() {
-    this.userService.signout().subscribe(() => {
-      this.user$ = null;
-      this.router.navigateByUrl('/signin');
-    });
-  }
 }
