@@ -223,9 +223,13 @@ class EventViewSet(CachedViewSet):
 
                 match_played = match.played
                 match_points_delta = match.points_delta
-                match_winner_event_match_group = EventGroupSerializer(
+                match_winner_match_group = EventGroupSerializer(
                     match.winner_event_match_group
                 ).data
+                if match_winner_match_group.get("id") == match_group_1.get("id"):
+                    match_winner_match_group = match_group_1
+                elif match_winner_match_group.get("id") == match_group_2.get("id"):
+                    match_winner_match_group = match_group_2
                 match_data = {
                     "id": match_id,
                     "event": match_event,
@@ -233,7 +237,7 @@ class EventViewSet(CachedViewSet):
                     "group_2": match_group_2,
                     "played": match_played,
                     "points_delta": match_points_delta,
-                    "winner_event_match_group": match_winner_event_match_group,
+                    "winner_event_match_group": match_winner_match_group,
                 }
                 matches_data.append(match_data)
 

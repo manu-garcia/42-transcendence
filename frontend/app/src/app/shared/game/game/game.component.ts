@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnDestroy, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { IEventMatch } from 'shared/event/event';
 import { TranslateService } from '@ngx-translate/core';
 import { GameService } from 'shared/game/game.service';
@@ -8,7 +8,7 @@ import { GameService } from 'shared/game/game.service';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
-export class GameComponent implements OnDestroy, OnChanges {
+export class GameComponent implements OnDestroy, OnChanges, OnInit {
   @Input() match: IEventMatch;
 
   fourPlayer: boolean = false;
@@ -43,7 +43,12 @@ export class GameComponent implements OnDestroy, OnChanges {
     GameComponent.instance = this;
   }
 
+  ngOnInit(): void {
+    console.log('this.match:', this.match);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('this.match:', this.match);
     if (changes.match && this.match) {
       this.initializeGame();
     }

@@ -45,20 +45,3 @@ export interface IEventPayload {
   users1: IUserWithAlias[];
   users2: IUserWithAlias[];
 }
-
-export interface IEventGroupDiego {
-  id: number;
-  event: IEvent;
-  maxUsers: number;
-  users: IUserWithAlias[];
-}
-
-export interface IEventMatchDiego {
-  id: number;
-  event: IEvent;
-  group1: IEventGroupDiego;
-  group2: IEventGroupDiego;
-  played: boolean;
-  pointsDelta: number;
-  winnerEventMatchGroup: IEventGroupDiego;
-}
