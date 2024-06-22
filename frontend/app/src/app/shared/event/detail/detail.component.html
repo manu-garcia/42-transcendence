@@ -42,7 +42,9 @@
                 {{ "shared.event.detail.noWinner" | translate }}
               </ng-container>
               <ng-container *ngIf="match.winnerEventMatchGroup.maxUsers != null">
-                {{ match.winnerEventMatchGroup.users[0].alias }}
+                <ng-container *ngFor="let user of match.winnerEventMatchGroup.users">
+                  <div>{{ user.alias }}</div>
+                </ng-container>
               </ng-container>
             </td>
           </tr>
