@@ -14,6 +14,7 @@ export class UserFormComponent implements OnChanges {
   @Input() user: IUser;
 
   public form: FormGroup;
+  selectedFile: File | null = null;
 
   constructor(private messageService: MessageService, private userService: UserService) {}
 
@@ -23,10 +24,13 @@ export class UserFormComponent implements OnChanges {
 
   public onFileChange(event: any) {
     if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
       const file = event.target.files[0];
       this.form.patchValue({ profilePic: file });
       this.form.get('profilePic').markAsDirty();
       this.form.get('profilePic').markAsTouched();
+    } else {
+      this.selectedFile = null;
     }
   }
 
