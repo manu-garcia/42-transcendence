@@ -1,0 +1,58 @@
+<div class="card">
+  <ng-container *ngIf="!playingMatch">
+    <div class="card-header">Lista de partidos</div>
+    <div class="card-body">
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" *ngIf="eventMatch" (click)="goToEventGame(event)">
+          {{ "shared.event.detail.beginMatch" | translate }}
+        </button>
+      </div>
+
+      <table class="table table-striped table-bordered table-responsive mt-2">
+        <thead>
+          <tr>
+            <th>{{ "shared.event.detail.firstGroup" | translate }}</th>
+            <th>{{ "shared.event.detail.secondGroup" | translate }}</th>
+            <th>{{ "shared.event.detail.status" | translate }}</th>
+            <th>{{ "shared.event.detail.winners" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let match of matches$ | async">
+            <td>
+              <ng-container *ngFor="let user of match.group1.users">
+                <div>{{ user.alias }}</div>
+              </ng-container>
+            </td>
+            <td>
+              <ng-container *ngFor="let user of match.group2.users">
+                <div>{{ user.alias }}</div>
+              </ng-container>
+            </td>
+            <td>
+              <ng-container *ngIf="match.played === false">
+                {{ "shared.event.detail.status.pending" | translate }}
+              </ng-container>
+              <ng-container *ngIf="match.played === true">
+                {{ "shared.event.detail.status.finalized" | translate }}
+              </ng-container>
+            </td>
+            <td>
+              <ng-container *ngIf="match.winnerEventMatchGroup.maxUsers == null">
+                {{ "shared.event.detail.noWinner" | translate }}
+              </ng-container>
+              <ng-container *ngIf="match.winnerEventMatchGroup.maxUsers != null">
+                <ng-container *ngFor="let user of match.winnerEventMatchGroup.users">
+                  <div>{{ user.alias }}</div>
+                </ng-container>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="playingMatch">
+    <app-game [match]="eventMatch"></app-game>
+  </ng-container>
+</div>

@@ -31,6 +31,15 @@
   "shared.event.list.create.username": "Nombre",
   "shared.event.list.create.alias": "Apodo",
 
+  "shared.event.detail.beginMatch": "Comenzar Partida",
+  "shared.event.detail.firstGroup": "Primer grupo",
+  "shared.event.detail.secondGroup": "Segundo grupo",
+  "shared.event.detail.status": "Estado",
+  "shared.event.detail.status.pending": "Pendiente",
+  "shared.event.detail.status.finalized": "Finalizado",
+  "shared.event.detail.winners": "Ganadores",
+  "shared.event.detail.noWinner": "Sin ganador",
+
   "shared.user.signin.username": "Usuario",
   "shared.user.signin.password": "Contraseña",
   "shared.user.signin.password_repeat": "Repite contraseña",

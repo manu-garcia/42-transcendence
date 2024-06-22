@@ -16,12 +16,14 @@
       </thead>
       <tbody>
         <tr *ngFor="let event of events$ | async">
-          <td>{{ event.name }}</td>
-          <td>
-            <button type="button" class="btn btn-primary m-2" (click)="goToEventDetail(event)">
-              {{ "shared.event.list.actions.detail" | translate }}
-            </button>
-          </td>
+          <ng-container *ngIf="event.type === typeEvent">
+            <td>{{ event.name }}</td>
+            <td>
+              <button type="button" class="btn btn-primary m-2" (click)="goToEventDetail(event)">
+                {{ "shared.event.list.actions.detail" | translate }}
+              </button>
+            </td>
+          </ng-container>
         </tr>
       </tbody>
     </table>
