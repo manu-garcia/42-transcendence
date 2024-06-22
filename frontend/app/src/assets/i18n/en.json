@@ -51,6 +51,8 @@
 
   "shared.user.form.choose_avatar": "Choose Avatar Picture",
   "shared.user.form.firstName": "Name",
+  "shared.user.form.button_text": "Select a file",
+  "shared.user.form.button_message": "No file selected",
 
   "shared.game.game.pause_message": "Game is paused, press 'ESC' to continue!",
   "shared.game.game.options": "Options",
