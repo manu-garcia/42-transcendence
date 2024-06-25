@@ -12,6 +12,11 @@
   "general.friends": "Amigos",
   "general.friends.add": "Añadir amigos",
 
+  "general.stats.events_won": "Eventos Ganados",
+  "general.stats.matches_won": "Partidos Ganados",
+  "general.stats.played": "Jugados",
+  "general.stats.won": "Ganados",
+
   "shared.user.list": "Lista de usuarios",
   "shared.user.list.actions": "Acciones",
   "shared.user.list.name": "Nombre",

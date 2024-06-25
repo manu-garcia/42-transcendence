@@ -16,6 +16,7 @@ import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { ChartModule } from 'primeng/chart';
 
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -48,6 +49,7 @@ const modules = [
   MultiSelectModule,
   FloatLabelModule,
   AvatarModule,
+  ChartModule,
 
   //Translations
   TranslateModule.forChild(),
