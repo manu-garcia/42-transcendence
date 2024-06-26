@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { StatsScreenComponent } from './list/list.component';
+import { StatsDashboardScreenComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'list',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
   },
   {
-    path: 'list',
-    component: StatsScreenComponent,
+    path: 'dashboard',
+    component: StatsDashboardScreenComponent,
   },
 ];
 

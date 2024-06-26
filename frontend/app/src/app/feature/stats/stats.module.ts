@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { LibModuleShared } from 'shared/lib/lib.module';
 
 import { StatsRoutingModule } from './stats-routing.module';
-import { StatsScreenModule as StatsListModule } from './list/list.module';
+import { StatsDashboardScreenModule } from './dashboard/dashboard.module';
 
 @NgModule({
   imports: [
@@ -12,7 +12,7 @@ import { StatsScreenModule as StatsListModule } from './list/list.module';
 
     // Own modules
     StatsRoutingModule,
-    StatsListModule,
+    StatsDashboardScreenModule,
   ],
 })
 export class StatsScreenModule {}
