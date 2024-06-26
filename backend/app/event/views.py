@@ -2,6 +2,7 @@ from django.http import Http404
 from cache.views import CachedViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from cache.utils import delete_cache
 
 from .models import Event, EventMatch, EventGroup, EventGroupUser
 from .serializers import EventSerializer, EventGroupSerializer, EventType
@@ -160,6 +161,7 @@ class EventViewSet(CachedViewSet):
                 id=event_winner["group"]["id"]
             )
             event.save()
+            delete_cache(self.CACHE_KEY_PREFIX)
             return Response({"success": "Tournament results updated"}, status=200)
         else:
             return Response({"success": "Match result updated"}, status=200)

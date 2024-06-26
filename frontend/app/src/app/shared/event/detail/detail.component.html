@@ -3,7 +3,7 @@
     <div class="card-header">Lista de partidos</div>
     <div class="card-body">
       <div class="d-flex justify-content-end">
-        <button type="button" class="btn btn-primary" *ngIf="eventMatch" (click)="goToEventGame(event)">
+        <button type="button" class="btn btn-primary" *ngIf="nextMatchExist" (click)="goToEventGame(event)">
           {{ "shared.event.detail.beginMatch" | translate }}
         </button>
       </div>
@@ -53,6 +53,6 @@
     </div>
   </ng-container>
   <ng-container *ngIf="playingMatch">
-    <app-game [match]="eventMatch"></app-game>
+    <app-game [match]="eventMatch$ | async"></app-game>
   </ng-container>
 </div>
