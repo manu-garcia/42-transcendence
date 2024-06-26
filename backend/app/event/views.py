@@ -1,4 +1,5 @@
 from django.http import Http404
+from django.db.models import Q
 from cache.views import CachedViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -6,6 +7,7 @@ from rest_framework.response import Response
 from .models import Event, EventMatch, EventGroup, EventGroupUser
 from .serializers import EventSerializer, EventGroupSerializer, EventType
 from user.serializers import UserSerializer
+from user.models import User
 
 
 class EventViewSet(CachedViewSet):
@@ -15,6 +17,73 @@ class EventViewSet(CachedViewSet):
     http_method_names = ["get", "post", "put", "delete"]
 
     CACHE_KEY_PREFIX = "event-view"
+
+    # "events/stats/user/<int:pk>/matches-won/",
+    @action(detail=True, methods=["get"])
+    def matches_won(self, request, pk=None):
+        try:
+            user = User.objects.get(id=pk)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+
+        # Filter events where the user belongs to a participating group
+        event_groups = EventGroupUser.objects.filter(user=user)
+        event_group_ids = event_groups.values_list("event_group_id", flat=True)
+
+        # Count total matches played (user is in either group 1 or group 2)
+        total_matches_played = EventMatch.objects.filter(
+            Q(group_1__in=event_group_ids) | Q(group_2__in=event_group_ids)
+        ).count()
+
+        # Count victories (user's group is the winner_event_match_group)
+        total_matches_won = EventMatch.objects.filter(
+            Q(
+                group_1__in=event_group_ids,
+                winner_event_match_group__in=event_group_ids,
+            )
+            | Q(
+                group_2__in=event_group_ids,
+                winner_event_match_group__in=event_group_ids,
+            )
+        ).count()
+
+        return Response(
+            {
+                "user_id": user.id,
+                "played": total_matches_played,
+                "won": total_matches_won,
+            }
+        )
+
+    # "events/stats/user/<int:pk>/events-won/",
+    @action(detail=True, methods=["get"])
+    def events_won(self, request, pk=None):
+        try:
+            user = User.objects.get(id=pk)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+
+        # Filter events where the user belongs to a participating group
+        event_groups = EventGroupUser.objects.filter(user=user)
+        event_group_ids = event_groups.values_list("event_group_id", flat=True)
+
+        # Count total events participated in (using distinct to avoid duplicates)
+        total_events_played = (
+            Event.objects.filter(eventgroup__in=event_group_ids).distinct().count()
+        )
+
+        # Count events won (filter by winner_event_group)
+        total_events_won = Event.objects.filter(
+            winner_event_group__in=event_group_ids
+        ).count()
+
+        return Response(
+            {
+                "user_id": user.id,
+                "played": total_events_played,
+                "won": total_events_won,
+            }
+        )
 
     # /events/<int:pk>/next_match/
     @action(detail=True, methods=["get"])

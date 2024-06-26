@@ -1,0 +1,8 @@
+<div class="row">
+  <div class="col-3">
+    <app-pie-chart *ngIf="userStatsMatchesWon$ | async as userStatsMatchesWon" [chartData]="userStatsMatchesWon" />
+  </div>
+  <div class="col-3">
+    <app-pie-chart *ngIf="userStatsEventsWon$ | async as userStatsEventsWon" [chartData]="userStatsEventsWon" />
+  </div>
+</div>
