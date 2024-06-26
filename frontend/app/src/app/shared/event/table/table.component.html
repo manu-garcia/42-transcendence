@@ -11,8 +11,8 @@
       <thead>
         <tr>
           <th>{{ "shared.event.list.name" | translate }}</th>
-          <th>Status</th>
-          <th>Winner</th>
+          <th>{{ "shared.event.list.status" | translate }}</th>
+          <th>{{ "shared.event.list.winners" | translate }}</th>
           <th>{{ "shared.event.list.actions" | translate }}</th>
         </tr>
       </thead>
@@ -21,11 +21,17 @@
           <ng-container *ngIf="event.type === typeEvent">
             <td>{{ event.name }}</td>
             <td>
-              <ng-container *ngIf="event.played === false"> Pendiente </ng-container>
-              <ng-container *ngIf="event.played === true"> Finalizado </ng-container>
+              <ng-container *ngIf="event.played === false">
+                {{ "shared.event.list.status.pending" | translate }}
+              </ng-container>
+              <ng-container *ngIf="event.played === true">
+                {{ "shared.event.list.status.finalized" | translate }}
+              </ng-container>
             </td>
             <td>
-              <ng-container *ngIf="event.winnerEventGroup.users.length == 0"> Sin ganador </ng-container>
+              <ng-container *ngIf="event.winnerEventGroup.users.length == 0">
+                {{ "shared.event.list.noWinner" | translate }}
+              </ng-container>
               <ng-container *ngIf="event.winnerEventGroup.users.length != 0">
                 <ng-container *ngFor="let user of event.winnerEventGroup.users">
                   <div>{{ user.alias }}</div>
