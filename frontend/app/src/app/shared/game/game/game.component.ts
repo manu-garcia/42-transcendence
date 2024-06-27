@@ -936,5 +936,7 @@ function Loop() {
     // If game is paused, update `time` to prevent deltaTime out of control
     time = Date.now();
   }
-  requestAnimationFrame(Loop);
+  if (!GameComponent.instance.match.played) {
+    requestAnimationFrame(Loop);
+  }
 }

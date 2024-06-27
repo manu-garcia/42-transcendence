@@ -34,6 +34,11 @@
   "shared.event.list.create.secondGroup": "Second Group",
   "shared.event.list.create.username": "Name",
   "shared.event.list.create.alias": "Alias",
+  "shared.event.list.status": "Status",
+  "shared.event.list.status.pending": "Pending",
+  "shared.event.list.status.finalized": "Finalized",
+  "shared.event.list.status.winners": "Winners",
+  "shared.event.list.status.noWinner": "No winner",
 
   "shared.event.detail.beginMatch": "Begin Match",
   "shared.event.detail.firstGroup": "First Group",
