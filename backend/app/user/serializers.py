@@ -25,6 +25,7 @@ class FriendSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     friends = FriendSerializer(many=True, required=False)
+    profile_pic = serializers.ImageField(use_url=False)
 
     class Meta:
         model = User

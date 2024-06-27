@@ -14,6 +14,14 @@ export class RouterService {
     return `${this.getApiBaseUrl()}${this.trimStartingSlash(url)}`;
   }
 
+  public getMediaUrl(url: string): string {
+    if (!url || !url.length) {
+      return url;
+    }
+
+    return `${this.getApiBaseUrl()}media/${this.trimStartingSlash(url)}`;
+  }
+
   private getApiBaseUrl() {
     return environment.baseApiUrl;
   }
