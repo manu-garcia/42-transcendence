@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { IEvent, EEventType } from 'shared/event/event';
 import { EventService } from 'shared/event/event.service';
@@ -29,7 +29,13 @@ export class EventTableComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.events$ = this.eventService.getEvents();
+    this.events$ = this.eventService.getEvents().pipe(
+      map((events) => {
+        return events.sort((a, b) => {
+          return a.id - b.id;
+        });
+      })
+    );
   }
 
   ngOnDestroy() {

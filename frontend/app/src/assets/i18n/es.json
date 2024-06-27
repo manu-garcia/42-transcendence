@@ -35,6 +35,11 @@
   "shared.event.list.create.secondGroup": "Segundo Grupo",
   "shared.event.list.create.username": "Nombre",
   "shared.event.list.create.alias": "Apodo",
+  "shared.event.list.status": "Estado",
+  "shared.event.list.status.pending": "Pendiente",
+  "shared.event.list.status.finalized": "Finalizado",
+  "shared.event.list.winners": "Ganadores",
+  "shared.event.list.noWinner": "Sin ganador",
 
   "shared.event.detail.beginMatch": "Comenzar Partida",
   "shared.event.detail.firstGroup": "Primer grupo",

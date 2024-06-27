@@ -5,7 +5,7 @@ from rest_framework import viewsets
 
 from .utils import delete_cache
 
-CACHE_SECONDS = 60 * 5
+CACHE_SECONDS = 0
 CACHE_KEY_PREFIX_DEFAULT = None
 
 

@@ -14,6 +14,23 @@ class EventSerializer(serializers.ModelSerializer):
             "winner_event_group",
         ]
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        event_group_users = EventGroupUser.objects.filter(
+            event_group=instance.winner_event_group
+        )
+        users_with_alias = []
+        for event_group_user in event_group_users:
+            user_data = {
+                "user": UserSerializer(event_group_user.user).data,
+                "alias": event_group_user.alias,
+            }
+            users_with_alias.append(user_data)
+        data["winner_event_group"] = {
+            "users": users_with_alias,
+        }
+        return data
+
     def to_internal_value(self, data):
         name = data.get("name")
         type = data.get("type")
