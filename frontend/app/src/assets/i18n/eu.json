@@ -1,16 +1,21 @@
 {
   "general.home": "Hasiera",
   "general.language": "Hizkuntza",
-  "general.quickgame": "Jolastu",
+  "general.quickgame": "Jokatu",
   "general.tournament": "Txapelketa",
   "general.chat": "Txata",
-  "general.error": "Hutsaldia",
+  "general.error": "Errore",
   "general.options": "Aukerak",
   "general.stats": "Estatistikak",
   "general.save": "Gorde",
 
   "general.friends": "Lagunak",
   "general.friends.add": "Lagunak gehitu",
+
+  "general.stats.events_won": "Irabazitako Ekitaldiak",
+  "general.stats.matches_won": "Irabazitako jokoak",
+  "general.stats.played": "Jokatuak",
+  "general.stats.won": "Irabazitak",
 
   "shared.user.list": "Erabiltzaileen zerrenda",
   "shared.user.list.actions": "Ekintzak",
@@ -20,7 +25,7 @@
 
   "shared.event.list": "Ekitaldien zerrenda",
   "shared.event.list.actions": "Ekintzak",
-  "shared.event.list.actions.edit": "Editatu",
+  "shared.event.list.actions.edit": "Moldatu",
   "shared.event.list.actions.detail": "Ikusi",
   "shared.event.list.create": "Ekitaldia sortu",
   "shared.event.list.create.name": "Ekitaldiaren izena",
@@ -30,7 +35,7 @@
   "shared.event.list.create.username": "Izena",
   "shared.event.list.create.alias": "Izenordea",
 
-  "shared.event.detail.beginMatch": "Partida hasi",
+  "shared.event.detail.beginMatch": "Jokoa hasi",
   "shared.event.detail.firstGroup": "Lehenengo taldea",
   "shared.event.detail.secondGroup": "Bigarren taldea",
   "shared.event.detail.status": "Egoera",
@@ -43,7 +48,7 @@
   "shared.user.signin.password": "Pasahitza",
   "shared.user.signin.password_repeat": "Pasahitza errepikatu",
   "shared.user.signin.signin": "Saioa hasi",
-  "shared.user.signin.signup": "Erregistratu",
+  "shared.user.signin.signup": "Izena eman",
   "shared.user.signin.signout": "Saioa itxi",
   "shared.user.signin.error_singin": "Erabiltzaile/pasahitz okerra",
   "shared.user.signin.error_match": "Pasahitzak ez datoz bat",
@@ -65,7 +70,7 @@
   "shared.game.game.controls": "Kontrolak",
 
   "shared.game.game.options.power_ups": "Hobekuntzak",
-  "shared.game.game.options.velocity_boost": "Abiadura handitzea",
+  "shared.game.game.options.velocity_boost": "Abiadura handitu",
   "shared.game.game.options.freeze": "Izoztu",
   "shared.game.game.options.appearance": "Itxura",
   "shared.game.game.options.default": "Jatorrizkoa",
