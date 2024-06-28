@@ -33,18 +33,22 @@ class EventViewSet(CachedViewSet):
 
         # Count total matches played (user is in either group 1 or group 2)
         total_matches_played = EventMatch.objects.filter(
-            Q(group_1__in=event_group_ids) | Q(group_2__in=event_group_ids)
+            Q(played=True)
+            & (Q(group_1__in=event_group_ids) | Q(group_2__in=event_group_ids))
         ).count()
 
         # Count victories (user's group is the winner_event_match_group)
         total_matches_won = EventMatch.objects.filter(
-            Q(
-                group_1__in=event_group_ids,
-                winner_event_match_group__in=event_group_ids,
-            )
-            | Q(
-                group_2__in=event_group_ids,
-                winner_event_match_group__in=event_group_ids,
+            Q(played=True)
+            & (
+                Q(
+                    group_1__in=event_group_ids,
+                    winner_event_match_group__in=event_group_ids,
+                )
+                | Q(
+                    group_2__in=event_group_ids,
+                    winner_event_match_group__in=event_group_ids,
+                )
             )
         ).count()
 
@@ -70,12 +74,14 @@ class EventViewSet(CachedViewSet):
 
         # Count total events participated in (using distinct to avoid duplicates)
         total_events_played = (
-            Event.objects.filter(eventgroup__in=event_group_ids).distinct().count()
+            Event.objects.filter(eventgroup__in=event_group_ids, played=True)
+            .distinct()
+            .count()
         )
 
         # Count events won (filter by winner_event_group)
         total_events_won = Event.objects.filter(
-            winner_event_group__in=event_group_ids
+            winner_event_group__in=event_group_ids, played=True
         ).count()
 
         return Response(
