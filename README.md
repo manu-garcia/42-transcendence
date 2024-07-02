@@ -207,7 +207,7 @@ Módulos (7 Major en total. 2 Minor == 1 Major):
 
 - Minor module: Expanding Browser Compatibility.
 
-- Major module: Introduce an AI Opponent.
+- Major module: Designing the Backend as Microservices.
 
 - Minor module: Multiple language supports.
 
