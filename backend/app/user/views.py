@@ -5,7 +5,6 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 
 from .models import User
@@ -36,7 +35,6 @@ class UserSignIn(ObtainAuthToken):
 
 
 class UserSignUp(ObtainAuthToken):
-    @csrf_exempt
     def post(self, request, *args, **kwargs):
         data = request.data
         username = data.get("username")
@@ -61,9 +59,15 @@ class UserSignUp(ObtainAuthToken):
             )
 
 
+# from rest_framework.exceptions import APIException
+
+
 class UserSignOut(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
+        # Testing 500 errors
+        # raise APIException("signout exception message")
+
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)

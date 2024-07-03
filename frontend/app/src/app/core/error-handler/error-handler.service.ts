@@ -6,6 +6,8 @@ import { MessageService } from 'primeng/api';
 
 import { UserService } from 'shared/user/user.service';
 
+import { environment } from 'src/environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -25,6 +27,12 @@ export class ErrorHandlerService implements ErrorHandler {
           case 403:
             this.userService.storedLoggedInUser = null;
             this.router.navigateByUrl('/');
+            break;
+          case 500:
+            if (!environment || environment.production) {
+              return;
+            }
+            break;
           default:
             break;
         }

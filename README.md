@@ -244,3 +244,15 @@ del key_prefix
 ```
 flushall
 ```
+
+### SQL Injection example
+
+```
+'; DROP TABLE user; --
+```
+
+### XSS attack example
+
+```
+<script>alert("XSS Attack!")</script>
+```
