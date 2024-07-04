@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { IUser, IUserWithAlias } from 'shared/user/user';
 
 export const enum EEventType {
@@ -36,6 +38,7 @@ export interface IEventMatch {
   played: boolean;
   pointsDelta: number;
   winnerEventMatchGroup: IEventGroup;
+  date: moment.Moment;
 }
 
 export interface IEventPayload {

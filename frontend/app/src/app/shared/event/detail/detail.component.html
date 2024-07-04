@@ -15,6 +15,7 @@
             <th>{{ "shared.event.detail.secondGroup" | translate }}</th>
             <th>{{ "shared.event.detail.status" | translate }}</th>
             <th>{{ "shared.event.detail.winners" | translate }}</th>
+            <th>{{ "shared.event.detail.date" | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -45,6 +46,14 @@
                 <ng-container *ngFor="let user of match.winnerEventMatchGroup.users">
                   <div>{{ user.alias }}</div>
                 </ng-container>
+              </ng-container>
+            </td>
+            <td>
+              <ng-container *ngIf="match.date != null">
+                {{ match.date | date: "dd/MM/yyyy HH:mm" }}
+              </ng-container>
+              <ng-container *ngIf="match.date == null">
+                --/--/----
               </ng-container>
             </td>
           </tr>

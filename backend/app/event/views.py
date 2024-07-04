@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.http import Http404
 from django.db.models import Q
 from cache.views import CachedViewSet
@@ -149,10 +150,10 @@ class EventViewSet(CachedViewSet):
 
             match_played = match.played
             match_points_delta = match.points_delta
+            match_date = match.date
             match_winner_event_match_group = EventGroupSerializer(
                 match.winner_event_match_group
             ).data
-
             return Response(
                 {
                     "id": match_id,
@@ -162,6 +163,7 @@ class EventViewSet(CachedViewSet):
                     "played": match_played,
                     "points_delta": match_points_delta,
                     "winner_event_match_group": match_winner_event_match_group,
+                    "date": match_date,
                 },
                 status=200,
             )
@@ -187,6 +189,7 @@ class EventViewSet(CachedViewSet):
                 match.winner_event_match_group = EventGroup.objects.get(
                     id=request.data["winner_event_match_group"].get("id")
                 )
+                match.date = datetime.now()
                 match.save()
         except Exception as e:
             return Response({"error": "Bad request"}, status=400)
@@ -303,6 +306,7 @@ class EventViewSet(CachedViewSet):
                 match_winner_match_group = EventGroupSerializer(
                     match.winner_event_match_group
                 ).data
+                match_date = match.date
                 if match_winner_match_group.get("id") == match_group_1.get("id"):
                     match_winner_match_group = match_group_1
                 elif match_winner_match_group.get("id") == match_group_2.get("id"):
@@ -315,6 +319,7 @@ class EventViewSet(CachedViewSet):
                     "played": match_played,
                     "points_delta": match_points_delta,
                     "winner_event_match_group": match_winner_match_group,
+                    "date": match_date,
                 }
                 matches_data.append(match_data)
 

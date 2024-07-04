@@ -49,6 +49,7 @@
   "shared.event.detail.status.finalized": "Finalizado",
   "shared.event.detail.winners": "Ganadores",
   "shared.event.detail.noWinner": "Sin ganador",
+  "shared.event.detail.date": "Fecha",
 
   "shared.user.signin.username": "Usuario",
   "shared.user.signin.password": "Contraseña",

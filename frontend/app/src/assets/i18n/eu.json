@@ -49,6 +49,7 @@
   "shared.event.detail.status.finalized": "Amaituta",
   "shared.event.detail.winners": "Irabazleak",
   "shared.event.detail.noWinner": "Ez dago irabazlerik",
+  "shared.event.detail.date": "Data",
 
   "shared.user.signin.username": "Erabiltzaile izena",
   "shared.user.signin.password": "Pasahitza",

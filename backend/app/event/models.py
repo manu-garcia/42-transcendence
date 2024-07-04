@@ -70,12 +70,13 @@ class EventMatch(models.Model):
         related_name="winner_event_match_group",
         null=True,
     )
+    date = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         db_table = "event_match"
 
     def __str__(self):
-        return f"EventMatch {self.id} - Event: {self.event_id} - Group 1: {self.group_1_id} - Group 2: {self.group_2_id} - Played: {self.played} - Points Delta: {self.points_delta}"
+        return f"EventMatch {self.id} - Event: {self.event_id} - Group 1: {self.group_1_id} - Group 2: {self.group_2_id} - Played: {self.played} - Points Delta: {self.points_delta} - Date: {self.date}"
 
 
 class EventGroupUser(models.Model):
