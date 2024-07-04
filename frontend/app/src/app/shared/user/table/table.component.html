@@ -6,7 +6,6 @@
         <tr>
           <th>{{ "shared.user.list.name" | translate }}</th>
           <th *ngIf="showOnlineColumn">{{ "shared.user.list.online" | translate }}</th>
-          <th>{{ "shared.user.list.actions" | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -15,7 +14,6 @@
           <td *ngIf="showOnlineColumn">
             <span class="{{ user | userStatusColor }}">{{ user | userStatus }}</span>
           </td>
-          <td></td>
         </tr>
       </tbody>
     </table>
