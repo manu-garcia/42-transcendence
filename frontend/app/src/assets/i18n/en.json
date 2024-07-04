@@ -30,6 +30,7 @@
   "shared.event.list.create": "Create Event",
   "shared.event.list.create.name": "Event Name",
   "shared.event.list.create.event": "Event",
+  "shared.event.list.name": "Name",
   "shared.event.list.create.firstGroup": "First Group",
   "shared.event.list.create.secondGroup": "Second Group",
   "shared.event.list.create.username": "Name",
@@ -37,8 +38,8 @@
   "shared.event.list.status": "Status",
   "shared.event.list.status.pending": "Pending",
   "shared.event.list.status.finalized": "Finalized",
-  "shared.event.list.status.winners": "Winners",
-  "shared.event.list.status.noWinner": "No winner",
+  "shared.event.list.winners": "Winners",
+  "shared.event.list.noWinner": "No winner",
 
   "shared.event.detail.beginMatch": "Begin Match",
   "shared.event.detail.firstGroup": "First Group",
@@ -57,7 +58,6 @@
   "shared.user.signin.signout": "Sign out",
   "shared.user.signin.error_singin": "Invalid user/password",
   "shared.user.signin.error_match": "Passwords do not match",
-  "shared.event.list.name": "Name",
 
   "shared.user.form.choose_avatar": "Choose Avatar Picture",
   "shared.user.form.firstName": "Name",
