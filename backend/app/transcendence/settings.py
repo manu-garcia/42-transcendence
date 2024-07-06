@@ -29,7 +29,7 @@ SECRET_KEY = "django-insecure-p8zvyc7&l43^+6v^dal$@&yje5gu8v2(eu#t=#n3b9nlwt=0@_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["transcendence.42.fr", "localhost"]
+ALLOWED_HOSTS = ["www.transcendence.42.fr", "transcendence.42.fr", "localhost"]
 
 # Application definition
 
@@ -63,6 +63,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:4200",
     "https://transcendence.42.fr",
+    "https://www.transcendence.42.fr",
 ]
 
 ROOT_URLCONF = "transcendence.urls"

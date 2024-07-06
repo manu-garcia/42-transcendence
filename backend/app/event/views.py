@@ -58,6 +58,7 @@ class EventViewSet(CachedViewSet):
                 "user_id": user.id,
                 "played": total_matches_played,
                 "won": total_matches_won,
+                "lost": total_matches_played - total_matches_won,
             }
         )
 
@@ -90,6 +91,7 @@ class EventViewSet(CachedViewSet):
                 "user_id": user.id,
                 "played": total_events_played,
                 "won": total_events_won,
+                "lost": total_events_played - total_events_won,
             }
         )
 

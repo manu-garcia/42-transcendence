@@ -16,6 +16,7 @@
   "general.stats.matches_won": "Matches Won",
   "general.stats.played": "Played",
   "general.stats.won": "Won",
+  "general.stats.lost": "Lost",
 
   "shared.user.list": "Users List",
   "shared.user.list.actions": "Actions",

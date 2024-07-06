@@ -2,6 +2,7 @@ export interface IUserStatsPlayedVsWon {
   userId: number;
   played: number;
   won: number;
+  lost: number;
 }
 
 export interface IChartData {
