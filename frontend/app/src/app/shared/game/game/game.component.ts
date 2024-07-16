@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { IEventMatch } from 'shared/event/event';
 import { TranslateService } from '@ngx-translate/core';
 import { GameService } from 'shared/game/game.service';
@@ -8,7 +8,7 @@ import { GameService } from 'shared/game/game.service';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
-export class GameComponent implements OnDestroy, OnChanges {
+export class GameComponent implements OnInit, OnDestroy, OnChanges {
   @Input() match: IEventMatch;
 
   fourPlayer: boolean = false;
@@ -43,8 +43,13 @@ export class GameComponent implements OnDestroy, OnChanges {
     GameComponent.instance = this;
   }
 
+  ngOnInit(): void {
+    // Get new instance of game component
+    GameComponent.instance = this;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.match && this.match) {
+    if (changes.match.currentValue) {
       this.initializeGame();
     }
   }
@@ -54,6 +59,8 @@ export class GameComponent implements OnDestroy, OnChanges {
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
     window.removeEventListener('resize', this.onResize);
+    // Remove instance of game component
+    GameComponent.instance = null;
   }
 
   initializeGame(): void {
@@ -910,33 +917,35 @@ function updatePlayerInfo(match: IEventMatch) {
 
 // Function to calculate the deltaTime and call Update in each frame
 function Loop() {
-  // Reset all elements if window is resized
-  if (GameComponent.instance.windowResizing) {
-    handleResize();
-  }
-  // Update player info if it is not updated
-  if (!GameComponent.instance.infoUpdated) {
-    updatePlayerInfo(GameComponent.instance.match);
-  }
-  // Update isPaused if options toggled
-  if (GameComponent.instance.showOptions && !GameComponent.instance.isPaused) {
-    GameComponent.instance.isPaused = true;
-  }
-  if (!GameComponent.instance.isPaused) {
-    let currentTime = Date.now();
-    deltaTime = (currentTime - time) / 1000; // deltaTime in seconds
-    // Limit deltaTime to 0.1 seconds
-    let maxDeltaTime: number = 0.1;
-    if (deltaTime > maxDeltaTime) {
-      deltaTime = maxDeltaTime;
+  if (GameComponent.instance) {
+    // Reset all elements if window is resized
+    if (GameComponent.instance.windowResizing) {
+      handleResize();
     }
-    time = currentTime;
-    Update();
-  } else {
-    // If game is paused, update `time` to prevent deltaTime out of control
-    time = Date.now();
-  }
-  if (!GameComponent.instance.match.played) {
-    requestAnimationFrame(Loop);
+    // Update player info if it is not updated
+    if (!GameComponent.instance.infoUpdated) {
+      updatePlayerInfo(GameComponent.instance.match);
+    }
+    // Update isPaused if options toggled
+    if (GameComponent.instance.showOptions && !GameComponent.instance.isPaused) {
+      GameComponent.instance.isPaused = true;
+    }
+    if (!GameComponent.instance.isPaused) {
+      let currentTime = Date.now();
+      deltaTime = (currentTime - time) / 1000; // deltaTime in seconds
+      // Limit deltaTime to 0.1 seconds
+      let maxDeltaTime: number = 0.1;
+      if (deltaTime > maxDeltaTime) {
+        deltaTime = maxDeltaTime;
+      }
+      time = currentTime;
+      Update();
+    } else {
+      // If game is paused, update `time` to prevent deltaTime out of control
+      time = Date.now();
+    }
+    if (!GameComponent.instance.match.played) {
+      requestAnimationFrame(Loop);
+    }
   }
 }
