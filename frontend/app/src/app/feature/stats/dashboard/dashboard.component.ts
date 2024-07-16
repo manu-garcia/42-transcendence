@@ -35,9 +35,10 @@ export class StatsDashboardScreenComponent implements OnInit {
         title: this.translateService.instant('general.stats.matches_won'),
         labels: [
           this.translateService.instant('general.stats.played'),
+          this.translateService.instant('general.stats.lost'),
           this.translateService.instant('general.stats.won'),
         ],
-        values: [matchesWonData.played, matchesWonData.won],
+        values: [matchesWonData.played, matchesWonData.lost, matchesWonData.won],
       }))
     );
 
@@ -47,9 +48,10 @@ export class StatsDashboardScreenComponent implements OnInit {
         title: this.translateService.instant('general.stats.events_won'),
         labels: [
           this.translateService.instant('general.stats.played'),
+          this.translateService.instant('general.stats.lost'),
           this.translateService.instant('general.stats.won'),
         ],
-        values: [eventsWonData.played, eventsWonData.won],
+        values: [eventsWonData.played, eventsWonData.lost, eventsWonData.won],
       }))
     );
   }

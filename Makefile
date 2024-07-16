@@ -1,20 +1,20 @@
 all: up
 
-up:
+updev:
 	@docker compose --env-file ./env/.env -f ./docker-compose.yml -f docker-compose.development.yml up -d
-down:
+downdev:
 	@docker compose --env-file ./env/.env -f ./docker-compose.yml -f docker-compose.development.yml down --remove-orphans
 
-upprod:
+up:
 	@docker compose --env-file ./env/.env -f ./docker-compose.yml up -d
-downprod:
+down:
 	@docker compose --env-file ./env/.env -f ./docker-compose.yml down --remove-orphans
 
-clean: down downprod
+clean: down downdev
 
 re: clean all
 
-fclean-all: down downprod
+fclean-all: down downdev
 	if [ -n "$$(docker ps -qa)" ]; then docker stop $$(docker ps -qa); fi
 	if [ -n "$$(docker ps -qa)" ]; then docker rm $$(docker ps -qa) -f; fi
 	if [ -n "$$(docker images -q)" ]; then docker rmi $$(docker images -q) -f; fi
@@ -25,7 +25,7 @@ fclean-all: down downprod
 
 	@echo "fclean successfull"
 
-fclean: down downprod
+fclean: down downdev
 	@docker compose down --rmi all --volumes --remove-orphans
 	@docker images | grep -E '42-transcendence-nginx|42-transcendence-frontend|42-transcendence-backend|42-transcendence-db|42-transcendence-pgadmin' | awk '{print $$3}' | xargs -r docker rmi -f
 	@docker volume ls -q | grep -E 'transcendence_postgres-data|transcendence_pgadmin|transcendence_node_modules|transcendence_redis-data' | xargs -r docker volume rm
