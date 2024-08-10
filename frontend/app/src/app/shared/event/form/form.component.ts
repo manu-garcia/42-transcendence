@@ -194,15 +194,32 @@ export class EventFormComponent implements OnInit, OnDestroy {
       .subscribe((filteredUsers) => {
         if (userType === 'users1') {
           this.availableUsers2.length = 0;
-          this.availableUsers2.push(...filteredUsers);
+          // this.availableUsers2.push(...filteredUsers);
+          filteredUsers.forEach((user) => {
+            this.availableUsers2.push(user);
+            this.eventPayload['users2'].forEach((selectedUser) => {
+              if (user.user.id === selectedUser.user.id) {
+                this.availableUsers2.pop();
+                this.availableUsers2.push(selectedUser);
+              }
+            });
+          });
         } else if (userType === 'users2') {
           this.availableUsers1.length = 0;
-          this.availableUsers1.push(...filteredUsers);
+          // this.availableUsers1.push(...filteredUsers);
+          filteredUsers.forEach((user) => {
+            this.availableUsers1.push(user);
+            this.eventPayload['users1'].forEach((selectedUser) => {
+              if (user.user.id === selectedUser.user.id) {
+                this.availableUsers1.pop();
+                this.availableUsers1.push(selectedUser);
+              }
+            });
+          });
         }
+        this.selectedUsers.length = 0;
+        this.selectedUsers.push(...this.eventPayload.users1, ...this.eventPayload.users2);
+        this.onAliasChange(null);
       });
-
-    this.selectedUsers.length = 0;
-    this.selectedUsers.push(...this.eventPayload.users1, ...this.eventPayload.users2);
-    this.onAliasChange(null);
   }
 }
