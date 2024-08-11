@@ -20,6 +20,7 @@
           [options]="availableUsers1"
           [(ngModel)]="eventPayload.users1"
           (onChange)="onUsersChange('users1')"
+          dataKey="user.id"
           optionLabel="user.username"
           maxSelectedLabels="10"
         ></p-multiSelect>
@@ -35,6 +36,7 @@
             [options]="availableUsers2"
             [(ngModel)]="eventPayload.users2"
             (onChange)="onUsersChange('users2')"
+            dataKey="user.id"
             optionLabel="user.username"
             maxSelectedLabels="10"
           ></p-multiSelect>
